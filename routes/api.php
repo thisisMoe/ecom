@@ -20,6 +20,11 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::get('/info', 'ScraperController@getInfo')->name('getInfo');
 
-Route::post('/addToCart/{userId}', 'OrderItemController@addOrderItem')->name('addOrderItem');
-Route::get('/fetchOrderItems/{userId}', 'OrderItemController@fetchOrderItem')->name('fetchOrderItems');
-Route::delete('/addToCart/{id}', 'OrderItemController@deleteOrderItem')->name('deleteOrderItem');
+Route::get('/fetchOrderItems/{userId}', 'ShoppingSessionController@fetchOrderItems')->name('fetchOrderItems');
+
+Route::post('/addToCart/{userId}', 'ShoppingSessionController@addToCart')->name('addOrderItem');
+Route::post('/addToCart/{userId}', 'ShoppingSessionController@addToCart')->name('addOrderItem');
+Route::post('/addOrder/{userId}', 'OrdersController@addOrder')->name('addOrder');
+
+
+Route::delete('/deleteOrderItem/{id}', 'OrderItemController@deleteOrderItem')->name('deleteOrderItem');
