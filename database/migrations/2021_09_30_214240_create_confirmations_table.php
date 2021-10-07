@@ -4,31 +4,26 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateOrdersTable extends Migration
+class CreateConfirmationsTable extends Migration
 {
     /**
      * Run the migrations.
-     *
-     * @return void
      */
     public function up()
     {
-        Schema::create('orders', function (Blueprint $table) {
+        Schema::create('confirmations', function (Blueprint $table) {
             $table->id();
-            $table->string('status');
-            $table->string('trackingNumber');
-            $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
+            $table->foreignId('shopping_session_id')->constrained('shopping_sessions')->cascadeOnDelete();
+            $table->string('path')->default('');
             $table->timestamps();
         });
     }
 
     /**
      * Reverse the migrations.
-     *
-     * @return void
      */
     public function down()
     {
-        Schema::dropIfExists('orders');
+        Schema::dropIfExists('confirmations');
     }
 }

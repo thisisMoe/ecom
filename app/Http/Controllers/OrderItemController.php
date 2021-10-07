@@ -14,10 +14,13 @@ class OrderItemController extends Controller
         $this->validate($request, [
             'title' => 'required|string',
             'totalSum' => 'required',
+            'fee' => 'required',
+            'usdP' => 'required',
             'selectedProps' => 'required',
             'uri' => 'required',
             'user_id' => 'required',
-            'productId' => 'required'
+            'productId' => 'required',
+            'shopping_session_id'=> 'required',
         ]);
 
         $user = User::find($userId);
@@ -32,11 +35,11 @@ class OrderItemController extends Controller
         return $user->orderItems;
     }
 
-    public function deleteOrderItem($id)
+    public function deleteOrderItem(Request $request, $id)
     {
         $orderItem = OrderItem::find($id);
-        $orderItem->destroy();
+        $orderItem->delete();
 
-        return response()->json(null, Response::HTTP_NO_CONTENT);
+        return response()->json('Item deleted', Response::HTTP_NO_CONTENT);
     }
 }
