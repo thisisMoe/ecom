@@ -24710,7 +24710,12 @@ textarea.form-control-lg {
 }
 
 .navbar-brand img {
-    height: 37px;
+    height: 60px;
+    max-width: none;
+}
+
+img.logo-size {
+    height: 60px;
     max-width: none;
 }
 
