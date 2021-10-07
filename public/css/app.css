@@ -544,17 +544,7 @@ pre code {
   margin-left: -15px;
 }
 
-.no-gutters {
-  margin-right: 0;
-  margin-left: 0;
-}
-.no-gutters > .col,
-.no-gutters > [class*=col-] {
-  padding-right: 0;
-  padding-left: 0;
-}
-
- .col-xl-12, .col-xl-9, .col-xl-8, .col-xl-6, .col-xl-5, .col-xl-3, .col-lg-12, .col-lg-10, .col-lg-9, .col-lg-8, .col-lg-6, .col-lg-5, .col-lg-4, .col-lg-3, .col-md-12, .col-md-10, .col-md-9, .col-md-8, .col-md-7, .col-md-6, .col-md-5, .col-md-4, .col-md-3, .col-md-2, .col-sm-10, .col-sm-6, .col-sm-4, .col-sm-2, .col,
+ .col-xl-12, .col-xl-9, .col-xl-8, .col-xl-6, .col-xl-5, .col-lg-12, .col-lg-10, .col-lg-9, .col-lg-8, .col-lg-6, .col-lg-5, .col-lg-4, .col-lg-3, .col-md-12, .col-md-10, .col-md-9, .col-md-8, .col-md-7, .col-md-6, .col-md-5, .col-md-4, .col-md-3, .col-md-2, .col-sm-10, .col-sm-6, .col-sm-4, .col-sm-2, .col,
 .col-auto, .col-12, .col-6 {
   position: relative;
   width: 100%;
@@ -717,11 +707,6 @@ pre code {
   }
 }
 @media (min-width: 1200px) {
-
-  .col-xl-3 {
-    flex: 0 0 25%;
-    max-width: 25%;
-  }
 
   .col-xl-5 {
     flex: 0 0 41.6666666667%;
@@ -2171,7 +2156,8 @@ input[type=button].btn-block {
   border-bottom-right-radius: calc(0.25rem - 1px);
   border-bottom-left-radius: calc(0.25rem - 1px);
 }
-.card > .card-header + .list-group {
+.card > .card-header + .list-group,
+.card > .list-group + .card-footer {
   border-top: 0;
 }
 
@@ -2202,6 +2188,15 @@ input[type=button].btn-block {
 }
 .card-header:first-child {
   border-radius: calc(0.25rem - 1px) calc(0.25rem - 1px) 0 0;
+}
+
+.card-footer {
+  padding: 0.75rem 1.25rem;
+  background-color: rgba(0, 0, 0, 0.03);
+  border-top: 1px solid rgba(0, 0, 0, 0.125);
+}
+.card-footer:last-child {
+  border-radius: 0 0 calc(0.25rem - 1px) calc(0.25rem - 1px);
 }
 
 
@@ -3178,6 +3173,14 @@ button.bg-dark:focus {
   border-color: #6c757d !important;
 }
 
+.border-success {
+  border-color: #38c172 !important;
+}
+
+.border-danger {
+  border-color: #e3342f !important;
+}
+
 .border-light {
   border-color: #f8f9fa !important;
 }
@@ -3380,6 +3383,10 @@ button.bg-dark:focus {
   box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.175) !important;
 }
 
+.w-75 {
+  width: 75% !important;
+}
+
 .w-100 {
   width: 100% !important;
 }
@@ -3414,7 +3421,7 @@ button.bg-dark:focus {
   margin-bottom: 0 !important;
 }
 
-
+.mt-1,
 .my-1 {
   margin-top: 0.25rem !important;
 }
@@ -3602,7 +3609,7 @@ button.bg-dark:focus {
   padding: 3rem !important;
 }
 
-
+.pt-5,
 .py-5 {
   padding-top: 3rem !important;
 }
@@ -3798,6 +3805,10 @@ button.bg-dark:focus {
 
 .text-uppercase {
   text-transform: uppercase !important;
+}
+
+.text-capitalize {
+  text-transform: capitalize !important;
 }
 
 .font-weight-light {

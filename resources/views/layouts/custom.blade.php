@@ -16,7 +16,7 @@
 -->
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -108,21 +108,48 @@
                         </li>
                     </ul>
                 </div>
-                <div class="d-flex align-items-center">
-                    <a href="https://themesberg.com/docs/bootstrap-5/pixel/getting-started/quick-start/" target="_blank"
-                        class="btn btn-outline-gray-100 d-none d-lg-inline me-md-3"><span class="fas fa-book me-2"></span> Docs</a>
-                    <a href="" target="" class="btn btn-tertiary position-relative">
-                        <div style="">
-                            <i style="font-size: 1.2rem" class="fas fa-shopping-cart me-2"></i>
-                            <span class="cart-number">
-                                @auth
-                                    {{ Auth::user()->orderItems->count() }}
-                                @else
-                                    0
-                                @endauth
-                            </span>
-                        </div>
-                    </a>
+                <div class="d-flex align-items-center gap-2">
+                        @auth
+
+                            <div class="dropstart">
+                                <a class="btn btn-white dropdown-toggle" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i style="font-size: 1.2rem" class="fas fa-user mx-1"></i>
+                                </a>
+
+                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                    <li><a class="dropdown-item" href="#">Action</a></li>
+                                    <li><a class="dropdown-item" href="#">Another action</a></li>
+                                    <li><a class="dropdown-item" href="#">Something else here</a></li>
+                                </ul>
+                            </div>
+
+                            {{-- <div>
+                                <button type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="btn btn-white position-relative dropdown-toggle dropdown-toggle-split">
+                                    <i style="font-size: 1.2rem" class="fas fa-user mx-1"></i>
+                                </button>
+                                <div class="dropdown-menu py-0" style="">
+                                    <a class="dropdown-item rounded-top" href="#">Action</a>
+                                    <a class="dropdown-item" href="#">Another action</a>
+                                    <a class="dropdown-item" href="#">Something else here</a>
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item rounded-bottom" href="#">Separated link</a>
+                                </div>
+                            </div> --}}
+                        @endauth
+                    @if (!Route::is("searchProduct"))
+                        <a href="" target="" class="btn btn-tertiary position-relative">
+                            <div style="">
+                                <i style="font-size: 1.2rem" class="fas fa-shopping-cart me-2"></i>
+                                <span class="cart-number">
+                                    @auth
+                                        {{ Auth::user()->cartCount() }}
+                                    @else
+                                        0
+                                    @endauth
+                                </span>
+                            </div>
+                        </a>
+                    @endif
                     <button class="navbar-toggler ms-2" type="button" data-bs-toggle="collapse" data-bs-target="#navbar_global" aria-controls="navbar_global"
                         aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>

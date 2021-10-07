@@ -42,10 +42,14 @@ class ScraperController extends Controller
         return $contents;
     }
 
+    //shipping cost
+    public $capturedScript = null;
+    public $shippingTime = null;
+
     public function scraper()
     {
         $client = new Client();
-        $uri = 'https://fr.aliexpress.com/item/1005003190838984.html?spm=a2g0o.productlist.0.0.be3f1991wAu8Ko&algo_pvid=9fe4665c-f731-4bda-8da9-842e40675974&algo_exp_id=9fe4665c-f731-4bda-8da9-842e40675974-0&pdp_ext_f=%7B%22sku_id%22%3A%2212000024582844555%22%7D';
+        $uri = 'https://fr.aliexpress.com/item/1005003347633251.html?spm=a2g0o.productlist.0.0.d3fe37edKcPwUd&algo_pvid=1fe27ba1-98be-412a-a929-c10ab1039935&algo_exp_id=1fe27ba1-98be-412a-a929-c10ab1039935-5&pdp_ext_f=%7B%22sku_id%22%3A%2212000025340348670%22%7D';
         $page = $client->request('GET', $uri);
         // echo $page->filter('.product-price-value')->text();
 
@@ -91,29 +95,33 @@ class ScraperController extends Controller
         $productSKUPropertyList = $this->get_string_between($script14, 'productSKUPropertyList":', ',"skuPriceList"');
         // print_r($productSKUPropertyList);
 
-        ////GOLDEN
-        $decodedProductSKUPropertyList = json_decode($productSKUPropertyList, true);
-        //printing decoded data
-        // foreach ($decodedProductSKUPropertyList as $value) {
-        //     print_r($value);
-        // }
+         echo '<pre>';
+        print_r($productSKUPropertyList);
+        echo '<pre>';   
 
-        echo '<pre>';
-        print_r($decodedProductSKUPropertyList);
-        echo '<pre>';        
+        ////GOLDEN
+        // $decodedProductSKUPropertyList = json_decode($productSKUPropertyList, true);
+        // //printing decoded data
+        // // foreach ($decodedProductSKUPropertyList as $value) {
+        // //     print_r($value);
+        // // }
+
+        // echo '<pre>';
+        // print_r($decodedProductSKUPropertyList);
+        // echo '<pre>';        
 
         //Getting property names and options
-        foreach ($decodedProductSKUPropertyList as $value) {
-            echo '<pre>';
-            print_r($value['skuPropertyName']);
-            echo '<pre>';
-            foreach ($value['skuPropertyValues'] as $value) {
-                echo '<pre>';
-                print_r($value['propertyValueDisplayName']);
-                echo '<pre>';
-                print_r($value['propertyValueId']);
-            }
-        }
+        // foreach ($decodedProductSKUPropertyList as $value) {
+        //     echo '<pre>';
+        //     print_r($value['skuPropertyName']);
+        //     echo '<pre>';
+        //     foreach ($value['skuPropertyValues'] as $value) {
+        //         echo '<pre>';
+        //         print_r($value['propertyValueDisplayName']);
+        //         echo '<pre>';
+        //         print_r($value['propertyValueId']);
+        //     }
+        // }
         // dd($decodedProductSKUPropertyList);
 
         // dd($decodedProductSKUPropertyList);
@@ -164,15 +172,29 @@ class ScraperController extends Controller
             echo '<pre>';
             echo $i;
             echo '<pre>';
+            if($i == 14) {
+                $shippingCost = $this->get_string_between($node->text(), 'layout":[{"text":"Livraison: US $', '","type":"title"},{"text":');
+                $this->setCaptureScript($shippingCost);
+                echo '<pre>';
+                echo $this->capturedScript;
+                echo '<pre>';
+            }
             ++$i;
+            echo '<pre>';
             print_r($node->text());
         });
-        echo '<pre>';
     }
 
-    public function show()
+    public function newScraper()
     {
-        return view('show');
+        $client = new Client();
+        $uri = 'https://a.aliexpress.com/_mrbjtmQ';
+        $page = $client->request('GET', $uri);
+        $newUri = $client->getHistory()->current()->getUri();  
+        $workingUri = $this->get_string_between($newUri, 'www.', 'html?');
+        $workingUri = 'https://fr.'.$workingUri.'html';
+        dd($workingUri);
+        // return view('show');
     }
 
     public function getInfo(Request $request)
@@ -183,20 +205,85 @@ class ScraperController extends Controller
 
         $uri = $request->query('q');
         // $uri = 'https://fr.aliexpress.com/item/1005003190838984.html?spm=a2g0o.productlist.0.0.be3f1991wAu8Ko&algo_pvid=9fe4665c-f731-4bda-8da9-842e40675974&algo_exp_id=9fe4665c-f731-4bda-8da9-842e40675974-0&pdp_ext_f=%7B%22sku_id%22%3A%2212000024582844555%22%7D';
+
+        if (!str_contains($uri, 'item')) { 
+            $page = $client->request('GET', $uri);
+            $newUri = $client->getHistory()->current()->getUri();  
+            $workingUri = $this->get_string_between($newUri, 'www.', 'html?');
+            $workingUri = 'https://fr.'.$workingUri.'html';
+
+            $newPage = $client->request('GET', $workingUri);
+
+            $script14 = $newPage->filter('script')->eq(14)->text();
+
+            $newPage->filter('script')->each(function ($node, $i = 0) {
+            
+                if($i == 14) {
+                    $shippingCost = $this->get_string_between($node->text(), 'freightAmount":{"currency":"USD","formatedAmount":"US $', '","value":');
+                    $this->capturedScript = $shippingCost;
+
+                    $shippingTime = $this->get_string_between($node->text(), '},"time":"', '","tracking":');
+                    $this->shippingTime = $shippingTime;
+                }
+                ++$i;
+            });
+
+            $images = $this->get_string_between($script14, '"imagePathList":[', '],');
+            $imagesArray = $this->getContents($images, '"', '"');
+
+            return response()->json([
+                'images' => $imagesArray,
+                'script' => $script14,
+                // 'script' => $cleanedScript,
+                'shippingCost' => $this->capturedScript,
+                'shippingTime' => $this->shippingTime,
+            ]);
+        }
+
+
+        //if browser link:
         $page = $client->request('GET', $uri);
 
-        //Refactored //Return this
         $script14 = $page->filter('script')->eq(14)->text();
 
+        $page->filter('script')->each(function ($node, $i = 0) {
+           
+            if($i == 14) {
+                $shippingCost = $this->get_string_between($node->text(), 'freightAmount":{"currency":"USD","formatedAmount":"US $', '","value":');
+                $this->capturedScript = $shippingCost;
 
+                $shippingTime = $this->get_string_between($node->text(), '},"time":"', '","tracking":');
+                $this->shippingTime = $shippingTime;
+            }
+            ++$i;
+        });
+
+        //Refactored //Return this
+        // $cleanedScript = $this->get_string_between($script14, "data: ", ", csrfToken:");
         //Get images
         $images = $this->get_string_between($script14, '"imagePathList":[', '],');
         $imagesArray = $this->getContents($images, '"', '"');
 
+        // $page->filter('script')->each(function ($node, $i = 0) {
+        //     if($i == 14) {
+        //         $shippingCost = $this->get_string_between($node->text(), 'layout":[{"text":"Livraison: US $', '","type":"title"},{"text":');
+        //         $this->capturedScript = $shippingCost;
+        //     }
+        //     ++$i;
+        // });
+
         return response()->json([
             'images' => $imagesArray,
-            'script' => $script14
+            'script' => $script14,
+            // 'script' => $cleanedScript,
+            'shippingCost' => $this->capturedScript,
+            'shippingTime' => $this->shippingTime,
         ]);
+    }
+
+    public function getCleanedScript()
+    {
+        return $this->capturedScript;
     }
 
     public function search()
@@ -208,5 +295,10 @@ class ScraperController extends Controller
     {
         $uri = $request->query('q');
         return view('c')->with('uri', $uri);
+    }
+
+    public function setCaptureScript($data)
+    {
+        $this->capturedScript = $data;
     }
 }

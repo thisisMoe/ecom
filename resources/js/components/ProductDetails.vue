@@ -51,7 +51,7 @@
       </div>
     </div>
 
-    <section class="section section-lg">
+    <section class="section">
       <div class="fmxw-850 mx-auto">
         <!-- Spinner -->
         <div
@@ -85,7 +85,7 @@
             <div
               v-else
               id="Carousel2"
-              class="carousel slide"
+              class="carousel slide mb-2"
               data-ride="carousel"
             >
               <div class="carousel-inner">
@@ -163,17 +163,42 @@
               </p>
             </div>
             <hr class="my-4" />
-            <div v-if="!chosenPrice">
-              <p class="fw-bold fs-2" v-if="equalPrice > 0">
-                {{ equalPrice }}DA
-              </p>
-              <p v-else class="fw-bold fs-2">
-                {{ minPrice }}DA - {{ maxPrice }}DA
-              </p>
+            <div class="text-center">
+              <!-- if no chosen price -->
+              <div v-if="!chosenPrice">
+                <p class="fw-bold fs-2 my-1" v-if="equalPrice > 0">
+                  {{ new Intl.NumberFormat().format(Math.round(equalPrice)) }} <sup>DA</sup>
+                  <span class="badge bg-danger">-{{ discount }}%</span>
+                </p>
+                <p v-else class="fw-bold fs-2 my-1">
+                  {{ minPrice }} <sup>DA</sup> - {{ maxPrice }} <sup>DA</sup>
+                </p>
+              </div>
+              <!-- if chosen price -->
+              <div v-else class="d-flex justify-content-center align-items-center gap-2">
+                <p class="fw-bold fs-2 my-1">{{ new Intl.NumberFormat().format(Math.round(chosenPrice)) }} <sup>DA</sup></p>
+                <div v-if="discount">
+                  <span class="fw-bold"><mark><del>{{new Intl.NumberFormat().format(Math.ceil((Math.round(chosenPrice)*100)/(100-discount)/10)*10)}}</del><sup>DA</sup></mark></span>
+                  <span class="badge bg-danger">-{{ discount }}%</span>
+                </div>
+              </div>
+              <div>
+                <p v-if="shippingCost">
+                  Shipping costs:
+                  <span class="fw-bold">{{ new Intl.NumberFormat().format(Math.round(shippingCost)) }} <sup>DA</sup></span>
+                </p>
+                <p v-else>
+                  Shipping costs: To be confirmed
+                </p>
+                <p v-if="shippingTime !== 'N/A'">
+                  Livraison: {{ shippingTime }} jours
+                </p>
+                <p v-else>
+                  Livraison: To be confirmed
+                </p>
+              </div>
             </div>
-            <div v-else>
-              <p class="fw-bold fs-2">{{ chosenPrice }}DA</p>
-            </div>
+            <hr />
             <div v-for="option in options" :key="option.skuPropertyId">
               <fieldset class="mb-4">
                 <legend class="h5" v-html="option.skuPropertyName"></legend>
@@ -204,11 +229,10 @@
                       "
                     />
                     <label
-                    v-html="item.propertyValueDisplayName "
+                      v-html="item.propertyValueDisplayName"
                       class="btn btn-outline-primary"
                       :for="item.propertyValueDisplayName"
-                      ></label
-                    >
+                    ></label>
                   </div>
                 </div>
                 <!-- End of Radio -->
@@ -256,26 +280,41 @@
         </div>
       </button>
       <modal v-if="showModal" @close="showModal = false">
-        <h3 slot="header">Mon Panier</h3>
         <div slot="body">
           <div v-for="orderItem in orderItems" :key="orderItem.id">
             <p>
               <span class="fw-bold fs-5">Produit: </span>
               <span v-html="orderItem.title.substring(0, 100) + '...'"></span>
             </p>
-            <p v-for="selectedProp in orderItem.selectedProps" :key="selectedProp.value">
-              <span class="fw-bold fs-5" v-html="selectedProp.name + ':' "></span>
+            <p
+              v-for="selectedProp in orderItem.selectedProps"
+              :key="selectedProp.value"
+            >
+              <span
+                class="fw-bold fs-5"
+                v-html="selectedProp.name + ':'"
+              ></span>
               <span v-html="selectedProp.selected" class="fw-bold fs-6"></span>
             </p>
             <p>
               <span class="fw-bold fs-5">Total: </span>
-              <span class="fw-bold fs-6">{{orderItem.totalSum}}DA</span>
+              <span class="fw-bold fs-6">{{ orderItem.totalSum }}DA</span>
             </p>
             <div class="d-block">
-              <button class="btn btn-danger d-flex gap-1" @click="deleteOrderItem">Supprimer</button>
+              <button
+                class="btn btn-danger d-flex gap-1"
+                @click="deleteOrderItem(orderItem.id)"
+              >
+                Supprimer
+              </button>
             </div>
-            <hr>
+            <hr />
           </div>
+        </div>
+        <div slot="footer" class="d-flex">
+          <button class="btn btn-success fs-6 text-white" @click="addOrder">
+            Passez ma commande
+          </button>
         </div>
       </modal>
     </div>
@@ -293,7 +332,7 @@ export default {
       title: "",
       images: [],
       options: [],
-      script: "",
+      script: null,
       parsedScript: null,
       imagesLoaded: false,
       selectedProps: [],
@@ -306,6 +345,13 @@ export default {
       fields: {},
       userId: this.$userId,
       orderItems: [],
+      fee: 0,
+      firstPrice: 0,
+      usdP: null,
+      shippingCost: 0,
+      shippingTime: "N/A",
+      discount: 0,
+      oldPrice: 0,
     };
   },
   mounted() {
@@ -331,6 +377,13 @@ export default {
           console.log(response.data);
           this.images = response.data.images;
           this.script = response.data.script;
+          this.shippingCost = Number(response.data.shippingCost) * 185;
+          this.shippingCost = Math.ceil(this.shippingCost / 10) * 10;
+          if (response.data.shippingTime) {
+            this.shippingTime = response.data.shippingTime;
+          }
+          console.log("shipping cost", this.shippingCost);
+          console.log("shipping time", this.shippingTime);
           // console.log(document.getElementsByClassName('carousel-item active')[0].childNodes[0].currentSrc);
         })
         .then(() => {
@@ -340,11 +393,16 @@ export default {
             ", csrfToken:"
           );
           this.parsedScript = JSON.parse(cleanedScript);
+          // this.parsedScript = JSON.parse(this.script);
+          // console.log(this.script)
           console.log(this.parsedScript);
 
           this.title = this.parsedScript.titleModule.subject;
           this.productId = this.parsedScript.commonModule.productId;
           console.log(this.productId);
+
+          this.discount = this.parsedScript.priceModule.discount
+          console.log('isDiscount', this.discount)
 
           // const options = JSON.parse(
           //   this.getStringBetween(
@@ -419,36 +477,153 @@ export default {
         }
       );
       if (selectedPack.length) {
-        this.chosenPrice = selectedPack[0].skuVal.actSkuCalPrice * 185;
-        console.log("selectedPack", selectedPack[0].skuVal.actSkuCalPrice);
+
+        if(selectedPack[0].skuVal.actSkuCalPrice) {
+          console.log(selectedPack)
+          var price = selectedPack[0].skuVal.actSkuCalPrice * 185;
+          price = Math.ceil(price / 100) * 100;
+          var oldPrice = selectedPack[0].skuVal.skuCalPrice * 185;
+          oldPrice = Math.ceil(oldPrice/10)*10
+          this.oldPrice = oldPrice;
+          console.log('oldPrice:', oldPrice)
+          this.chosenPrice = price;
+          //checking
+          if (this.chosenPrice <= 2000) {
+            this.fee = 400;
+            this.fee = Math.ceil(this.fee / 100) * 100;
+            console.log("fee: ", this.fee);
+            this.firstPrice = this.chosenPrice;
+            console.log("First Price: ", this.firstPrice);
+            this.chosenPrice += this.fee;
+          } else if (this.chosenPrice > 2000) {
+            this.fee = this.chosenPrice * 0.08 + 400;
+            this.fee = Math.ceil(this.fee / 100) * 100;
+            console.log("fee: ", this.fee);
+            this.firstPrice = this.chosenPrice;
+            console.log("First Price:", this.firstPrice);
+            this.chosenPrice += this.fee;
+          }
+          this.usdP = Number(selectedPack[0].skuVal.actSkuCalPrice);
+          console.log("usdP", this.usdP);
+
+        }else if(selectedPack[0].skuVal.skuCalPrice) {
+            var price = selectedPack[0].skuVal.skuCalPrice * 185;
+            price = Math.ceil(price / 100) * 100;
+            this.chosenPrice = price;
+            //checking
+            if (this.chosenPrice <= 2000) {
+              this.fee = 400;
+              this.fee = Math.ceil(this.fee / 100) * 100;
+              console.log("fee: ", this.fee);
+              this.firstPrice = this.chosenPrice;
+              console.log("First Price: ", this.firstPrice);
+              this.chosenPrice += this.fee;
+            } else if (this.chosenPrice > 2000) {
+              this.fee = this.chosenPrice * 0.08 + 400;
+              this.fee = Math.ceil(this.fee / 100) * 100;
+              console.log("fee: ", this.fee);
+              this.firstPrice = this.chosenPrice;
+              console.log("First Price:", this.firstPrice);
+              this.chosenPrice += this.fee;
+            }
+            this.usdP = Number(selectedPack[0].skuVal.skuCalPrice);
+            console.log("usdP", this.usdP);
+        }
+
       }
       console.log("chosen price", this.chosenPrice);
-      console.log(typeof this.chosenPrice);
     },
     setMinMaxPrice: function () {
       this.parsedScript.skuModule.skuPriceList.forEach((item, index) => {
-        var price = Number(item.skuVal.actSkuCalPrice);
-        console.log(typeof price);
-        if (index == 0) {
+        console.log('item.skuVal.actSkuCalPrice: ', item.skuVal.actSkuCalPrice)
+        // if no promotion
+        if(!item.skuVal.actSkuCalPrice) {
+          var price = Number(item.skuVal.skuCalPrice) * 185;
+          console.log('price:', price);
+
+          if (index == 0) {
+          console.log('when index == 0');
           this.minPrice = price;
+          console.log('minPrice:', this.minPrice);
           this.maxPrice = price;
+          console.log('maxPrice:', this.maxPrice);
         } else {
+          console.log('index is > 0');
           if (price < this.minPrice) {
             this.minPrice = price;
+            console.log('minPrice:', this.minPrice);
+            console.log('maxPrice:', this.maxPrice);
           } else if (price > this.maxPrice) {
             this.maxPrice = price;
+            console.log('minPrice:', this.minPrice);
+            console.log('maxPrice:', this.maxPrice);
           }
         }
+        }else if(item.skuVal.actSkuCalPrice) {
+        // if promotion
+        var price = Number(item.skuVal.actSkuCalPrice) * 185;
+        var oldPrice = Number(item.skuVal.skuCalPrice) * 185;
+        var oldPrice = Math.ceil(oldPrice/100)*100;
+        console.log('oldPrice:' , oldPrice);
+        // price = Math.ceil(price/100)*100
+        console.log('price:', price);
+        if (index == 0) {
+          console.log('when index == 0');
+          this.minPrice = price;
+          console.log('minPrice:', this.minPrice);
+          this.maxPrice = price;
+          console.log('maxPrice:', this.maxPrice);
+        } else {
+          console.log('index is > 0');
+          if (price < this.minPrice) {
+            this.minPrice = price;
+            console.log('minPrice:', this.minPrice);
+            console.log('maxPrice:', this.maxPrice);
+          } else if (price > this.maxPrice) {
+            this.maxPrice = price;
+            console.log('minPrice:', this.minPrice);
+            console.log('maxPrice:', this.maxPrice);
+          }
+        }
+      }
       });
-      this.minPrice = new Intl.NumberFormat().format(
-        Math.round(this.minPrice * 185)
-      );
-      this.maxPrice = new Intl.NumberFormat().format(
-        Math.round(this.maxPrice * 185)
-      );
+
       if (this.minPrice == this.maxPrice) {
         this.equalPrice = this.minPrice;
+        this.equalPrice = Math.ceil(this.minPrice / 100) * 100;
+        //checking
+        if (this.equalPrice <= 2000) {
+            this.fee = 400;
+            this.fee = Math.ceil(this.fee / 100) * 100;
+            this.equalPrice += this.fee;
+        } else if (this.equalPrice > 2000) {
+            this.fee = this.equalPrice * 0.08 + 400;
+            this.fee = Math.ceil(this.fee / 100) * 100;
+            this.equalPrice += this.fee;
+        }
+        console.log('equalPrice', this.equalPrice);
       }
+
+      //checking
+      if (this.minPrice <= 2000) {
+        this.minPrice = Math.ceil(this.maxPrice / 100) * 100;
+        this.minPrice = this.minPrice + 400;
+      } else if (this.minPrice > 2000) {
+        this.minPrice += 400 + this.minPrice * 0.08; //400da + 8% of price
+        this.minPrice = Math.ceil(this.minPrice / 100) * 100;
+      }
+
+      if (this.maxPrice <= 2000) {
+        this.maxPrice = Math.ceil(this.maxPrice / 100) * 100;
+        this.maxPrice = this.maxPrice + 400;
+      } else if (this.maxPrice > 2000) {
+        this.maxPrice += 400 + this.maxPrice * 0.08; //400da + 8% of price
+        this.maxPrice = Math.ceil(this.maxPrice / 100) * 100;
+      }
+      this.minPrice += 100;
+      this.maxPrice += 100;
+      this.minPrice = new Intl.NumberFormat().format(Math.round(this.minPrice));
+      this.maxPrice = new Intl.NumberFormat().format(Math.round(this.maxPrice));
     },
     addToCart: function () {
       axios
@@ -459,6 +634,10 @@ export default {
           user_id: this.$userId,
           uri: this.uri,
           productId: this.productId,
+          usdP: this.usdP,
+          fee: this.fee,
+          shippingCost: this.shippingCost,
+          shippingTime: this.shippingTime,
         })
         .then((response) => {
           this.fields = {}; //Clear input fields.
@@ -476,7 +655,7 @@ export default {
           console.log("fetch", response.data);
           this.orderItems = response.data;
         })
-        .then(()=>{
+        .then(() => {
           this.setOrderItemsOptions();
         })
         .catch((error) => {
@@ -486,8 +665,30 @@ export default {
     setOrderItemsOptions: function () {
       this.orderItems.forEach((item) => {
         item.selectedProps = JSON.parse(item.selectedProps);
-      })
-    }
+      });
+    },
+    deleteOrderItem: function (id) {
+      axios
+        .delete(`/api/deleteOrderItem/${id}`)
+        .then((response) => {
+          console.log(response.data);
+          this.fetchOrderItems();
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+    addOrder: function () {
+      axios
+        .post(`/api/addOrder/${this.$userId}`)
+        .then((response) => {
+          console.log("=====Order======", response.data);
+          this.fetchOrderItems();
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
   },
 };
 </script>

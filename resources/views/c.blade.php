@@ -1,6 +1,16 @@
 @extends('layouts.custom')
 
 @section('content')
+    <div class="container pt-7">
+        <form action="{{ route('searchProduct') }}" class="w-100" method="GET">
+            <div class="input-group">
+                <input type="text" name="q" class="form-control" id="searchProduct" placeholder="Search" aria-label="Search" aria-describedby="basic-addon2">
+                <button type="submit" class="input-group-text px-4" id="basic-addon2">
+                    <span class="fas fa-search text-primary"></span>
+                </button>
+            </div>
+        </form>
+    </div>
     <div id="app">
         <product-details uri="{{ $uri }}"></product-details>
     </div>

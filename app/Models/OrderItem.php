@@ -12,8 +12,13 @@ class OrderItem extends Model
 
     protected $guarded = [];
 
-    public function client()
+    public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function shoppingSession()
+    {
+        return $this->belongsTo(ShoppingSession::class, 'shopping_session_id');
     }
 }

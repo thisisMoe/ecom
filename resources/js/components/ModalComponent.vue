@@ -6,7 +6,10 @@
 
           <div class="modal-header">
             <slot name="header">
-              default header
+             <div slot="header" class="d-flex justify-content-between w-100">
+          <h3>Mon Panier</h3>
+          <button class="btn btn-primary px-3" @click="$emit('close')"><span class="fas fa-times"></span></button>
+        </div>
             </slot>
           </div>
 
