@@ -14,6 +14,9 @@ require('laravel-mix-purgecss');
 
 mix.js('resources/js/app.js', 'public/js').vue()
     .sass('resources/sass/app.scss', 'public/css')
+    .options({
+      processCssUrls: false
+    })
     .styles('public/css/pixel.css', 'public/css/pixel.mini.css')
     .sourceMaps()
     .purgeCss({enabled: true})
