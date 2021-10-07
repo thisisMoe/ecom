@@ -31,7 +31,7 @@
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{route('home')}}">
                 <div class="sidebar-brand-icon rotate-n-15">
                     <i class="fas fa-laugh-wink"></i>
                 </div>
@@ -43,7 +43,7 @@
 
             <!-- Nav Item - Dashboard -->
             <li class="nav-item {{(request()->is('admin')) ? 'active' : ''}}">
-                <a class="nav-link" href="{{route('index')}}">
+                <a class="nav-link" href="{{route('admin.index')}}">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Dashboard</span></a>
             </li>
@@ -107,29 +107,29 @@
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Filtrer:</h6>
                         @if (request()->is('admin/orders')))
-                            <a class="collapse-item {{(request()->filter['orderStatus'] == 'pending') ? 'active' : ''}}" href="{{route('orders', ['filter[orderStatus]' => 'pending', 'filter[status]' => 'inactive'])}}">
+                            <a class="collapse-item {{(request()->filter['orderStatus'] == 'pending') ? 'active' : ''}}" href="{{route('admin.orders', ['filter[orderStatus]' => 'pending', 'filter[status]' => 'inactive'])}}">
                                 Pending
                             </a>
-                            <a class="collapse-item {{(request()->filter['orderStatus'] == 'confirmed') ? 'active' : ''}}" href="{{route('orders', ['filter[orderStatus]' => 'confirmed', 'filter[status]' => 'inactive'])}}">
+                            <a class="collapse-item {{(request()->filter['orderStatus'] == 'confirmed') ? 'active' : ''}}" href="{{route('admin.orders', ['filter[orderStatus]' => 'confirmed', 'filter[status]' => 'inactive'])}}">
                                 Confirmed
                             </a>
-                            <a class="collapse-item {{(request()->filter['orderStatus'] == 'shipped') ? 'active' : ''}}" href="{{route('orders', ['filter[orderStatus]' => 'shipped', 'filter[status]' => 'inactive'])}}">
+                            <a class="collapse-item {{(request()->filter['orderStatus'] == 'shipped') ? 'active' : ''}}" href="{{route('admin.orders', ['filter[orderStatus]' => 'shipped', 'filter[status]' => 'inactive'])}}">
                                 Shipped
                             </a>
-                            <a class="collapse-item" href="{{route('orders', ['filter[orderStatus]' => 'delivered', 'filter[status]' => 'inactive'])}}">
+                            <a class="collapse-item" href="{{route('admin.orders', ['filter[orderStatus]' => 'delivered', 'filter[status]' => 'inactive'])}}">
                                 Delivered
                             </a>
                         @else
-                            <a class="collapse-item" href="{{route('orders', ['filter[orderStatus]' => 'pending', 'filter[status]' => 'inactive'])}}">
+                            <a class="collapse-item" href="{{route('admin.orders', ['filter[orderStatus]' => 'pending', 'filter[status]' => 'inactive'])}}">
                             Pending
                             </a>
-                            <a class="collapse-item" href="{{route('orders', ['filter[orderStatus]' => 'confirmed', 'filter[status]' => 'inactive'])}}">
+                            <a class="collapse-item" href="{{route('admin.orders', ['filter[orderStatus]' => 'confirmed', 'filter[status]' => 'inactive'])}}">
                                 Confirmed
                             </a>
-                            <a class="collapse-item" href="{{route('orders', ['filter[orderStatus]' => 'shipped', 'filter[status]' => 'inactive'])}}">
+                            <a class="collapse-item" href="{{route('admin.orders', ['filter[orderStatus]' => 'shipped', 'filter[status]' => 'inactive'])}}">
                                 Shipped
                             </a>
-                            <a class="collapse-item" href="{{route('orders', ['filter[orderStatus]' => 'delivered', 'filter[status]' => 'inactive'])}}">
+                            <a class="collapse-item" href="{{route('admin.orders', ['filter[orderStatus]' => 'delivered', 'filter[status]' => 'inactive'])}}">
                                 Delivered
                             </a>
                         @endif
@@ -144,8 +144,8 @@
 
             <!-- Nav Item - Charts -->
             <li class="nav-item">
-                <a class="nav-link" href="charts.html">
-                    <i class="fas fa-fw fa-chart-area"></i>
+                <a class="nav-link" href="{{route('admin.users')}}">
+                    <i class="fas fa-fw fa-users"></i>
                     <span>Utilisateurs</span></a>
             </li>
 
@@ -346,18 +346,18 @@
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
-                                <a class="dropdown-item" href="#">
+                                <a class="dropdown-item" href="{{ route('account') }}">
                                     <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Profile
+                                    Compte
                                 </a>
-                                <a class="dropdown-item" href="#">
+                                {{-- <a class="dropdown-item" href="#">
                                     <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Settings
                                 </a>
                                 <a class="dropdown-item" href="#">
                                     <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Activity Log
-                                </a>
+                                </a> --}}
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
                                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
@@ -416,7 +416,10 @@
                 <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="login.html">Logout</a>
+                    <form action="{{ route('logout') }}" method="POST">
+                        @csrf
+                        <button class="btn btn-primary" type="submit">Logout</button>
+                    </form>
                 </div>
             </div>
         </div>

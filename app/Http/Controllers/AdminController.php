@@ -15,6 +15,13 @@ class AdminController extends Controller
         return view('admin.index');
     }
 
+    public function users(Request $request)
+    {
+        $users = User::paginate(15);
+
+        return view('admin.users', compact('users'));
+    }
+
     public function orders(Request $request)
     {
         $ordersCount = ShoppingSession::where(['status' => 'inactive', 'orderStatus' => 'pending'])->get()->count();

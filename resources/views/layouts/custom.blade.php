@@ -58,16 +58,16 @@
     <header class="header-global">
         <nav id="navbar-main" aria-label="Primary navigation" class="navbar navbar-main navbar-expand-lg navbar-theme-primary headroom navbar-dark">
             <div class="container position-relative">
-                <a class="navbar-brand me-lg-5" href="./index.html">
-                    <img class="navbar-brand-dark" src="{{ asset('assets/img/brand/light.svg') }}" alt="Logo light">
-                    <img class="navbar-brand-light" src="{{ asset('assets/img/brand/dark.svg') }}" alt="Logo dark">
+                <a class="navbar-brand me-lg-5" style="padding: 0;" href="{{route('home')}}">
+                    <img class="navbar-brand-dark" src="{{ asset('assets/img/brand/logo-white-trans.png') }}" alt="Logo light">
+                    <img class="navbar-brand-light" src="{{ asset('assets/img/brand/logo-white-trans.png') }}" alt="Logo dark">
                 </a>
                 <div class="navbar-collapse collapse me-auto" id="navbar_global">
                     <div class="navbar-collapse-header">
                         <div class="row">
                             <div class="col-6 collapse-brand">
-                                <a href="./index.html">
-                                    <img src="{{ asset('assets/img/brand/dark.svg') }}" alt="Themesberg logo">
+                                <a href="{{route('home')}}">
+                                    <img src="{{ asset('assets/img/brand/logo-white-trans.png') }}" alt="Themesberg logo">
                                 </a>
                             </div>
                             <div class="col-6 collapse-close">
@@ -77,6 +77,16 @@
                         </div>
                     </div>
                     <ul class="navbar-nav navbar-nav-hover align-items-lg-center">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" aria-expanded="false">
+                                Faire Une Recherche
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" aria-expanded="false">
+                                Comment ça Marche
+                            </a>
+                        </li>
                         <li class="nav-item dropdown">
                             <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" id="supportDropdown" aria-expanded="false">
                                 Support
@@ -106,6 +116,16 @@
                                 </div>
                             </div>
                         </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" aria-expanded="false">
+                                A Propos de Nous
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" aria-expanded="false">
+                                Contact
+                            </a>
+                        </li>
                     </ul>
                 </div>
                 <div class="d-flex align-items-center gap-2">
@@ -117,9 +137,18 @@
                                 </a>
 
                                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                    <li><a class="dropdown-item" href="#">Action</a></li>
-                                    <li><a class="dropdown-item" href="#">Another action</a></li>
-                                    <li><a class="dropdown-item" href="#">Something else here</a></li>
+                                    @if (Auth::user()->role == 'admin')
+                                    <li><a class="dropdown-item" href="{{route('admin.index')}}">Dashboard</a>
+                                    </li>
+                                    @endif
+                                    <li><a class="dropdown-item" href="{{route('account')}}">Voir Mes Commandes</a>
+                                    </li>
+                                    <li>
+                                        <form action="{{ route('logout') }}" method="POST">
+                                            @csrf
+                                            <button class="dropdown-item" type="submit">Se Déconnecter</button>
+                                        </form>
+                                    </li>
                                 </ul>
                             </div>
 
@@ -183,32 +212,30 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-4">
-                    <img class="navbar-brand-dark mb-4" height="35" src="{{ asset('assets/img/brand/light.svg') }}" alt="Logo light">
-                    <p>Pixel is a free and open source Bootstrap 5 UI Kit that will help you prototype and build beautiful website pages and applications.</p>
+                <div class="d-flex align-items-center gap-3">
+                    <img class="navbar-brand-dark logo-size" height="35" src="{{ asset('assets/img/brand/logo-white-trans.png') }}" alt="Logo light">
+                    <span class="fs-3">DZ Express</span>
+                </div>
+                    <p class="mt-4">Notre rôle est d'offrir la possibilité d'achat et de suivi de produits Ali express conforme à la règlementation algérienne des produits importés à tous les citoyens algériens sur tout le territoire national </p>
                     <ul class="social-buttons mb-5 mb-lg-0">
                         <li>
-                            <a href="https://twitter.com/themesberg" aria-label="twitter social link" class="icon-white me-2">
-                                <span class="fab fa-twitter"></span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="https://www.facebook.com/themesberg/" class="icon-white me-2" aria-label="facebook social link">
+                            <a href="#" class="icon-white me-2" aria-label="facebook social link">
                                 <span class="fab fa-facebook"></span>
                             </a>
                         </li>
                         <li>
-                            <a href="https://github.com/themesberg" aria-label="github social link" class="icon-white me-2">
-                                <span class="fab fa-github"></span>
+                            <a href="#" class="icon-white me-2" aria-label="dribbble social link">
+                                <span class="fab fa-instagram"></span>
                             </a>
                         </li>
                         <li>
-                            <a href="https://dribbble.com/themesberg" class="icon-white" aria-label="dribbble social link">
-                                <span class="fab fa-dribbble"></span>
+                            <a href="#" aria-label="twitter social link" class="icon-white me-2">
+                                <span class="fab fa-twitter"></span>
                             </a>
                         </li>
                     </ul>
                 </div>
-                <div class="col-6 col-md-2 mb-5 mb-lg-0">
+                {{-- <div class="col-6 col-md-2 mb-5 mb-lg-0">
                     <span class="h5">Themesberg</span>
                     <ul class="footer-links mt-2">
                         <li><a target="_blank" href="https://themesberg.com/blog">Blog</a></li>
@@ -216,18 +243,36 @@
                         <li><a target="_blank" href="https://themesberg.com/about">About Us</a></li>
                         <li><a target="_blank" href="https://themesberg.com/contact">Contact Us</a></li>
                     </ul>
-                </div>
+                </div> --}}
                 <div class="col-6 col-md-2 mb-5 mb-lg-0">
-                    <span class="h5">Other</span>
+                    <span class="h5">Liens</span>
                     <ul class="footer-links mt-2">
-                        <li><a href="https://themesberg.com/docs/bootstrap-5/pixel/getting-started/quick-start/" target="_blank">Docs</a></li>
-                        <li><a href="https://themesberg.com/docs/pixel-bootstrap/getting-started/changelog" target="_blank">Changelog</a></li>
-                        <li><a target="_blank" href="https://themesberg.com/licensing">License</a>
-                        </li>
-                        <li><a target="_blank" href="https://github.com/themesberg/pixel-bootstrap-ui-kit/issues">Support</a></li>
+                        <li><a target="_blank" href="#">Comment ça marche?</a></li>
+                        <li><a target="_blank" href="#">Support</a></li>
+                        <li><a target="_blank" href="#">Politique de Confidentialité</a></li>
                     </ul>
                 </div>
                 <div class="col-12 col-md-4 mb-5 mb-lg-0">
+                    <span class="h5">Contact</span>
+                    <p class="text-muted font-small mt-2">
+                    Nous travaillons de 9 h à 23 h tous les jours, vous pouvez nous appeler à tout moment
+                    </p>
+                    <div class="form-row mb-2">
+                        <div class="col-12 mb-3">
+                            <a href="tel:+213558494325" class="mb-2 d-block"><span class="fas fa-phone-square-alt"></span> +213558494325</a>
+                            <a href="tel:+213555959606" class="mb-2 d-block"><span class="fas fa-phone-square-alt"></span> +213555959606</a>
+                            
+                        </div>
+                        <div class="col-12 d-grid">
+                            <button type="submit" class="btn btn-tertiary" data-loading-text="Sending">
+                                <span>Nous Contacter</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <p class="text-muted font-small m-0">Nous ne partagerons jamais vos données. Voir notre <a class="text-white" href="#">Politique de Confidentialité</a></p>
+                </div>
+                {{-- <div class="col-12 col-md-4 mb-5 mb-lg-0">
                     <span class="h5">Subscribe</span>
                     <p class="text-muted font-small mt-2">Join our mailing list. We write rarely, but only the best content.
                     </p>
@@ -246,17 +291,17 @@
                         </div>
                     </form>
                     <p class="text-muted font-small m-0">We’ll never share your details. See our <a class="text-white" href="#">Privacy Policy</a></p>
-                </div>
+                </div> --}}
             </div>
             <hr class="bg-secondary my-3 my-lg-5">
             <div class="row">
                 <div class="col mb-md-0">
                     <a href="https://themesberg.com" target="_blank" class="d-flex justify-content-center mb-3">
-                        <img src="{{ asset('assets/img/themesberg.svg') }}" height="30" class="me-2" alt="Themesberg Logo">
-                        <p class="text-white fw-bold footer-logo-text m-0">Themesberg</p>
+                        <img src="{{ asset('assets/img/brand/logo-white-trans.png') }}" height="30" class="me-2" alt="Themesberg Logo">
+                        <p class="text-white fw-bold footer-logo-text m-0">DZEXPRESS</p>
                     </a>
                     <div class="d-flex text-center justify-content-center align-items-center" role="contentinfo">
-                        <p class="fw-normal font-small mb-0">Copyright © Themesberg 2019-<span class="current-year">2021</span>. All rights reserved.</p>
+                        <p class="fw-normal font-small mb-0">Copyright © DZEXPRESS 2021. All rights reserved.</p>
                     </div>
                 </div>
             </div>

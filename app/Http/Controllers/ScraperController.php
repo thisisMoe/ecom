@@ -286,11 +286,6 @@ class ScraperController extends Controller
         return $this->capturedScript;
     }
 
-    public function search()
-    {
-        return view('search');
-    }
-
     public function searchProduct(Request $request)
     {
         $uri = $request->query('q');
