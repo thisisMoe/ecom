@@ -209,8 +209,12 @@ class ScraperController extends Controller
         if (!str_contains($uri, 'item')) { 
             $page = $client->request('GET', $uri);
             $newUri = $client->getHistory()->current()->getUri();  
-            $workingUri = $this->get_string_between($newUri, 'www.', 'html?');
-            $workingUri = 'https://fr.'.$workingUri.'html';
+            try {
+                $scrapedUri = $this->get_string_between($newUri, 'www.', 'html?');
+            } catch (\Throwable $th) {
+                throw $th;
+            }
+            $workingUri = 'https://fr.'.$scrapedUri.'html';
 
             $newPage = $client->request('GET', $workingUri);
 
