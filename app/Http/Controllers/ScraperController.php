@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Goutte\Client;
 use Illuminate\Http\Request;
+use Symfony\Component\HttpClient\HttpClient;
 
 class ScraperController extends Controller
 {
@@ -201,8 +202,9 @@ class ScraperController extends Controller
     {
         // $results = [];
 
-        $client = new Client();
-
+        $client = new Client(HttpClient::create(['proxy' => 'http://41.111.204.186:8080']));
+        // $client = new Client();
+        
         $uri = $request->query('q');
         // $uri = 'https://fr.aliexpress.com/item/1005003190838984.html?spm=a2g0o.productlist.0.0.be3f1991wAu8Ko&algo_pvid=9fe4665c-f731-4bda-8da9-842e40675974&algo_exp_id=9fe4665c-f731-4bda-8da9-842e40675974-0&pdp_ext_f=%7B%22sku_id%22%3A%2212000024582844555%22%7D';
 
