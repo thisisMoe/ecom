@@ -202,7 +202,7 @@ class ScraperController extends Controller
     {
         // $results = [];
 
-        $client = new Client(HttpClient::create(['proxy' => 'http://41.111.204.186:8080']));
+        $client = new Client(HttpClient::create(['proxy' => 'http://thisismoe:thisismoe1590_country-dz_session-ev9fl1ts_lifetime-12h@91.239.130.17:12323']));
         // $client = new Client();
         
         $uri = $request->query('q');
