@@ -44,7 +44,7 @@
     <div class="section py-0">
         <div class="container mt-n10 mt-lg-n12 z-2">
             <div class="row justify-content-center">
-                <div class="col-12 col-md-10"><img src="{{ asset('assets/img/presentation-mockup.png') }}" alt="Pixel Free Mockup"></div>
+                <div class="col-12 col-md-10"><img src="{{ asset('assets/img/homepage.png') }}" alt="DZ-AliExpress"></div>
             </div>
         </div>
     </div>
