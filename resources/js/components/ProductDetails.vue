@@ -445,12 +445,12 @@
                         >+ {{ orderItem.shippingCost }}
                         <span
                           v-if="locale == 'fr'"
-                          class="align-top font-medium"
+                          class="font-small"
                           >DA</span
                         >
                         <span
                           v-if="locale == 'ar'"
-                          class="font-medium"
+                          class="font-small"
                           >دج</span
                         >
 
@@ -460,23 +460,23 @@
                         <strong>
                           <span
                             v-if="locale == 'fr'"
-                            class="align-top font-medium"
+                            class=""
                             >Total:</span
                           >
                           <span
                             v-if="locale == 'ar'"
-                            class="font-medium"
+                            class=""
                             >المجموع:</span
                           >
                           {{ orderItem.shippingCost + orderItem.totalSum }}
                           <span
                             v-if="locale == 'fr'"
-                            class="align-top font-medium"
+                            class="font-small"
                             >DA</span
                           >
                           <span
                             v-if="locale == 'ar'"
-                            class="align-top font-medium"
+                            class="font-small"
                             >دج</span
                           >
                         </strong>
