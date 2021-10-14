@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ScraperController;
+use App\Http\Controllers\SearchProductController;
 use App\Http\Controllers\ShoppingSessionController;
 use App\Http\Controllers\UserController;
 use App\Models\ShoppingSession;
@@ -21,9 +22,15 @@ use Illuminate\Support\Facades\Auth;
 |
 */
 
+//Localization route
+Route::get('language/{locale}', function ($locale) {
+    app()->setLocale($locale);
+    session()->put('locale', $locale);
+    return redirect()->back();
+});
 
 Route::get('', [HomeController::class, 'index'])->name('home');
-Route::get('searchProduct', [ScraperController::class, 'searchProduct'])->name('searchProduct');
+Route::get('searchProduct', [SearchProductController::class, 'searchProduct'])->name('searchProduct');
 
 Auth::routes();
 

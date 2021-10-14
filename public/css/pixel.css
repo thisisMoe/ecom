@@ -92,10 +92,26 @@
   margin: 0px auto;
   padding: 20px 30px;
   background-color: #fff;
-  border-radius: 2px;
+  border-radius: 10px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
   transition: all 0.3s ease;
   font-family: Helvetica, Arial, sans-serif;
+}
+
+#formFile::before {
+  content: "Pick file";
+  position: absolute;
+  z-index: 2;
+  display: block;
+  background-color: #eee;
+  width: 80px;
+}
+
+@media (max-width: 450px) {
+    .modal-container {
+        width: 100% !important;  
+        padding: 20px 8px;   
+    }
 }
 
 .modal-header h3 {
@@ -105,7 +121,7 @@
 
 .modal-body {
   margin: 20px 0;
-  max-height: 80vh;
+  max-height: 60vh;
   overflow-y: auto;
   box-shadow: inset 0px -3px 5px rgb(0 0 0 / 13%);
 }
@@ -7048,6 +7064,7 @@ textarea.form-control-lg {
 .accordion-button {
     position: relative;
     display: flex;
+    justify-content: space-between;
     align-items: center;
     width: 100%;
     padding: 1.5rem 1.5rem;
@@ -7082,7 +7099,19 @@ textarea.form-control-lg {
     flex-shrink: 0;
     width: 1.25rem;
     height: 1.25rem;
-    margin-left: auto;
+    margin-left: 0;
+    content: "";
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%231F2937'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-size: 1.25rem;
+    transition: transform 0.2s ease-in-out;
+}
+
+.accordion-button-rtl::after {
+    flex-shrink: 0;
+    width: 1.25rem;
+    height: 1.25rem;
+    margin-left: 0 !important;
     content: "";
     background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%231F2937'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e");
     background-repeat: no-repeat;
@@ -24714,6 +24743,8 @@ textarea.form-control-lg {
     max-width: none;
 }
 
+
+
 img.logo-size {
     height: 60px;
     max-width: none;
@@ -24741,6 +24772,11 @@ img.logo-size {
     .navbar-dark .nav-item .nav-link > span {
         color: #1c2540;
     }
+
+    .navbar-brand img {
+    height: 45px !important;                       
+    max-width: none;
+}
 }
 
 .navbar-light:not(.headroom--not-top) .btn-outline-soft {
