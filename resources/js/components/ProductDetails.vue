@@ -213,7 +213,9 @@
                     ><span v-show="this.$locale == 'ar'">دج</span> -
                     {{ maxPrice }}<span v-if="this.$locale == 'fr'">DA</span
                     ><span v-if="this.$locale == 'ar'">دج</span>
-                    <span class="badge bg-danger ms-2">-{{ discount }}%</span>
+                    <span class="badge bg-danger ms-2 me-2"
+                      >-{{ discount }}%</span
+                    >
                   </p>
                 </div>
                 <!-- if chosen price -->
@@ -253,7 +255,7 @@
                 </div>
                 <div>
                   <p class="mb-0" v-if="shippingCost">
-                    <span v-if="this.$locale == 'ar'">:تكاليف الشحن</span>
+                    <span v-if="this.$locale == 'ar'">تكاليف الشحن: </span>
                     <span v-else class="fw-bold">Frais de Livraison:</span>
                     <span class="fw-bold"
                       >{{
@@ -340,14 +342,26 @@
                   <button
                     class="btn btn-lg btn-primary fs-5 text-uppercase px-5 py-2"
                     type="submit"
+                    :disabled="addingToCart"
                   >
-                    <div class="d-flex gap-2 align-items-center">
+                    <div v-if="!addingToCart" class="d-flex gap-2 align-items-center">
                       <span v-if="this.$locale == 'ar'">أضف إلى السلة</span>
                       <span v-if="this.$locale == 'fr'">Ajouter</span>
                       <span class="fas fa-cart-arrow-down d-inlineblock"></span>
                     </div>
+                    <div v-else>
+                      <div class="spinner-border text-light" role="status">
+                        <span class="visually-hidden">Chargement...</span>
+                      </div>
+                    </div>
                   </button>
                 </form>
+              </div>
+              <div class="d-flex justify-content-center mt-2">
+                <span v-show="noOptions" class="text-small text-danger"
+                  >Veuillez choisir vos options de produits avant de
+                  continuer</span
+                >
               </div>
             </div>
           </div>
@@ -409,30 +423,86 @@
               <div v-for="orderItem in orderItems" :key="orderItem.id">
                 <div class="card shadow text-center mb-4">
                   <div class="card-header bg-white p-3">
-                    <h5 class="text-primary mb-4" v-html="orderItem.title.substring(0, 70) + '...'"></h5>
+                    <h5
+                      class="text-primary mb-4"
+                      v-html="orderItem.title.substring(0, 70) + '...'"
+                    ></h5>
                     <span class="d-block">
                       <span class="display-1 text-dark fw-bold">
                         {{ orderItem.totalSum }}
-                        <span class="align-top font-medium">DA</span>
+                        <span
+                          v-if="locale == 'fr'"
+                          class="align-top font-medium"
+                          >DA</span
+                        >
+                        <span
+                          v-if="locale == 'ar'"
+                          class="align-top font-medium"
+                          >دج</span
+                        >
                       </span>
-                      <span class="d-block text-gray">+ {{ orderItem.shippingCost }}DA <span class="fas fa-shipping-fast"></span>
+                      <span class="d-block text-gray"
+                        >+ {{ orderItem.shippingCost }}
+                        <span
+                          v-if="locale == 'fr'"
+                          class="align-top font-medium"
+                          >DA</span
+                        >
+                        <span
+                          v-if="locale == 'ar'"
+                          class="font-medium"
+                          >دج</span
+                        >
+
+                        <span class="fas fa-shipping-fast"></span>
                       </span>
                       <span class="d-block text-gray mt-3">
-                        <strong>Total: {{orderItem.shippingCost + orderItem.totalSum }}DA</strong> 
+                        <strong>
+                          <span
+                            v-if="locale == 'fr'"
+                            class="align-top font-medium"
+                            >Total:</span
+                          >
+                          <span
+                            v-if="locale == 'ar'"
+                            class="font-medium"
+                            >المجموع:</span
+                          >
+                          {{ orderItem.shippingCost + orderItem.totalSum }}
+                          <span
+                            v-if="locale == 'fr'"
+                            class="align-top font-medium"
+                            >DA</span
+                          >
+                          <span
+                            v-if="locale == 'ar'"
+                            class="align-top font-medium"
+                            >دج</span
+                          >
+                        </strong>
                       </span>
                     </span>
                   </div>
                   <div class="card-body">
                     <ul class="list-unstyled mb-4">
-                      <li class="list-item pb-3" v-for="selectedProp in orderItem.selectedProps"
-                          :key="selectedProp.value">
-                        <strong v-html="selectedProp.name + ':'"></strong> {{ selectedProp.selected }}
+                      <li
+                        class="list-item pb-3"
+                        v-for="selectedProp in orderItem.selectedProps"
+                        :key="selectedProp.value"
+                      >
+                        <strong v-html="selectedProp.name + ':'"></strong>
+                        {{ selectedProp.selected }}
                       </li>
                     </ul>
                     <div class="">
-                      <button @click="deleteOrderItem(orderItem.id)" class="btn btn-danger animate-up-1"
-                        ><span class="fas fa-trash-alt"></span> Supprimer</button
+                      <button
+                        @click="deleteOrderItem(orderItem.id)"
+                        class="btn btn-danger animate-up-1"
                       >
+                        <span class="fas fa-trash-alt"></span>
+                        <span v-if="locale == 'fr'">Supprimer</span>
+                        <span v-if="locale == 'ar'">حذف</span>
+                      </button>
                     </div>
                   </div>
                 </div>
@@ -472,8 +542,14 @@
     <div v-else>
       <div class="container my-4">
         <blockquote class="blockquote text-center">
+          <span v-if="this.$locale == 'fr'">
           C’est là que vous verrez les détails du produit, juste après avoir
           collé le lien du produit désiré dans la barre de recherche ci-dessus
+          </span>
+          <span v-if="this.$locale == 'ar'">
+            هنا سترون تفاصيل المنتج ، مباشرة بعد لصق أو نسخ رابط المنتج المنشود من AliExpress في
+            شريط البحث أعلاه
+          </span>
           <footer class="mt-3 text-primary">
             <img
               src="/assets/img/lamp-icon.png"
@@ -520,6 +596,8 @@ export default {
       discount: 0,
       oldPrice: 0,
       locale: this.$locale,
+      noOptions: false,
+      addingToCart: false,
     };
   },
   mounted() {
@@ -794,6 +872,7 @@ export default {
       this.maxPrice = new Intl.NumberFormat().format(Math.round(this.maxPrice));
     },
     addToCart: function () {
+      this.addingToCart = true;
       axios
         .post(`api/addToCart/${this.userId}`, {
           title: this.title,
@@ -811,14 +890,16 @@ export default {
           this.fields = {}; //Clear input fields.
           console.log("added to cart");
           this.fetchOrderItems();
+          this.noOptions = false;
+          this.addingToCart = false;
         })
         .catch((error) => {
           if (error.response.status == 404) {
+            //SCroll to signup/signin if not authenticated
             var container = document.getElementById("appContainer");
-            // container.scrollTop = container.scrollHeight;
             window.scrollTo(0, container.scrollHeight + 150);
-            // container.scrollIntoView(false);
-            console.log(container.scrollHeight);
+          } else if (error.response.status == 422) {
+            this.noOptions = true;
           } else {
             console.log(error.response.status);
           }
