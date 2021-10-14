@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Goutte\Client;
 use Illuminate\Http\Request;
+use Symfony\Component\HttpClient\CurlHttpClient;
 use Symfony\Component\HttpClient\HttpClient;
 
 class ScraperController extends Controller
@@ -186,31 +187,43 @@ class ScraperController extends Controller
         });
     }
 
-    public function newScraper()
-    {
-        $client = new Client();
-        $uri = 'https://a.aliexpress.com/_mrbjtmQ';
-        $page = $client->request('GET', $uri);
-        $newUri = $client->getHistory()->current()->getUri();  
-        $workingUri = $this->get_string_between($newUri, 'www.', 'html?');
-        $workingUri = 'https://fr.'.$workingUri.'html';
-        dd($workingUri);
-        // return view('show');
-    }
+    // public function newScraper()
+    // {
+    //     $client = new Client();
+    //     $uri = 'https://a.aliexpress.com/_mrbjtmQ';
+    //     $page = $client->request('GET', $uri);
+    //     $newUri = $client->getHistory()->current()->getUri();  
+    //     $workingUri = $this->get_string_between($newUri, 'www.', 'html?');
+    //     $workingUri = 'https://fr.'.$workingUri.'html';
+    //     dd($workingUri);
+    //     // return view('show');
+    // }
 
     public function getInfo(Request $request)
     {
-        // $results = [];
 
-        $client = new Client(HttpClient::create(['proxy' => 'http://thisismoe:thisismoe1590_country-dz_session-ev9fl1ts_lifetime-12h@91.239.130.17:12323']));
-        // $client = new Client();
-        
-        $uri = $request->query('q');
-        // $uri = 'https://fr.aliexpress.com/item/1005003190838984.html?spm=a2g0o.productlist.0.0.be3f1991wAu8Ko&algo_pvid=9fe4665c-f731-4bda-8da9-842e40675974&algo_exp_id=9fe4665c-f731-4bda-8da9-842e40675974-0&pdp_ext_f=%7B%22sku_id%22%3A%2212000024582844555%22%7D';
+        ///////////////////////cUrlHttpClient
+        // $curlHttpClient = new CurlHttpClient([
+        //     'http_version' => '2.0',
+        //     'proxy' => 'http://thisismoe:thisismoe1590_country-dz@proxy.iproyal.com:12323',
+        // ]);
+
+        $httpClient = HttpClient::create(['proxy' => 'http://thisismoe:thisismoe1590_country-dz@proxy.iproyal.com:12323']);
+
+        $clientForRedirects = new Client();
+        $clientForScraping = new Client($httpClient);
+
+        $uri = $request->query('q'); 
 
         if (!str_contains($uri, 'item')) { 
-            $page = $client->request('GET', $uri);
-            $newUri = $client->getHistory()->current()->getUri();
+            
+            try {
+                $page = $clientForRedirects->request('GET', $uri);
+            } catch (\Throwable $th) {
+                dd($th);
+            }
+
+            $newUri = $clientForRedirects->getHistory()->current()->getUri();
             try {
                 $itemID = $this->get_string_between($newUri, 'item/', '.html?');
             } catch (\Throwable $th) {
@@ -218,7 +231,7 @@ class ScraperController extends Controller
             }
             $workingUri = 'https://fr.aliexpress.com/item/'.$itemID.'.html';
 
-            $newPage = $client->request('GET', $workingUri);
+            $newPage = $clientForScraping->request('GET', $workingUri);
 
             $script14 = $newPage->filter('script')->eq(14)->text();
 
@@ -248,7 +261,7 @@ class ScraperController extends Controller
 
 
         //if browser link:
-        $page = $client->request('GET', $uri);
+        $page = $clientForScraping->request('GET', $uri);
 
         $script14 = $page->filter('script')->eq(14)->text();
 

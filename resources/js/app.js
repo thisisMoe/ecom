@@ -25,6 +25,8 @@ Vue.component('modal', require('./components/ModalComponent.vue').default);
 
 Vue.prototype.$userId = document.querySelector("meta[name='user_id']") ? document.querySelector("meta[name='user_id']").getAttribute('content') : '';
 
+Vue.prototype.$locale = document.querySelector("meta[name='locale']").getAttribute('content');
+
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
