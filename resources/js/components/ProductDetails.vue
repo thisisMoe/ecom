@@ -255,7 +255,7 @@
                 </div>
                 <div>
                   <p class="mb-0" v-if="shippingCost">
-                    <span v-if="this.$locale == 'ar'">تكاليف الشحن: </span>
+                    <span v-if="this.$locale == 'ar'" class="fw-bold">تكاليف الشحن: </span>
                     <span v-else class="fw-bold">Frais de Livraison:</span>
                     <span class="fw-bold"
                       >{{
@@ -267,7 +267,7 @@
                     >
                   </p>
                   <p class="mb-0" v-else>
-                    <span v-if="this.$locale == 'ar'"
+                    <span class="fw-bold" v-if="this.$locale == 'ar'"
                       >تكاليف الشحن: سيتم التأكيد</span
                     >
                     <span v-else class="fw-bold"
