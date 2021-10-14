@@ -898,8 +898,10 @@ export default {
             //SCroll to signup/signin if not authenticated
             var container = document.getElementById("appContainer");
             window.scrollTo(0, container.scrollHeight + 150);
+            this.addingToCart = false
           } else if (error.response.status == 422) {
             this.noOptions = true;
+            this.addingToCart = false
           } else {
             console.log(error.response.status);
           }
