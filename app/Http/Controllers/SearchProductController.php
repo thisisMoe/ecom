@@ -78,6 +78,10 @@ class SearchProductController extends Controller
             //     'shippingTime' => $this->shippingTime,
             // ]);
             $uri = $workingUri;
+        } else {
+            $uri = $uri.'mohammed';
+            $trimmedUri = $this->get_string_between($uri, 'aliexpress.com', 'mohammed');
+            $uri = 'https://fr.aliexpress.com'.$trimmedUri;
         }
 
         //if browser link:

@@ -19,7 +19,7 @@
                     </div>
                     <h1 class="fw-bolder display-2">DZ AliExpress</h1>
                     <h2 class="lead fw-normal text-muted mb-4 px-lg-10">
-                        {{ __('Maintenant, vous pouvez acheter n’importe quoi d’AliExpress en seulement 30 secondes') }}</h2>
+                        {{ __('Maintenant, vous pouvez acheter n’importe quoi d’AliExpress en seulement 30 secondes et payer en dinar algérien') }}</h2>
                     <!-- Button Modal -->
                     <div class="d-flex justify-content-center align-items-center mb-5">
                         <form action="{{ route('searchProduct') }}" class="w-100" method="GET">
@@ -67,14 +67,39 @@
                     <p class="text-gray">{{ __('Commandes Livrées') }}</p>
                 </div>
             </div>
+            <div id="howTo" class="row justify-content-between align-items-center mb-5 mb-lg-7">
+                <div class="col-12 col-lg-5 mb-5 mb-lg-0 order-lg-2">
+                    <h2 class="h1 text-capitalize">{{ __('étape 1') }}</h2>
+                    <p class="mb-4 lead fw-bold">{{ __('Sélectionnez votre produit préféré sur le site Web ou l’application Alixpress et copiez son lien.') }}</p>
+                    <a href="{{ route('searchProduct', ['q' => '']) }}" class="btn btn-primary mt-2 animate-up-2">
+                        <span class="fas fa-search me-2"></span> {{ __('Commencer') }}
+                    </a>
+                </div>
+                <div class="col-12 col-lg-6 order-lg-1 text-center">
+                    <img style="border-radius: 12px;
+        box-shadow: 0 0px 74px -32px; max-width: 80%" src="{{ asset('assets/img/giphy.gif') }}" alt="Front pages overview">
+                </div>
+            </div>
+            <div class="row justify-content-between align-items-center mb-5 mb-lg-7">
+                <div class="col-lg-5 mb-5 mb-lg-0">
+                    <h2 class="h1 d-flex align-items-center text-capitalize">{{ __('étape 2') }}</h2>
+                    <p class="mb-4 lead fw-bold">{{ __('Placez le lien d’Aliexpress dans la barre de recherche ci-dessus') }}</p>
+                    <p class="mb-4">{{ __('Notre application va chercher le produit que vous avez choisi et l’afficher pour vous en dinar algérien, et pour plus de commodité, vous pouvez également choisir vos options de pack préférés comme la couleur, la taille...') }}</p><a
+                        href="{{ route('searchProduct', ['q'=> '']) }}"
+                        class="btn btn-primary mt-2 animate-up-2"><span class="fas fa-search me-2"></span> {{ __('Commencer') }}</a>
+                </div>
+                <div class="col-lg-6"><img src="./assets/img/sections-mockup.jpg" alt="MapBox Leaflet.js Custom Integration Mockup"></div>
+            </div>
             <div class="row justify-content-between align-items-center mb-5 mb-lg-7">
                 <div class="col-12 col-lg-5 mb-5 mb-lg-0 order-lg-2">
-                    <h2 class="h1">STEP1 ?</h2>
-                    <p class="mb-4 lead fw-bold">Latest version of Bootstrap without jQuery</p>
-                    <p class="mb-4">Lorem ipsum dolor sit amet consectetur adipisicing elit. Facere veniam corrupti expedita dolorem neque modi nam magni. Tempore ea nam deleniti voluptates rem, natus vel velit iusto.
+                    <h2 class="h1 text-capitalize">{{ __('étape 3') }}</h2>
+                    <p class="mb-4 lead fw-bold">
+                        {{ __('Veuillez saisir vos données (nom, téléphone, adresse...)') }}
                     </p>
-                    <a href="https://themesberg.com/docs/pixel-bootstrap/components/accordions/" target="_blank" class="btn btn-primary mt-2 animate-up-2">
-                        <span class="fas fa-book me-2"></span> {{ __('Comment ça marche?') }}
+                    <p class="mb-4">{{ __("Les commandes ne peuvent pas être livrées sans adresse, n’est-ce pas ? prenez un moment et inscrivez-vous pour un compte personnel à DZ-AliExpress, Afin que nous puissions fournir les bonnes informations sur vous pour AliExpress (tels que votre nom, adresse...) lors de la commande de votre produit.") }}
+                    </p>
+                    <a href="{{ route('searchProduct', ['q' => ""]) }}" class="btn btn-primary mt-2 animate-up-2">
+                        <span class="fas fa-search me-2"></span> {{ __('Commencer') }}
                     </a>
                 </div>
                 <div class="col-12 col-lg-6 order-lg-1">
@@ -83,27 +108,13 @@
             </div>
             <div class="row justify-content-between align-items-center mb-5 mb-lg-7">
                 <div class="col-lg-5 mb-5 mb-lg-0">
-                    <h2 class="h1 d-flex align-items-center">STEP2 ?</h2>
-                    <p class="mb-4 lead fw-bold">Aucune carte de crédit nécessaire, nous acceptons CCP et BaridiMob</p>
-                    <p class="mb-4">Ajouter votre produit au panier et passer votre commande</p><a
-                        href="https://demo.themesberg.com/pixel-pro/v5/html/sections/all-sections.html" target="_blank"
-                        class="btn btn-primary mt-2 animate-up-2"><span class="fas fa-book me-2"></span> {{ __('Comment ça marche?') }}</a>
+                    <h2 class="h1 d-flex align-items-center text-capitalize">{{ __('étape 4') }}</h2>
+                    <p class="mb-4 lead fw-bold">{{ __("Ajouter votre produit au panier (vous pouvez ajouter plusieurs produits dans votre panier)") }}</p>
+                    <p class="mb-4">{{ __('كل ما عليك فعله الآن هو تمرير طلبك لنا وسوف نعتني بكل شيء. سنساعدك في تأكيد طلبك ، بعد التأكد من أن بائعك موثوق. كل شيء آخر يمكنك تتبعه على موقعنا DZ-AliExpress.') }}</p><a
+                        href="{{ route('searchProduct', ['q' => ""]) }}"
+                        class="btn btn-primary mt-2 animate-up-2"><span class="fas fa-search me-2"></span> {{ __('Commencer') }}</a>
                 </div>
                 <div class="col-lg-6"><img src="./assets/img/sections-mockup.jpg" alt="MapBox Leaflet.js Custom Integration Mockup"></div>
-            </div>
-            <div class="row justify-content-between align-items-center mb-5 mb-lg-7">
-                <div class="col-12 col-lg-5 mb-5 mb-lg-0 order-lg-2">
-                    <h2 class="h1">STEP3 ?</h2>
-                    <p class="mb-4 lead fw-bold">Latest version of Bootstrap without jQuery</p>
-                    <p class="mb-4">Lorem ipsum dolor sit amet consectetur adipisicing elit. Facere veniam corrupti expedita dolorem neque modi nam magni. Tempore ea nam deleniti voluptates rem, natus vel velit iusto.
-                    </p>
-                    <a href="https://themesberg.com/docs/pixel-bootstrap/components/accordions/" target="_blank" class="btn btn-primary mt-2 animate-up-2">
-                        <span class="fas fa-book me-2"></span> {{ __('Comment ça marche?') }}
-                    </a>
-                </div>
-                <div class="col-12 col-lg-6 order-lg-1">
-                    <img src="./assets/img/illustrations/bs5-illustrations.svg" alt="Front pages overview">
-                </div>
             </div>
         </div>
     </section>

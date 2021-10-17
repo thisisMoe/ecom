@@ -20,6 +20,11 @@
             </div>
         </div>
         <div>
+            <div class="alert alert-success alert-dismissible fade show mb-5" role="alert">
+                <strong>Holy guacamole!</strong> You should check in on some of those fields below.
+                <button type="button" class="btn-close" data-dismiss="alert" aria-label="Close">
+                </button>
+            </div>
             <h1 class="mb-5">{{ __('Mes commandes') }} ({{ Auth::user()->orders->count() }})</h1>
             <div class="row mb-3">
                 @foreach ($orders as $order)
@@ -71,10 +76,12 @@
                                                     enctype="multipart/form-data">
                                                     @csrf
                                                     <div class="modal-body">
-                                                        <p>{{__('Pour Confirmer votre paiement, Veuillez prendre une photo du reçu de paiement et nous envoyer la photo
-                                                            pour que nous puissions la confirmer le plus rapidement possible. Merci :)')}}</p>
+                                                        <p>{{ __('Pour Confirmer votre paiement, Veuillez prendre une photo du reçu de paiement et nous envoyer la photo
+                                                            pour que nous puissions la confirmer le plus rapidement possible. Merci :)') }}
+                                                        </p>
                                                         <div class="mb-3 mt-4">
-                                                            <label for="imageUpload" class="btn btn-outline-secondary btn-lg fs-4">{{ __('Ajouter Photo') }}</label>
+                                                            <label for="imageUpload"
+                                                                class="btn btn-outline-secondary btn-lg fs-4">{{ __('Ajouter Photo') }}</label>
                                                             <input type="file" id="imageUpload" accept="image/*" name="confirmation_image" style="display: none">
                                                         </div>
                                                     </div>
@@ -109,12 +116,12 @@
 
 @section('scripts')
     <script>
-        $('#imageUpload').change(function () {
+        $('#imageUpload').change(function() {
             var name = $('#imageUpload')[0].files[0].name;
             var label = $(this).closest('div').find('label');
-            if(name.length > 20) {
+            if (name.length > 20) {
                 label[0].innerHTML = `${name.substring(0, 20)}...`;
-            }else {
+            } else {
                 label[0].innerHTML = name;
             }
         })
