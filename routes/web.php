@@ -52,6 +52,8 @@ Route::prefix('/account')->middleware(['auth'])->group(function () {
     Route::get('/edit/{id}', [UserController::class, 'edit'])->name('user.edit');
     //Posting confirmation_image
     Route::post('/confirm/{id}', [ ShoppingSessionController::class, 'storeImage' ])->name('image.upload.order');
-    Route::patch('/{id}/update', [UserController::class, 'update'])->name('user.update');      
+    Route::patch('/{id}/update', [UserController::class, 'update'])->name('user.update');
+
+    Route::delete('orders/{id}/delete', [ShoppingSessionController::class, 'delete'])->name('user.orders.delete');      
     
 });

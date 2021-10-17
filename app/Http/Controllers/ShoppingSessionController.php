@@ -102,4 +102,12 @@ class ShoppingSessionController extends Controller
         return redirect(route('account'));
  
     }
+
+    public function delete(Request $request, $id)
+    {
+        $order = ShoppingSession::find($id);
+        $order->delete();
+
+        return back()->with('success', 'Votre commande a été supprimée');
+    }
 }

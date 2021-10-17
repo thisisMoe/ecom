@@ -108,7 +108,7 @@ lang="fr"
                             <div class="dropdown-menu dropdown-menu-lg" aria-labelledby="supportDropdown">
                                 <div class="col-auto px-0">
                                     <div class="list-group list-group-flush">
-                                        <a href="" target="_blank"
+                                        <a href="/#howTo" target="_blank"
                                             class="list-group-item list-group-item-action gap-3 d-flex align-items-center p-0 py-3 px-lg-4">
                                             <span class="icon icon-sm">
                                                 <span class="fas fa-cart-arrow-down"></span>
@@ -199,22 +199,44 @@ lang="fr"
         </nav>
     </header>
     <main>
-        {{-- <div class="preloader bg-dark flex-column justify-content-center align-items-center">
-            <svg id="loader-logo" xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 64 78.4">
-                <path fill="#fff" d="M10,0h1.2V11.2H0V10A10,10,0,0,1,10,0Z" />
-                <rect fill="none" stroke="#fff" stroke-width="11.2" x="40" y="17.6" width="0" height="25.6" />
-                <rect fill="none" stroke="#fff" stroke-opacity="0.4" stroke-width="11.2" x="23" y="35.2" width="0" height="25.6" />
-                <path fill="#fff" d="M52.8,35.2H64V53.8a7,7,0,0,1-7,7H52.8V35.2Z" />
-                <rect fill="none" stroke="#fff" stroke-width="11.2" x="6" y="52.8" width="0" height="25.6" />
-                <path fill="#fff" d="M52.8,0H57a7,7,0,0,1,7,7h0v4.2H52.8V0Z" />
-                <rect fill="none" stroke="#fff" stroke-opacity="0.4" stroke-width="11.2" x="57.8" y="17.6" width="0" height="11.2" />
-                <rect fill="none" stroke="#fff" stroke-width="11.2" x="6" y="35.2" width="0" height="11.2" />
-                <rect fill="none" stroke="#fff" stroke-width="11.2" x="40.2" y="49.6" width="0" height="11.2" />
-                <path fill="#fff" d="M17.6,67.2H28.8v1.2a10,10,0,0,1-10,10H17.6V67.2Z" />
-                <rect fill="none" stroke="#fff" stroke-opacity="0.4" stroke-width="28.8" x="31.6" width="0" height="11.2" />
-                <rect fill="none" stroke="#fff" x="14" stroke-width="28.8" y="17.6" width="0" height="11.2" />
-            </svg>
-        </div> --}}
+        <div class="preloader bg-dark flex-column justify-content-center align-items-center">
+            <svg
+          id="loader-logo"
+          xmlns="http://www.w3.org/2000/svg"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+          style="
+            margin: auto;
+            background: none;
+            display: block;
+            shape-rendering: auto;
+          "
+          width="200px"
+          height="200px"
+          viewBox="0 0 100 100"
+          preserveAspectRatio="xMidYMid"
+        >
+          <path
+            fill="none"
+            stroke="#ffffff"
+            stroke-width="8"
+            stroke-dasharray="42.76482137044271 42.76482137044271"
+            d="M24.3 30C11.4 30 5 43.3 5 50s6.4 20 19.3 20c19.3 0 32.1-40 51.4-40 C88.6 30 95 43.3 95 50s-6.4 20-19.3 20C56.4 70 43.6 30 24.3 30z"
+            stroke-linecap="round"
+            style="
+              transform: scale(0.7100000000000001);
+              transform-origin: 50px 50px;
+            "
+          >
+            <animate
+              attributeName="stroke-dashoffset"
+              repeatCount="indefinite"
+              dur="1.075268817204301s"
+              keyTimes="0;1"
+              values="0;256.58892822265625"
+            ></animate>
+          </path>
+        </svg>
+        </div>
 
         @yield('content')
 
