@@ -77,7 +77,7 @@
                 </div>
                 <div class="col-12 col-lg-6 order-lg-1 text-center">
                     <img style="border-radius: 12px;
-        box-shadow: 0 0px 74px -32px;" src="{{ asset('assets/img/giphy.gif') }}" alt="Front pages overview">
+        box-shadow: 0 0px 74px -32px; max-width: 80%" src="{{ asset('assets/img/giphy.gif') }}" alt="Front pages overview">
                 </div>
             </div>
             <div class="row justify-content-between align-items-center mb-5 mb-lg-7">
