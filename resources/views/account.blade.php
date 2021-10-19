@@ -20,11 +20,13 @@
             </div>
         </div>
         <div>
-            <div class="alert alert-success alert-dismissible fade show mb-5" role="alert">
-                <strong>Holy guacamole!</strong> You should check in on some of those fields below.
-                <button type="button" class="btn-close" data-dismiss="alert" aria-label="Close">
+            @if (Session::has('success'))
+                <div class="alert alert-success alert-dismissible fade show mb-5" role="alert">
+                    {!! Session::get('success') !!}
+                    <button type="button" class="btn-close" data-dismiss="alert" aria-label="Close">
                 </button>
             </div>
+            @endif
             <h1 class="mb-5">{{ __('Mes commandes') }} ({{ Auth::user()->orders->count() }})</h1>
             <div class="row mb-3">
                 @foreach ($orders as $order)
@@ -35,6 +37,7 @@
                             </div>
                             <div class="card-body position-relative mt-n6 mx-2 bg-white border border-gray-300 text-center rounded pb-3">
                                 <p class="text-light"> <span class="fw-bold">{{ $order->created_at->diffForHumans() }}</span></p>
+                                <p><span class="text-capitalize badge bg-info">{{ $order->orderStatus }}</span></p>
                                 <h3 class="h5 card-title">@lang('Total') : {{ $order->total + $order->totalShipping }}{{ __('DA') }}</h3>
                                 <div class="mb-4">
                                     <span class="text-gray">
@@ -53,12 +56,9 @@
                                     <p class="mt-1 mb-1 fw-bold">{{ $order->totalShipping }}{{ __('DA') }}</p>
                                 </div>
                                 <hr>
-                                <div class="d-flex justify-content-center">
-                                    <span class="text-capitalize fs-5 badge bg-info">{{ $order->orderStatus }}</span>
-                                </div>
                                 @if ($order->confirmations->count() == 0)
                                     <div class="btn-group mt-3">
-                                        <button type="button" class="btn btn-secondary btn-icon" data-bs-toggle="modal"
+                                        <button type="button" class="btn-sm btn-secondary btn-icon" data-bs-toggle="modal"
                                             data-bs-target="#modal-{{ $order->id }}">
                                             <span class="me-1"><span class="fas fa-check"></span></span> {{ __('Confirmer Commande') }}
                                         </button>
@@ -105,6 +105,37 @@
                                         </a>
                                     </div>
                                 @endif
+                                <div class="text-center">
+                                    <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modal-delete-{{ $order->id }}">
+                                        <span class="fas fa-trash-alt"></span>
+                                    </button>
+                                    <div class="modal fade" id="modal-delete-{{ $order->id }}" tabindex="-1" aria-labelledby="modal-delete-{{ $order->id }}" style="display: none;"
+                                        aria-hidden="true">
+                                        <div class="modal-dialog modal-dialog-centered" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h2 class="h6 modal-title">Alert</h2><button type="button" class="btn-close"
+                                                        data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <p>Êtes-vous sûr de vouloir supprimer cette commande ?</p>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <form action="{{ route('user.orders.delete', $order->id) }}" method="POST">
+                                                    @csrf
+                                                    @method('delete')
+                                                        <button type="submit" class="btn btn-danger">
+                                                            Supprimer
+                                                        </button>
+                                                    </form>
+                                                    <button type="button" class="btn btn-link ms-auto" data-bs-dismiss="modal">
+                                                        Annuler
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>

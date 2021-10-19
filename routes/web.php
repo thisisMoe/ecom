@@ -32,6 +32,9 @@ Route::get('language/{locale}', function ($locale) {
 Route::get('', [HomeController::class, 'index'])->name('home');
 Route::get('searchProduct', [SearchProductController::class, 'searchProduct'])->name('searchProduct');
 
+//For scraper tests
+Route::get('scraper-test', [SearchProductController::class, 'scraper_test'])->name('scraper_test');
+
 Auth::routes();
 
 //Admin
