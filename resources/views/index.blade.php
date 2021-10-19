@@ -76,8 +76,10 @@
                     </a>
                 </div>
                 <div class="col-12 col-lg-6 order-lg-1 text-center">
-                    <img style="border-radius: 12px;
-        box-shadow: 0 0px 74px -32px; max-width: 80%" src="{{ asset('assets/img/giphy.gif') }}" alt="Front pages overview">
+                    
+                <video loop autoplay muted style="border-radius: 12px;box-shadow: 0 0px 74px -32px; max-width: 65%">
+                    <source src="{{ asset('assets/img/step1.mp4') }}" type="video/mp4">
+                </video>      
                 </div>
             </div>
             <div class="row justify-content-between align-items-center mb-5 mb-lg-7">
@@ -88,7 +90,11 @@
                         href="{{ route('searchProduct', ['q'=> '']) }}"
                         class="btn btn-primary mt-2 animate-up-2"><span class="fas fa-search me-2"></span> {{ __('Commencer') }}</a>
                 </div>
-                <div class="col-lg-6"><img src="./assets/img/sections-mockup.jpg" alt="MapBox Leaflet.js Custom Integration Mockup"></div>
+                <div class="col-lg-6 text-center">
+                    <video loop autoplay muted style="border-radius: 12px;box-shadow: 0 0px 74px -32px; max-width: 65%">
+                        <source src="{{ asset('assets/img/step2.mp4') }}" type="video/mp4">
+                    </video>    
+                </div>
             </div>
             <div class="row justify-content-between align-items-center mb-5 mb-lg-7">
                 <div class="col-12 col-lg-5 mb-5 mb-lg-0 order-lg-2">
@@ -103,7 +109,9 @@
                     </a>
                 </div>
                 <div class="col-12 col-lg-6 order-lg-1">
-                    <img src="./assets/img/illustrations/bs5-illustrations.svg" alt="Front pages overview">
+                    <video loop autoplay muted style="border-radius: 12px;box-shadow: 0 0px 74px -32px; max-width: 65%">
+                        <source src="{{ asset('assets/img/step3.mp4') }}" type="video/mp4">
+                    </video>
                 </div>
             </div>
             <div class="row justify-content-between align-items-center mb-5 mb-lg-7">
