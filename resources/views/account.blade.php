@@ -173,17 +173,20 @@
         $(function() {
             $(document).ready(function() {
                 var bar = $('.progress-bar');
+                var percent = $('.progress-percentage')
                 $('#fileForm').ajaxForm({
                     beforeSend: function() {
                         $(".progress-wrapper").show();
                         var percentVal = '0%';
                         bar.width(percentVal);
                         bar.attr("aria-valuenow", percentVal);
+                        percent.html(percentVal);
                     },
                     uploadProgress: function(event, position, total, percentComplete) {
                         var percentVal = percentComplete + '%';
                         bar.width(percentVal)
                         bar.attr("aria-valuenow", percentVal);
+                        percent.html(percentVal);
                     },
                     complete: function(xhr) {
                         alert('File Has Been Uploaded Successfully');
