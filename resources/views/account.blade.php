@@ -24,8 +24,8 @@
                 <div class="alert alert-success alert-dismissible fade show mb-5" role="alert">
                     {!! Session::get('success') !!}
                     <button type="button" class="btn-close" data-dismiss="alert" aria-label="Close">
-                </button>
-            </div>
+                    </button>
+                </div>
             @endif
             <h1 class="mb-5">{{ __('Mes commandes') }} ({{ Auth::user()->orders->count() }})</h1>
             <div class="row mb-3">
@@ -72,7 +72,7 @@
                                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
                                                     </button>
                                                 </div>
-                                                <form action="{{ route('image.upload.order', ['id' => $order->id]) }}" method="POST"
+                                                <form id="fileForm" action="{{ route('image.upload.order', ['id' => $order->id]) }}" method="POST"
                                                     enctype="multipart/form-data">
                                                     @csrf
                                                     <div class="modal-body">
@@ -83,6 +83,16 @@
                                                             <label for="imageUpload"
                                                                 class="btn btn-outline-secondary btn-lg fs-4">{{ __('Ajouter Photo') }}</label>
                                                             <input type="file" id="imageUpload" accept="image/*" name="confirmation_image" style="display: none">
+                                                        </div>
+                                                        <div class="progress-wrapper" style="display: none;">
+                                                            <div class="progress-info">
+                                                                <div class="progress-label"><span class="text-success">Téléchargement:</span></div>
+                                                                <div class="progress-percentage"><span>60%</span></div>
+                                                            </div>
+                                                            <div class="progress">
+                                                                <div class="progress-bar bg-success" role="progressbar" style="width: 0%;" aria-valuenow="0"
+                                                                    aria-valuemin="0" aria-valuemax="100"></div>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                     <div class="modal-footer">
@@ -109,21 +119,21 @@
                                     <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modal-delete-{{ $order->id }}">
                                         <span class="fas fa-trash-alt"></span>
                                     </button>
-                                    <div class="modal fade" id="modal-delete-{{ $order->id }}" tabindex="-1" aria-labelledby="modal-delete-{{ $order->id }}" style="display: none;"
-                                        aria-hidden="true">
+                                    <div class="modal fade" id="modal-delete-{{ $order->id }}" tabindex="-1"
+                                        aria-labelledby="modal-delete-{{ $order->id }}" style="display: none;" aria-hidden="true">
                                         <div class="modal-dialog modal-dialog-centered" role="document">
                                             <div class="modal-content">
                                                 <div class="modal-header">
-                                                    <h2 class="h6 modal-title">Alert</h2><button type="button" class="btn-close"
-                                                        data-bs-dismiss="modal" aria-label="Close"></button>
+                                                    <h2 class="h6 modal-title">Alert</h2><button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                        aria-label="Close"></button>
                                                 </div>
                                                 <div class="modal-body">
                                                     <p>Êtes-vous sûr de vouloir supprimer cette commande ?</p>
                                                 </div>
                                                 <div class="modal-footer">
                                                     <form action="{{ route('user.orders.delete', $order->id) }}" method="POST">
-                                                    @csrf
-                                                    @method('delete')
+                                                        @csrf
+                                                        @method('delete')
                                                         <button type="submit" class="btn btn-danger">
                                                             Supprimer
                                                         </button>
@@ -156,5 +166,31 @@
                 label[0].innerHTML = name;
             }
         })
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.3.0/jquery.form.min.js" integrity="sha384-qlmct0AOBiA2VPZkMY3+2WqkHtIQ9lSdAsAn5RUJD/3vA5MKDgSGcdmIv4ycVxyn" crossorigin="anonymous"></script>
+
+    <script type="text/javascript">
+        $(function() {
+            $(document).ready(function() {
+                var bar = $('.progress-bar');
+                $('#fileForm').ajaxForm({
+                    beforeSend: function() {
+                        $(".progress-wrapper").show();
+                        var percentVal = '0%';
+                        bar.width(percentVal);
+                        bar.attr("aria-valuenow", percentVal);
+                    },
+                    uploadProgress: function(event, position, total, percentComplete) {
+                        var percentVal = percentComplete + '%';
+                        bar.width(percentVal)
+                        bar.attr("aria-valuenow", percentVal);
+                    },
+                    complete: function(xhr) {
+                        alert('File Has Been Uploaded Successfully');
+                        location.reload();
+                    }
+                });
+            });
+        });
     </script>
 @endsection
