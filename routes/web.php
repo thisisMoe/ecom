@@ -27,9 +27,11 @@ Route::get('language/{locale}', function ($locale) {
     app()->setLocale($locale);
     session()->put('locale', $locale);
     return redirect()->back();
-});
+})->name('change_lang');
 
 Route::get('', [HomeController::class, 'index'])->name('home');
+Route::get('/faq', [HomeController::class, 'faq'])->name('faq');
+Route::get('/qui-sommes-nous', [HomeController::class, 'about_us'])->name('about_us');
 Route::get('searchProduct', [SearchProductController::class, 'searchProduct'])->name('searchProduct');
 
 //For scraper tests

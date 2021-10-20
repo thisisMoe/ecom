@@ -17,6 +17,20 @@
 @import url("https://fonts.googleapis.com/css?family=Nunito+Sans:300,400,600,700&display=swap");
 
 /* Custom */
+.clip-container {
+  position: relative;
+}
+.clip-container:after {
+  position: absolute;
+  content: "";
+  background-image: url("url/mobile-frame.png");
+  z-index: 1000;
+  left: -18%;
+  bottom: -18%;
+  background-repeat: no-repeat;
+  width: 135%; /* Relative size of the graphics to contain the video */
+  height: 135%;
+}
 
 .Stars {
   --percent: calc(var(--rating) / 5 * 100%);

@@ -7,7 +7,9 @@ use App\Models\User;
 // use App\Traits\StoreImageTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use Symfony\Component\HttpFoundation\Response;
+use Intervention\Image\Facades\Image;
 
 class ShoppingSessionController extends Controller
 {
@@ -82,18 +84,29 @@ class ShoppingSessionController extends Controller
     {
         
          $request->validate([
-            'confirmation_image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'confirmation_image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:10000',
         ]);
         
         $order = ShoppingSession::find($id);
         $price = $order->total + $order->totalShipping;
-        $imageName = $price.'DA.'.Auth::user()->phone.'.'.date("Y-m-d.H:i:s",time()).'.'.$request->confirmation_image->extension();  
+        $imageName = $price.'DA-'.Auth::user()->phone.'-'.date("Y-m-d-H:i:s",time()).'.'.$request->confirmation_image->extension();  
      
-        $image = $request->confirmation_image->storeAs('public/images/order-confirmationz', $imageName);  
+        // $image = $request->confirmation_image->storeAs('public/images/order-confirmationz', $imageName);  
+
+        $image = $request->file('confirmation_image');
+        $filePath = 'public/images/order-confirmationz/';
+        $img = Image::make($image)->resize(920, 690, function ($const) {
+            $const->aspectRatio();
+        })->encode();
+
+        //Put file with own name
+        Storage::put($imageName, $img);
+        //Move file to your location 
+        Storage::move($imageName, 'public/images/order-confirmationz/' . $imageName);
 
         $order->confirmations()->create([
             'shopping_session_id' => $id,
-            'path' => $image,
+            'path' => $filePath.$imageName,
         ]);
 
         $order->withPayment = true;

@@ -61,6 +61,14 @@ class User extends Authenticatable
         }
     }
 
+    public function ordersCount()
+    {
+        $orders = $this->shoppingSessions()->where('status', 'Inactive');
+        if($orders) {
+            return $orders->count();
+        }
+    }
+
     public function orders()
     {
         return $this->hasMany(Orders::class);
