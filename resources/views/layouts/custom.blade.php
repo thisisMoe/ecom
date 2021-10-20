@@ -108,7 +108,7 @@ lang="fr"
                             <div class="dropdown-menu dropdown-menu-lg" aria-labelledby="supportDropdown">
                                 <div class="col-auto px-0">
                                     <div class="list-group list-group-flush">
-                                        <a href="/#howTo" target="_blank"
+                                        <a href="/#howTo"
                                             class="list-group-item list-group-item-action gap-3 d-flex align-items-center p-0 py-3 px-lg-4">
                                             <span class="icon icon-sm">
                                                 <span class="fas fa-cart-arrow-down"></span>
@@ -120,14 +120,14 @@ lang="fr"
                                                 <span class="small">{{ __('Guides et examples') }}</span>
                                             </div>
                                         </a>
-                                        <a href="" target="_blank"
+                                        <a href="{{ route('faq') }}" target=""
                                             class="list-group-item list-group-item-action gap-3 d-flex align-items-center p-0 py-3 px-lg-4">
                                             <span class="icon icon-sm">
                                                 <span class="fas fa-microphone-alt"></span>
                                             </span>
                                             <div class="ms-4">
                                                 <span class="d-block font-small fw-bold mb-0">
-                                                    {{ __('Support') }}
+                                                    {{ __('Questions Fréquentes') }}
                                                 </span>
                                                 <span class="small">{{ __('Besoin d’aide? Demandez-nous!') }}</span>
                                             </div>
@@ -137,7 +137,7 @@ lang="fr"
                             </div>
                         </li>
                         <li class="nav-item">
-                            <a href="#" class="nav-link" aria-expanded="false">
+                            <a href="{{ route('about_us') }}" class="nav-link" aria-expanded="false">
                                 {{ __('A Propos de Nous') }}
                             </a>
                         </li>
@@ -150,10 +150,9 @@ lang="fr"
                 </div>
                 <div class="ml-3 d-flex align-items-center gap-3">
                     @auth
-
                         <div class="dropdown">
                             <a class="btn btn-white dropdown-toggle" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
-                                <i style="font-size: 1.2rem" class="fas fa-user mx-1"></i>({{ Auth::user()->cartCount() }})
+                                <i style="font-size: 1.2rem; padding-left: 2px; padding-right: 2px;" class="far fa-user"></i>
                             </a>
 
                             <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
@@ -161,9 +160,9 @@ lang="fr"
                                     <li><a class="dropdown-item" href="{{ route('admin.index') }}">{{ __('Dashboard') }}</a>
                                     </li>
                                 @endif
-                                <li><a class="dropdown-item" href="">{{ __('Mon Panier') }} ({{ Auth::user()->cartCount() }})</a>
+                                <li><a class="dropdown-item" href="">{{ __('Mon Panier') }} <span class="badge bg-info">{{ Auth::user()->cartCount() }}</span></a>
                                 </li>
-                                <li><a class="dropdown-item" href="{{ route('account') }}">{{ __('Voir Mes Commandes') }}</a>
+                                <li><a class="dropdown-item" href="{{ route('account') }}">{{ __('Mes Commandes') }} <span class="badge bg-info">{{ Auth::user()->ordersCount() }}</span></a>
                                 </li>
                                 <li>
                                     <form action="{{ route('logout') }}" method="POST">
@@ -174,18 +173,6 @@ lang="fr"
                             </ul>
                         </div>
 
-                        {{-- <div>
-                            <button type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="btn btn-white position-relative dropdown-toggle dropdown-toggle-split">
-                                <i style="font-size: 1.2rem" class="fas fa-user mx-1"></i>
-                            </button>
-                            <div class="dropdown-menu py-0" style="">
-                                <a class="dropdown-item rounded-top" href="#">Action</a>
-                                <a class="dropdown-item" href="#">Another action</a>
-                                <a class="dropdown-item" href="#">Something else here</a>
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item rounded-bottom" href="#">Separated link</a>
-                            </div>
-                        </div> --}}
                     @endauth
                     <div class="">
                         @include('partials/language_switcher')
@@ -249,7 +236,7 @@ lang="fr"
                         <img class="navbar-brand-dark logo-size" height="35" src="{{ asset('assets/img/brand/logo-white-trans.png') }}" alt="Logo light">
                         <span class="fs-5">DZ AliExpress</span>
                     </div>
-                    <p class="mt-4"> {{ __("Notre rôle est d'offrir la possibilité d'achat et de suivi de produits Ali express conforme à la règlementation algérienne des produits importés à tous les citoyens algériens sur tout le territoire national") }}</p>
+                    <p class="mt-4"> {{ __("Notre rôle est d'offrir la possibilité d'achat et de suivi de produits AliExpress conforme à la règlementation algérienne des produits importés à tous les citoyens algériens sur tout le territoire national") }}</p>
                     <ul class="social-buttons mb-5 mb-lg-0">
                         <li>
                             <a href="#" class="icon-white me-2" aria-label="facebook social link">

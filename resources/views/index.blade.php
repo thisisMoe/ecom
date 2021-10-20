@@ -76,24 +76,25 @@
                     </a>
                 </div>
                 <div class="col-12 col-lg-6 order-lg-1 text-center">
-                    
-                <video loop autoplay muted style="border-radius: 12px;box-shadow: 0 0px 74px -32px; max-width: 65%">
-                    <source src="{{ asset('assets/img/step1.mp4') }}" type="video/mp4">
-                </video>      
+
+                    <video loop autoplay playsinline muted style="border-radius: 16px;box-shadow: 0 0 60px 10px rgba(70, 70, 70, 0.03), -10px 10px 50px rgba(0, 0, 0, 0.1), -50px 50px 70px rgba(0, 0, 0, 0.05), -100px 100px 100px rgba(0, 0, 0, 0.03), -150px 150px 150px rgba(0, 0, 0, 0.02); max-width: 65%">
+                        <source src="{{ asset('assets/img/step1.mp4') }}" type="video/mp4">
+                    </video>
                 </div>
             </div>
             <div class="row justify-content-between align-items-center mb-5 mb-lg-7">
                 <div class="col-lg-5 mb-5 mb-lg-0">
                     <h2 class="h1 d-flex align-items-center text-capitalize">{{ __('étape 2') }}</h2>
                     <p class="mb-4 lead fw-bold">{{ __('Placez le lien d’Aliexpress dans la barre de recherche ci-dessus') }}</p>
-                    <p class="mb-4">{{ __('Notre application va chercher le produit que vous avez choisi et l’afficher pour vous en dinar algérien, et pour plus de commodité, vous pouvez également choisir vos options de pack préférés comme la couleur, la taille...') }}</p><a
-                        href="{{ route('searchProduct', ['q'=> '']) }}"
-                        class="btn btn-primary mt-2 animate-up-2"><span class="fas fa-search me-2"></span> {{ __('Commencer') }}</a>
+                    <p class="mb-4">
+                        {{ __('Notre application va chercher le produit que vous avez choisi et l’afficher pour vous en dinar algérien, et pour plus de commodité, vous pouvez également choisir vos options de pack préférés comme la couleur, la taille...') }}
+                    </p><a href="{{ route('searchProduct', ['q' => '']) }}" class="btn btn-primary mt-2 animate-up-2"><span class="fas fa-search me-2"></span>
+                        {{ __('Commencer') }}</a>
                 </div>
                 <div class="col-lg-6 text-center">
-                    <video loop autoplay muted style="border-radius: 12px;box-shadow: 0 0px 74px -32px; max-width: 65%">
+                    <video loop playsinline autoplay muted style="border-radius: 16px;box-shadow: 0 0 60px 10px rgba(70, 70, 70, 0.03), -10px 10px 50px rgba(0, 0, 0, 0.1), -50px 50px 70px rgba(0, 0, 0, 0.05), -100px 100px 100px rgba(0, 0, 0, 0.03), -150px 150px 150px rgba(0, 0, 0, 0.02); max-width: 65%">
                         <source src="{{ asset('assets/img/step2.mp4') }}" type="video/mp4">
-                    </video>    
+                    </video>
                 </div>
             </div>
             <div class="row justify-content-between align-items-center mb-5 mb-lg-7">
@@ -102,14 +103,15 @@
                     <p class="mb-4 lead fw-bold">
                         {{ __('Veuillez saisir vos données (nom, téléphone, adresse...)') }}
                     </p>
-                    <p class="mb-4">{{ __("Les commandes ne peuvent pas être livrées sans adresse, n’est-ce pas ? prenez un moment et inscrivez-vous pour un compte personnel à DZ-AliExpress, Afin que nous puissions fournir les bonnes informations sur vous pour AliExpress (tels que votre nom, adresse...) lors de la commande de votre produit.") }}
+                    <p class="mb-4">
+                        {{ __('Les commandes ne peuvent pas être livrées sans adresse, n’est-ce pas ? prenez un moment et inscrivez-vous pour un compte personnel à DZ-AliExpress, Afin que nous puissions fournir les bonnes informations sur vous pour AliExpress (tels que votre nom, adresse...) lors de la commande de votre produit.') }}
                     </p>
-                    <a href="{{ route('searchProduct', ['q' => ""]) }}" class="btn btn-primary mt-2 animate-up-2">
+                    <a href="{{ route('searchProduct', ['q' => '']) }}" class="btn btn-primary mt-2 animate-up-2">
                         <span class="fas fa-search me-2"></span> {{ __('Commencer') }}
                     </a>
                 </div>
-                <div class="col-12 col-lg-6 order-lg-1">
-                    <video loop autoplay muted style="border-radius: 12px;box-shadow: 0 0px 74px -32px; max-width: 65%">
+                <div class="col-12 col-lg-6 order-lg-1 text-center">
+                    <video loop playsinline autoplay muted style="border-radius: 16px;box-shadow: 0 0 60px 10px rgba(70, 70, 70, 0.03), -10px 10px 50px rgba(0, 0, 0, 0.1), -50px 50px 70px rgba(0, 0, 0, 0.05), -100px 100px 100px rgba(0, 0, 0, 0.03), -150px 150px 150px rgba(0, 0, 0, 0.02); max-width: 65%">
                         <source src="{{ asset('assets/img/step3.mp4') }}" type="video/mp4">
                     </video>
                 </div>
@@ -117,12 +119,17 @@
             <div class="row justify-content-between align-items-center mb-5 mb-lg-7">
                 <div class="col-lg-5 mb-5 mb-lg-0">
                     <h2 class="h1 d-flex align-items-center text-capitalize">{{ __('étape 4') }}</h2>
-                    <p class="mb-4 lead fw-bold">{{ __("Ajouter votre produit au panier (vous pouvez ajouter plusieurs produits dans votre panier)") }}</p>
-                    <p class="mb-4">{{ __('كل ما عليك فعله الآن هو تمرير طلبك لنا وسوف نعتني بكل شيء. سنساعدك في تأكيد طلبك ، بعد التأكد من أن بائعك موثوق. كل شيء آخر يمكنك تتبعه على موقعنا DZ-AliExpress.') }}</p><a
-                        href="{{ route('searchProduct', ['q' => ""]) }}"
-                        class="btn btn-primary mt-2 animate-up-2"><span class="fas fa-search me-2"></span> {{ __('Commencer') }}</a>
+                    <p class="mb-4 lead fw-bold">{{ __('Ajouter votre produit au panier (vous pouvez ajouter plusieurs produits dans votre panier)') }}</p>
+                    <p class="mb-4">
+                        {{ __('Tout ce que vous avez à faire maintenant, c’est de faire votre demande. Nous allons nous occuper de tout. Nous vous aiderons à confirmer votre commande après vous être assuré que votre fournisseur est fiable. Tout le reste, vous pouvez suivre sur notre site DZ-AliExpress.') }}
+                    </p><a href="{{ route('searchProduct', ['q' => '']) }}" class="btn btn-primary mt-2 animate-up-2"><span class="fas fa-search me-2"></span>
+                        {{ __('Commencer') }}</a>
                 </div>
-                <div class="col-lg-6"><img src="./assets/img/sections-mockup.jpg" alt="MapBox Leaflet.js Custom Integration Mockup"></div>
+                <div class="col-lg-6 text-center">
+                    <video loop playsinline autoplay muted style="border-radius: 16px;max-width: 65%; box-shadow: 0 0 60px 10px rgba(70, 70, 70, 0.03), -10px 10px 50px rgba(0, 0, 0, 0.1), -50px 50px 70px rgba(0, 0, 0, 0.05), -100px 100px 100px rgba(0, 0, 0, 0.03), -150px 150px 150px rgba(0, 0, 0, 0.02);">
+                        <source src="{{ asset('assets/img/step4.mp4') }}" type="video/mp4">
+                    </video>
+                </div>
             </div>
         </div>
     </section>

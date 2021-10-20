@@ -37,4 +37,14 @@ class HomeController extends Controller
             'orders' => $orders,
         ]);
     }
+
+    public function faq()
+    {
+        return view('faq');
+    }
+
+    public function about_us()
+    {
+        return view('about-us');
+    }
 }

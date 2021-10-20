@@ -628,7 +628,7 @@ export default {
           console.log(response.data);
           this.images = response.data.images;
           this.script = response.data.script;
-          this.shippingCost = Number(response.data.shippingCost) * 185;
+          this.shippingCost = Number(response.data.shippingCost) * 186;
           this.shippingCost = Math.ceil(this.shippingCost / 10) * 10;
           if (response.data.shippingTime) {
             this.shippingTime = response.data.shippingTime;
@@ -728,57 +728,241 @@ export default {
     setChosenPrice: function () {
       var selectedPack = this.parsedScript.skuModule.skuPriceList.filter(
         (item) => {
-          return item.skuPropIds == this.propsIdString;
+          return item.skuPropIds.split('').sort().join('') == this.propsIdString.split('').sort().join('');
         }
       );
       if (selectedPack.length) {
+        //if promotion
         if (selectedPack[0].skuVal.actSkuCalPrice) {
           console.log(selectedPack);
-          var price = selectedPack[0].skuVal.actSkuCalPrice * 185;
+          var price = selectedPack[0].skuVal.actSkuCalPrice * 186;
           price = Math.ceil(price / 100) * 100;
-          var oldPrice = selectedPack[0].skuVal.skuCalPrice * 185;
+          var oldPrice = selectedPack[0].skuVal.skuCalPrice * 186;
           oldPrice = Math.ceil(oldPrice / 10) * 10;
           this.oldPrice = oldPrice;
           console.log("oldPrice:", oldPrice);
           this.chosenPrice = price;
-          //checking
-          if (this.chosenPrice <= 2000) {
-            this.fee = 400;
-            this.fee = Math.ceil(this.fee / 100) * 100;
-            console.log("fee: ", this.fee);
-            this.firstPrice = this.chosenPrice;
-            console.log("First Price: ", this.firstPrice);
-            this.chosenPrice += this.fee;
-          } else if (this.chosenPrice > 2000) {
-            this.fee = this.chosenPrice * 0.08 + 400;
-            this.fee = Math.ceil(this.fee / 100) * 100;
-            console.log("fee: ", this.fee);
-            this.firstPrice = this.chosenPrice;
-            console.log("First Price:", this.firstPrice);
-            this.chosenPrice += this.fee;
-          }
+
+          /////////////checking 09/2021/////////
+          // if (this.chosenPrice <= 2000) {
+          //   this.fee = 400;
+          //   this.fee = Math.ceil(this.fee / 100) * 100;
+          //   console.log("fee: ", this.fee);
+          //   this.firstPrice = this.chosenPrice;
+          //   console.log("First Price: ", this.firstPrice);
+          //   this.chosenPrice += this.fee;
+          // } else if (this.chosenPrice > 2000) {
+          //   this.fee = this.chosenPrice * 0.08 + 400;
+          //   this.fee = Math.ceil(this.fee / 100) * 100;
+          //   console.log("fee: ", this.fee);
+          //   this.firstPrice = this.chosenPrice;
+          //   console.log("First Price:", this.firstPrice);
+          //   this.chosenPrice += this.fee;
+          // }
+
+            //Checking 20/10/2021
+          if (this.chosenPrice <= 3000) {
+          this.fee = 350;
+          this.firstPrice = this.chosenPrice;
+          // this.fee = Math.ceil(this.fee / 100) * 100;
+          this.chosenPrice += this.fee;
+        } else if (this.chosenPrice > 3000 && this.chosenPrice < 10000) {
+          // this.fee = this.chosenPrice * 0.08 + 400;
+          this.fee = (Math.ceil(this.chosenPrice / 1000) * 1000) * 0.1; //10% so if 2400DA => fee=300da
+          this.firstPrice = this.chosenPrice;
+          this.chosenPrice += this.fee;
+        } else if (this.chosenPrice > 10000 && this.chosenPrice < 12000) {
+          // this.fee = this.chosenPrice * 0.08 + 400;
+          this.fee = 1100; //10% so if 2400DA => fee=300da
+          this.firstPrice = this.chosenPrice;
+          this.chosenPrice += this.fee;
+        } else if (this.chosenPrice > 12000 && this.chosenPrice < 14000) {
+          // this.fee = this.chosenPrice * 0.08 + 400;
+          this.fee = 1200; //10% so if 2400DA => fee=300da
+          this.firstPrice = this.chosenPrice;
+          this.chosenPrice += this.fee;
+        } else if (this.chosenPrice > 14000 && this.chosenPrice < 16000) {
+          // this.fee = this.chosenPrice * 0.08 + 400;
+          this.fee = 1300; //10% so if 2400DA => fee=300da
+          this.firstPrice = this.chosenPrice;
+          this.chosenPrice += this.fee;
+        } else if (this.chosenPrice > 16000 && this.chosenPrice < 18000) {
+          // this.fee = this.chosenPrice * 0.08 + 400;
+          this.fee = 1400; //10% so if 2400DA => fee=300da
+          this.firstPrice = this.chosenPrice;
+          this.chosenPrice += this.fee;
+        } else if (this.chosenPrice > 18000 && this.chosenPrice < 20000) {
+          // this.fee = this.chosenPrice * 0.08 + 400;
+          this.fee = 1500; //10% so if 2400DA => fee=300da
+          this.firstPrice = this.chosenPrice;
+          this.chosenPrice += this.fee;
+        } else if (this.chosenPrice > 20000 && this.chosenPrice < 22000) {
+          // this.fee = this.chosenPrice * 0.08 + 400;
+          this.fee = 1600; //10% so if 2400DA => fee=300da
+          this.firstPrice = this.chosenPrice;
+          this.chosenPrice += this.fee;
+        } else if (this.chosenPrice > 22000 && this.chosenPrice < 24000) {
+          // this.fee = this.chosenPrice * 0.08 + 400;
+          this.fee = 1700; //10% so if 2400DA => fee=300da
+          this.firstPrice = this.chosenPrice;
+          this.chosenPrice += this.fee;
+        } else if (this.chosenPrice > 24000 && this.chosenPrice < 26000) {
+          // this.fee = this.chosenPrice * 0.08 + 400;
+          this.fee = 1800; //10% so if 2400DA => fee=300da
+          this.firstPrice = this.chosenPrice;
+          this.chosenPrice += this.fee;
+        } else if (this.chosenPrice > 26000 && this.chosenPrice < 28000) {
+          // this.fee = this.chosenPrice * 0.08 + 400;
+          this.fee = 1900; //10% so if 2400DA => fee=300da
+          this.firstPrice = this.chosenPrice;
+          this.chosenPrice += this.fee;
+        } else if (this.chosenPrice > 28000 && this.chosenPrice < 30000) {
+          // this.fee = this.chosenPrice * 0.08 + 400;
+          this.fee = 2000; //10% so if 2400DA => fee=300da
+          this.firstPrice = this.chosenPrice;
+          this.chosenPrice += this.fee;
+        } else if (this.chosenPrice > 30000 && this.chosenPrice < 32000) {
+          // this.fee = this.chosenPrice * 0.08 + 400;
+          this.fee = 2100; //10% so if 2400DA => fee=300da
+          this.firstPrice = this.chosenPrice;
+          this.chosenPrice += this.fee;
+        } else if (this.chosenPrice > 32000 && this.chosenPrice < 34000) {
+          // this.fee = this.chosenPrice * 0.08 + 400;
+          this.fee = 2200; //10% so if 2400DA => fee=300da
+          this.firstPrice = this.chosenPrice;
+          this.chosenPrice += this.fee;
+        } else if (this.chosenPrice > 34000 && this.chosenPrice < 36000) {
+          // this.fee = this.chosenPrice * 0.08 + 400;
+          this.fee = 2300; //10% so if 2400DA => fee=300da
+          this.firstPrice = this.chosenPrice;
+          this.chosenPrice += this.fee;
+        } else if (this.chosenPrice > 36000 && this.chosenPrice < 38000) {
+          // this.fee = this.chosenPrice * 0.08 + 400;
+          this.fee = 2400; //10% so if 2400DA => fee=300da
+          this.firstPrice = this.chosenPrice;
+          this.chosenPrice += this.fee;
+        } else if (this.chosenPrice > 38000) {
+          // this.fee = this.chosenPrice * 0.08 + 400;
+          this.fee = 2500; //10% so if 2400DA => fee=300da
+          this.firstPrice = this.chosenPrice;
+          this.chosenPrice += this.fee;
+        }
+
           this.usdP = Number(selectedPack[0].skuVal.actSkuCalPrice);
           console.log("usdP", this.usdP);
+
+        // If no promotion
         } else if (selectedPack[0].skuVal.skuCalPrice) {
-          var price = selectedPack[0].skuVal.skuCalPrice * 185;
+          var price = selectedPack[0].skuVal.skuCalPrice * 186;
           price = Math.ceil(price / 100) * 100;
           this.chosenPrice = price;
-          //checking
-          if (this.chosenPrice <= 2000) {
-            this.fee = 400;
-            this.fee = Math.ceil(this.fee / 100) * 100;
-            console.log("fee: ", this.fee);
-            this.firstPrice = this.chosenPrice;
-            console.log("First Price: ", this.firstPrice);
-            this.chosenPrice += this.fee;
-          } else if (this.chosenPrice > 2000) {
-            this.fee = this.chosenPrice * 0.08 + 400;
-            this.fee = Math.ceil(this.fee / 100) * 100;
-            console.log("fee: ", this.fee);
-            this.firstPrice = this.chosenPrice;
-            console.log("First Price:", this.firstPrice);
-            this.chosenPrice += this.fee;
-          }
+          
+          /////////////checking 09/2021 //////////
+          // if (this.chosenPrice <= 2000) {
+          //   this.fee = 400;
+          //   this.fee = Math.ceil(this.fee / 100) * 100;
+          //   console.log("fee: ", this.fee);
+          //   this.firstPrice = this.chosenPrice;
+          //   console.log("First Price: ", this.firstPrice);
+          //   this.chosenPrice += this.fee;
+          // } else if (this.chosenPrice > 2000) {
+          //   this.fee = this.chosenPrice * 0.08 + 400;
+          //   this.fee = Math.ceil(this.fee / 100) * 100;
+          //   console.log("fee: ", this.fee);
+          //   this.firstPrice = this.chosenPrice;
+          //   console.log("First Price:", this.firstPrice);
+          //   this.chosenPrice += this.fee;
+          // }
+
+          //Checking 20/10/2021
+           //Checking 20/10/2021
+          if (this.chosenPrice <= 3000) {
+          this.fee = 350;
+          this.firstPrice = this.chosenPrice;
+          // this.fee = Math.ceil(this.fee / 100) * 100;
+          this.chosenPrice += this.fee;
+        } else if (this.chosenPrice > 3000 && this.chosenPrice < 10000) {
+          // this.fee = this.chosenPrice * 0.08 + 400;
+          this.fee = (Math.ceil(this.chosenPrice / 1000) * 1000) * 0.1; //10% so if 2400DA => fee=300da
+          this.firstPrice = this.chosenPrice;
+          this.chosenPrice += this.fee;
+        } else if (this.chosenPrice > 10000 && this.chosenPrice < 12000) {
+          // this.fee = this.chosenPrice * 0.08 + 400;
+          this.fee = 1100; //10% so if 2400DA => fee=300da
+          this.firstPrice = this.chosenPrice;
+          this.chosenPrice += this.fee;
+        } else if (this.chosenPrice > 12000 && this.chosenPrice < 14000) {
+          // this.fee = this.chosenPrice * 0.08 + 400;
+          this.fee = 1200; //10% so if 2400DA => fee=300da
+          this.firstPrice = this.chosenPrice;
+          this.chosenPrice += this.fee;
+        } else if (this.chosenPrice > 14000 && this.chosenPrice < 16000) {
+          // this.fee = this.chosenPrice * 0.08 + 400;
+          this.fee = 1300; //10% so if 2400DA => fee=300da
+          this.firstPrice = this.chosenPrice;
+          this.chosenPrice += this.fee;
+        } else if (this.chosenPrice > 16000 && this.chosenPrice < 18000) {
+          // this.fee = this.chosenPrice * 0.08 + 400;
+          this.fee = 1400; //10% so if 2400DA => fee=300da
+          this.firstPrice = this.chosenPrice;
+          this.chosenPrice += this.fee;
+        } else if (this.chosenPrice > 18000 && this.chosenPrice < 20000) {
+          // this.fee = this.chosenPrice * 0.08 + 400;
+          this.fee = 1500; //10% so if 2400DA => fee=300da
+          this.firstPrice = this.chosenPrice;
+          this.chosenPrice += this.fee;
+        } else if (this.chosenPrice > 20000 && this.chosenPrice < 22000) {
+          // this.fee = this.chosenPrice * 0.08 + 400;
+          this.fee = 1600; //10% so if 2400DA => fee=300da
+          this.firstPrice = this.chosenPrice;
+          this.chosenPrice += this.fee;
+        } else if (this.chosenPrice > 22000 && this.chosenPrice < 24000) {
+          // this.fee = this.chosenPrice * 0.08 + 400;
+          this.fee = 1700; //10% so if 2400DA => fee=300da
+          this.firstPrice = this.chosenPrice;
+          this.chosenPrice += this.fee;
+        } else if (this.chosenPrice > 24000 && this.chosenPrice < 26000) {
+          // this.fee = this.chosenPrice * 0.08 + 400;
+          this.fee = 1800; //10% so if 2400DA => fee=300da
+          this.firstPrice = this.chosenPrice;
+          this.chosenPrice += this.fee;
+        } else if (this.chosenPrice > 26000 && this.chosenPrice < 28000) {
+          // this.fee = this.chosenPrice * 0.08 + 400;
+          this.fee = 1900; //10% so if 2400DA => fee=300da
+          this.firstPrice = this.chosenPrice;
+          this.chosenPrice += this.fee;
+        } else if (this.chosenPrice > 28000 && this.chosenPrice < 30000) {
+          // this.fee = this.chosenPrice * 0.08 + 400;
+          this.fee = 2000; //10% so if 2400DA => fee=300da
+          this.firstPrice = this.chosenPrice;
+          this.chosenPrice += this.fee;
+        } else if (this.chosenPrice > 30000 && this.chosenPrice < 32000) {
+          // this.fee = this.chosenPrice * 0.08 + 400;
+          this.fee = 2100; //10% so if 2400DA => fee=300da
+          this.firstPrice = this.chosenPrice;
+          this.chosenPrice += this.fee;
+        } else if (this.chosenPrice > 32000 && this.chosenPrice < 34000) {
+          // this.fee = this.chosenPrice * 0.08 + 400;
+          this.fee = 2200; //10% so if 2400DA => fee=300da
+          this.firstPrice = this.chosenPrice;
+          this.chosenPrice += this.fee;
+        } else if (this.chosenPrice > 34000 && this.chosenPrice < 36000) {
+          // this.fee = this.chosenPrice * 0.08 + 400;
+          this.fee = 2300; //10% so if 2400DA => fee=300da
+          this.firstPrice = this.chosenPrice;
+          this.chosenPrice += this.fee;
+        } else if (this.chosenPrice > 36000 && this.chosenPrice < 38000) {
+          // this.fee = this.chosenPrice * 0.08 + 400;
+          this.fee = 2400; //10% so if 2400DA => fee=300da
+          this.firstPrice = this.chosenPrice;
+          this.chosenPrice += this.fee;
+        } else if (this.chosenPrice > 38000) {
+          // this.fee = this.chosenPrice * 0.08 + 400;
+          this.fee = 2500; //10% so if 2400DA => fee=300da
+          this.firstPrice = this.chosenPrice;
+          this.chosenPrice += this.fee;
+        }
+
           this.usdP = Number(selectedPack[0].skuVal.skuCalPrice);
           console.log("usdP", this.usdP);
         }
@@ -790,7 +974,7 @@ export default {
         console.log("item.skuVal.actSkuCalPrice: ", item.skuVal.actSkuCalPrice);
         // if no promotion
         if (!item.skuVal.actSkuCalPrice) {
-          var price = Number(item.skuVal.skuCalPrice) * 185;
+          var price = Number(item.skuVal.skuCalPrice) * 186;
           console.log("price:", price);
 
           if (index == 0) {
@@ -813,8 +997,8 @@ export default {
           }
         } else if (item.skuVal.actSkuCalPrice) {
           // if promotion
-          var price = Number(item.skuVal.actSkuCalPrice) * 185;
-          var oldPrice = Number(item.skuVal.skuCalPrice) * 185;
+          var price = Number(item.skuVal.actSkuCalPrice) * 186;
+          var oldPrice = Number(item.skuVal.skuCalPrice) * 186;
           var oldPrice = Math.ceil(oldPrice / 100) * 100;
           console.log("oldPrice:", oldPrice);
           // price = Math.ceil(price/100)*100
@@ -840,42 +1024,240 @@ export default {
         }
       });
 
+      //if minPrice == maxPrice
       if (this.minPrice == this.maxPrice) {
         this.equalPrice = this.minPrice;
         this.equalPrice = Math.ceil(this.minPrice / 100) * 100;
         //checking
-        if (this.equalPrice <= 2000) {
-          this.fee = 400;
-          this.fee = Math.ceil(this.fee / 100) * 100;
+        if (this.equalPrice <= 3000) {
+          this.fee = 350;
+          // this.fee = Math.ceil(this.fee / 100) * 100;
           this.equalPrice += this.fee;
-        } else if (this.equalPrice > 2000) {
-          this.fee = this.equalPrice * 0.08 + 400;
-          this.fee = Math.ceil(this.fee / 100) * 100;
+        } else if (this.equalPrice > 3000 && this.equalPrice < 10000) {
+          // this.fee = this.equalPrice * 0.08 + 400;
+          this.fee = (Math.ceil(this.equalPrice / 1000) * 1000) * 0.1; //10% so if 2400DA => fee=300da
+          this.equalPrice += this.fee;
+        } else if (this.equalPrice > 10000 && this.equalPrice < 12000) {
+          // this.fee = this.equalPrice * 0.08 + 400;
+          this.fee = 1100; //10% so if 2400DA => fee=300da
+          this.equalPrice += this.fee;
+        } else if (this.equalPrice > 12000 && this.equalPrice < 14000) {
+          // this.fee = this.equalPrice * 0.08 + 400;
+          this.fee = 1200; //10% so if 2400DA => fee=300da
+          this.equalPrice += this.fee;
+        } else if (this.equalPrice > 14000 && this.equalPrice < 16000) {
+          // this.fee = this.equalPrice * 0.08 + 400;
+          this.fee = 1300; //10% so if 2400DA => fee=300da
+          this.equalPrice += this.fee;
+        } else if (this.equalPrice > 16000 && this.equalPrice < 18000) {
+          // this.fee = this.equalPrice * 0.08 + 400;
+          this.fee = 1400; //10% so if 2400DA => fee=300da
+          this.equalPrice += this.fee;
+        } else if (this.equalPrice > 18000 && this.equalPrice < 20000) {
+          // this.fee = this.equalPrice * 0.08 + 400;
+          this.fee = 1500; //10% so if 2400DA => fee=300da
+          this.equalPrice += this.fee;
+        } else if (this.equalPrice > 20000 && this.equalPrice < 22000) {
+          // this.fee = this.equalPrice * 0.08 + 400;
+          this.fee = 1600; //10% so if 2400DA => fee=300da
+          this.equalPrice += this.fee;
+        } else if (this.equalPrice > 22000 && this.equalPrice < 24000) {
+          // this.fee = this.equalPrice * 0.08 + 400;
+          this.fee = 1700; //10% so if 2400DA => fee=300da
+          this.equalPrice += this.fee;
+        } else if (this.equalPrice > 24000 && this.equalPrice < 26000) {
+          // this.fee = this.equalPrice * 0.08 + 400;
+          this.fee = 1800; //10% so if 2400DA => fee=300da
+          this.equalPrice += this.fee;
+        } else if (this.equalPrice > 26000 && this.equalPrice < 28000) {
+          // this.fee = this.equalPrice * 0.08 + 400;
+          this.fee = 1900; //10% so if 2400DA => fee=300da
+          this.equalPrice += this.fee;
+        } else if (this.equalPrice > 28000 && this.equalPrice < 30000) {
+          // this.fee = this.equalPrice * 0.08 + 400;
+          this.fee = 2000; //10% so if 2400DA => fee=300da
+          this.equalPrice += this.fee;
+        } else if (this.equalPrice > 30000 && this.equalPrice < 32000) {
+          // this.fee = this.equalPrice * 0.08 + 400;
+          this.fee = 2100; //10% so if 2400DA => fee=300da
+          this.equalPrice += this.fee;
+        } else if (this.equalPrice > 32000 && this.equalPrice < 34000) {
+          // this.fee = this.equalPrice * 0.08 + 400;
+          this.fee = 2200; //10% so if 2400DA => fee=300da
+          this.equalPrice += this.fee;
+        } else if (this.equalPrice > 34000 && this.equalPrice < 36000) {
+          // this.fee = this.equalPrice * 0.08 + 400;
+          this.fee = 2300; //10% so if 2400DA => fee=300da
+          this.equalPrice += this.fee;
+        } else if (this.equalPrice > 36000 && this.equalPrice < 38000) {
+          // this.fee = this.equalPrice * 0.08 + 400;
+          this.fee = 2400; //10% so if 2400DA => fee=300da
+          this.equalPrice += this.fee;
+        } else if (this.equalPrice > 38000) {
+          // this.fee = this.equalPrice * 0.08 + 400;
+          this.fee = 2500; //10% so if 2400DA => fee=300da
           this.equalPrice += this.fee;
         }
         console.log("equalPrice", this.equalPrice);
       }
 
-      //checking
-      if (this.minPrice <= 2000) {
-        this.minPrice = Math.ceil(this.maxPrice / 100) * 100;
-        this.minPrice = this.minPrice + 400;
-      } else if (this.minPrice > 2000) {
-        this.minPrice += 400 + this.minPrice * 0.08; //400da + 8% of price
+      console.log('===== minPrice ======', this.minPrice)
+      //checking minPrice
+      if (this.minPrice <= 3000) {
+        this.minPrice = Math.ceil(this.minPrice / 100) * 100;
+        this.minPrice = this.minPrice + 350;
+      } else if (this.minPrice > 3000 && this.minPrice < 10000) {
+        // this.minPrice += 400 + this.minPrice * 0.08; //400da + 8% of price
+        this.minPrice = (Math.ceil(this.minPrice / 1000) * 1000) * 0.1 + this.minPrice; //10% so if 2400DA => fee=300da
+        this.minPrice = Math.ceil(this.minPrice / 100) * 100;
+      } else if (this.minPrice > 10000 && this.minPrice < 12000) {
+        // this.minPrice += 400 + this.minPrice * 0.08; //400da + 8% of price
+        this.minPrice += 1100 
+        this.minPrice = Math.ceil(this.minPrice / 100) * 100;
+      } else if (this.minPrice > 12000 && this.minPrice < 14000) {
+        // this.minPrice += 400 + this.minPrice * 0.08; //400da + 8% of price
+        this.minPrice += 1200 
+        this.minPrice = Math.ceil(this.minPrice / 100) * 100;
+      }else if (this.minPrice > 14000 && this.minPrice < 16000) {
+        // this.minPrice += 400 + this.minPrice * 0.08; //400da + 8% of price
+        this.minPrice += 1300 
+        this.minPrice = Math.ceil(this.minPrice / 100) * 100;
+      }else if (this.minPrice > 16000 && this.minPrice < 18000) {
+        // this.minPrice += 400 + this.minPrice * 0.08; //400da + 8% of price
+        this.minPrice += 1400 
+        this.minPrice = Math.ceil(this.minPrice / 100) * 100;
+      }else if (this.minPrice > 18000 && this.minPrice < 20000) {
+        // this.minPrice += 400 + this.minPrice * 0.08; //400da + 8% of price
+        this.minPrice += 1500 
+        this.minPrice = Math.ceil(this.minPrice / 100) * 100;
+      }else if (this.minPrice > 20000 && this.minPrice < 22000) {
+        // this.minPrice += 400 + this.minPrice * 0.08; //400da + 8% of price
+        this.minPrice += 1600 
+        this.minPrice = Math.ceil(this.minPrice / 100) * 100;
+      }else if (this.minPrice > 22000 && this.minPrice < 24000) {
+        // this.minPrice += 400 + this.minPrice * 0.08; //400da + 8% of price
+        this.minPrice += 1700 
+        this.minPrice = Math.ceil(this.minPrice / 100) * 100;
+      }else if (this.minPrice > 24000 && this.minPrice < 26000) {
+        // this.minPrice += 400 + this.minPrice * 0.08; //400da + 8% of price
+        this.minPrice += 1800 
+        this.minPrice = Math.ceil(this.minPrice / 100) * 100;
+      }else if (this.minPrice > 26000 && this.minPrice < 28000) {
+        // this.minPrice += 400 + this.minPrice * 0.08; //400da + 8% of price
+        this.minPrice += 1900 
+        this.minPrice = Math.ceil(this.minPrice / 100) * 100;
+      }else if (this.minPrice > 28000 && this.minPrice < 30000) {
+        // this.minPrice += 400 + this.minPrice * 0.08; //400da + 8% of price
+        this.minPrice += 2000 
+        this.minPrice = Math.ceil(this.minPrice / 100) * 100;
+      }else if (this.minPrice > 30000 && this.minPrice < 32000) {
+        // this.minPrice += 400 + this.minPrice * 0.08; //400da + 8% of price
+        this.minPrice += 2100 
+        this.minPrice = Math.ceil(this.minPrice / 100) * 100;
+        console.log('================JAckpot==========')
+      }else if (this.minPrice > 32000 && this.minPrice < 34000) {
+        // this.minPrice += 400 + this.minPrice * 0.08; //400da + 8% of price
+        this.minPrice += 2200 
+        this.minPrice = Math.ceil(this.minPrice / 100) * 100;
+      }else if (this.minPrice > 34000 && this.minPrice < 36000) {
+        // this.minPrice += 400 + this.minPrice * 0.08; //400da + 8% of price
+        this.minPrice += 2300 
+        this.minPrice = Math.ceil(this.minPrice / 100) * 100;
+      }else if (this.minPrice > 36000 && this.minPrice < 38000) {
+        // this.minPrice += 400 + this.minPrice * 0.08; //400da + 8% of price
+        this.minPrice += 2400 
+        this.minPrice = Math.ceil(this.minPrice / 100) * 100;
+      }else if (this.minPrice > 38000) {
+        // this.minPrice += 400 + this.minPrice * 0.08; //400da + 8% of price
+        this.minPrice += 2500 
         this.minPrice = Math.ceil(this.minPrice / 100) * 100;
       }
 
-      if (this.maxPrice <= 2000) {
+      // if (this.maxPrice <= 2000) {
+      //   this.maxPrice = Math.ceil(this.maxPrice / 100) * 100;
+      //   this.maxPrice = this.maxPrice + 400;
+      // } else if (this.maxPrice > 2000) {
+      //   this.maxPrice += 400 + this.maxPrice * 0.08; //400da + 8% of price
+      //   this.maxPrice = Math.ceil(this.maxPrice / 100) * 100;
+      // }
+
+      // checking maxPrice
+      if (this.maxPrice <= 3000) {
         this.maxPrice = Math.ceil(this.maxPrice / 100) * 100;
-        this.maxPrice = this.maxPrice + 400;
-      } else if (this.maxPrice > 2000) {
-        this.maxPrice += 400 + this.maxPrice * 0.08; //400da + 8% of price
+        this.maxPrice = this.maxPrice + 350;
+      } else if (this.maxPrice > 3000 && this.maxPrice < 10000) {
+        // this.maxPrice += 400 + this.maxPrice * 0.08; //400da + 8% of price
+        this.maxPrice = (Math.ceil(this.maxPrice / 1000) * 1000) * 0.1 + this.maxPrice; //10% so if 2400DA => fee=300da
+        this.maxPrice = Math.ceil(this.maxPrice / 100) * 100;
+      } else if (this.maxPrice > 10000 && this.maxPrice < 12000) {
+        // this.maxPrice += 400 + this.maxPrice * 0.08; //400da + 8% of price
+        this.maxPrice += 1100 
+        this.maxPrice = Math.ceil(this.maxPrice / 100) * 100;
+      } else if (this.maxPrice > 12000 && this.maxPrice < 14000) {
+        // this.maxPrice += 400 + this.maxPrice * 0.08; //400da + 8% of price
+        this.maxPrice += 1200 
+        this.maxPrice = Math.ceil(this.maxPrice / 100) * 100;
+      }else if (this.maxPrice > 14000 && this.maxPrice < 16000) {
+        // this.maxPrice += 400 + this.maxPrice * 0.08; //400da + 8% of price
+        this.maxPrice += 1300 
+        this.maxPrice = Math.ceil(this.maxPrice / 100) * 100;
+      }else if (this.maxPrice > 16000 && this.maxPrice < 18000) {
+        // this.maxPrice += 400 + this.maxPrice * 0.08; //400da + 8% of price
+        this.maxPrice += 1400 
+        this.maxPrice = Math.ceil(this.maxPrice / 100) * 100;
+      }else if (this.maxPrice > 18000 && this.maxPrice < 20000) {
+        // this.maxPrice += 400 + this.maxPrice * 0.08; //400da + 8% of price
+        this.maxPrice += 1500 
+        this.maxPrice = Math.ceil(this.maxPrice / 100) * 100;
+      }else if (this.maxPrice > 20000 && this.maxPrice < 22000) {
+        // this.maxPrice += 400 + this.maxPrice * 0.08; //400da + 8% of price
+        this.maxPrice += 1600 
+        this.maxPrice = Math.ceil(this.maxPrice / 100) * 100;
+      }else if (this.maxPrice > 22000 && this.maxPrice < 24000) {
+        // this.maxPrice += 400 + this.maxPrice * 0.08; //400da + 8% of price
+        this.maxPrice += 1700 
+        this.maxPrice = Math.ceil(this.maxPrice / 100) * 100;
+      }else if (this.maxPrice > 24000 && this.maxPrice < 26000) {
+        // this.maxPrice += 400 + this.maxPrice * 0.08; //400da + 8% of price
+        this.maxPrice += 1800 
+        this.maxPrice = Math.ceil(this.maxPrice / 100) * 100;
+      }else if (this.maxPrice > 26000 && this.maxPrice < 28000) {
+        // this.maxPrice += 400 + this.maxPrice * 0.08; //400da + 8% of price
+        this.maxPrice += 1900 
+        this.maxPrice = Math.ceil(this.maxPrice / 100) * 100;
+      }else if (this.maxPrice > 28000 && this.maxPrice < 30000) {
+        // this.maxPrice += 400 + this.maxPrice * 0.08; //400da + 8% of price
+        this.maxPrice += 2000 
+        this.maxPrice = Math.ceil(this.maxPrice / 100) * 100;
+      }else if (this.maxPrice > 30000 && this.maxPrice < 32000) {
+        // this.maxPrice += 400 + this.maxPrice * 0.08; //400da + 8% of price
+        this.maxPrice += 2100 
+        this.maxPrice = Math.ceil(this.maxPrice / 100) * 100;
+        console.log('================JAckpot==========')
+      }else if (this.maxPrice > 32000 && this.maxPrice < 34000) {
+        // this.maxPrice += 400 + this.maxPrice * 0.08; //400da + 8% of price
+        this.maxPrice += 2200 
+        this.maxPrice = Math.ceil(this.maxPrice / 100) * 100;
+      }else if (this.maxPrice > 34000 && this.maxPrice < 36000) {
+        // this.maxPrice += 400 + this.maxPrice * 0.08; //400da + 8% of price
+        this.maxPrice += 2300 
+        this.maxPrice = Math.ceil(this.maxPrice / 100) * 100;
+      }else if (this.maxPrice > 36000 && this.maxPrice < 38000) {
+        // this.maxPrice += 400 + this.maxPrice * 0.08; //400da + 8% of price
+        this.maxPrice += 2400 
+        this.maxPrice = Math.ceil(this.maxPrice / 100) * 100;
+      }else if (this.maxPrice > 38000) {
+        // this.maxPrice += 400 + this.maxPrice * 0.08; //400da + 8% of price
+        this.maxPrice += 2500 
         this.maxPrice = Math.ceil(this.maxPrice / 100) * 100;
       }
-      this.minPrice += 100;
-      this.maxPrice += 100;
-      this.minPrice = new Intl.NumberFormat().format(Math.round(this.minPrice));
-      this.maxPrice = new Intl.NumberFormat().format(Math.round(this.maxPrice));
+
+      // this.minPrice += 100
+      // this.maxPrice += 100;
+      // this.minPrice = new Intl.NumberFormat().format(Math.round(this.minPrice));
+      this.minPrice = new Intl.NumberFormat().format(this.minPrice);
+      this.maxPrice = new Intl.NumberFormat().format(this.maxPrice);
+      this.equalPrice = new Intl.NumberFormat().format(this.equalPrice);
     },
     addToCart: function () {
       this.addingToCart = true;
