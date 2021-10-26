@@ -33,5 +33,16 @@ class ShoppingSession extends Model
     {
         return $this->hasMany(Confirmation::class);
     }
- 
+    
+    //function to loop through orderitems and calculate total shippingCost again
+    public function updateTotalShippingCost()
+    {
+        $totalShippingCost = 0;
+
+        foreach ($this->orderItems as $$orderItem) {
+            $totalShippingCost += $orderItem->shippingCost;
+        }
+        $this->totalShipping = $totalShippingCost;
+        $this->save();
+    }
 }

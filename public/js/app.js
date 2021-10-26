@@ -2736,6 +2736,82 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ["uri"],
   data: function data() {
@@ -2769,7 +2845,11 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       oldPrice: 0,
       locale: this.$locale,
       noOptions: false,
-      addingToCart: false
+      addingToCart: false,
+      storeName: "",
+      positiveRate: "",
+      followingNumber: 0,
+      specs: []
     };
   },
   mounted: function mounted() {
@@ -2793,7 +2873,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
     loadInfo: function loadInfo() {
       var _this2 = this;
 
-      if (this.uri == '') {
+      if (this.uri == "") {
         return this.empty = true;
       }
 
@@ -2824,6 +2904,9 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
         console.log(_this2.parsedScript);
         _this2.title = _this2.parsedScript.titleModule.subject;
         _this2.productId = _this2.parsedScript.commonModule.productId;
+        _this2.storeName = _this2.parsedScript.storeModule.storeName;
+        _this2.followingNumber = _this2.parsedScript.storeModule.followingNumber;
+        _this2.positiveRate = _this2.parsedScript.storeModule.positiveRate;
         console.log(_this2.productId);
         _this2.discount = _this2.parsedScript.priceModule.discount;
         console.log("isDiscount", _this2.discount); // const options = JSON.parse(
@@ -2836,6 +2919,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
         // this.options = options;
 
         _this2.options = _this2.parsedScript.skuModule.productSKUPropertyList;
+        _this2.specs = _this2.parsedScript.specsModule.props;
       }).then(function () {
         _this2.loading = false;
       }).then(function () {
@@ -2907,7 +2991,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       var _this4 = this;
 
       var selectedPack = this.parsedScript.skuModule.skuPriceList.filter(function (item) {
-        return item.skuPropIds.split('').sort().join('') == _this4.propsIdString.split('').sort().join('');
+        return item.skuPropIds.split("").sort().join("") == _this4.propsIdString.split("").sort().join("");
       });
 
       if (selectedPack.length) {
@@ -3328,7 +3412,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
         console.log("equalPrice", this.equalPrice);
       }
 
-      console.log('===== minPrice ======', this.minPrice); //checking minPrice
+      console.log("===== minPrice ======", this.minPrice); //checking minPrice
 
       if (this.minPrice <= 3000) {
         this.minPrice = Math.ceil(this.minPrice / 100) * 100;
@@ -3382,7 +3466,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
         // this.minPrice += 400 + this.minPrice * 0.08; //400da + 8% of price
         this.minPrice += 2100;
         this.minPrice = Math.ceil(this.minPrice / 100) * 100;
-        console.log('================JAckpot==========');
+        console.log("================JAckpot==========");
       } else if (this.minPrice > 32000 && this.minPrice < 34000) {
         // this.minPrice += 400 + this.minPrice * 0.08; //400da + 8% of price
         this.minPrice += 2200;
@@ -3461,7 +3545,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
         // this.maxPrice += 400 + this.maxPrice * 0.08; //400da + 8% of price
         this.maxPrice += 2100;
         this.maxPrice = Math.ceil(this.maxPrice / 100) * 100;
-        console.log('================JAckpot==========');
+        console.log("================JAckpot==========");
       } else if (this.maxPrice > 32000 && this.maxPrice < 34000) {
         // this.maxPrice += 400 + this.maxPrice * 0.08; //400da + 8% of price
         this.maxPrice += 2200;
@@ -3558,12 +3642,9 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       });
     },
     addOrder: function addOrder() {
-      var _this9 = this;
-
       axios.post("/api/addOrder/".concat(this.$userId)).then(function (response) {
         console.log("=====Order======", response.data);
-
-        _this9.fetchOrderItems();
+        window.location.href = "/account";
       })["catch"](function (error) {
         console.log(error);
       });
@@ -39456,14 +39537,14 @@ var render = function() {
                       "div",
                       {
                         staticClass:
-                          "h-100vh d-flex flex-column justify-content-center align-items-center"
+                          "\n            h-100vh\n            d-flex\n            flex-column\n            justify-content-center\n            align-items-center\n          "
                       },
                       [_vm._m(0), _vm._v(" "), _vm._m(1)]
                     )
                   : _c(
                       "div",
                       {
-                        staticClass: "row justify-content-center mb-5 mb-lg-6"
+                        staticClass: "row justify-content-center mb-3 mb-lg-4"
                       },
                       [
                         _c("div", { staticClass: "col-md-6" }, [
@@ -39480,7 +39561,7 @@ var render = function() {
                             : _c(
                                 "div",
                                 {
-                                  staticClass: "carousel slide mb-2",
+                                  staticClass: "carousel slide mb-4",
                                   attrs: {
                                     id: "Carousel2",
                                     "data-ride": "carousel"
@@ -39591,38 +39672,126 @@ var render = function() {
                           _vm._v(" "),
                           _c(
                             "div",
-                            { staticClass: "d-flex gap-1 align-items-center" },
+                            {
+                              staticStyle: {
+                                background: "#f5f9fc",
+                                padding: "25px",
+                                "border-radius": "10px"
+                              }
+                            },
                             [
-                              _c("div", {
-                                staticClass: "Stars",
-                                style:
-                                  "--rating: " +
-                                  _vm.parsedScript.titleModule.feedbackRating
-                                    .averageStar +
-                                  ";"
-                              }),
-                              _vm._v(" "),
-                              _c("p", { staticClass: "mb-0" }, [
+                              _c("div", { staticClass: "mb-1" }, [
+                                _c("span", {
+                                  staticClass: "fas fa-store-alt text-tertiary"
+                                }),
+                                _vm._v(" "),
                                 _c("span", { staticClass: "fw-bold" }, [
-                                  _vm._v(
-                                    _vm._s(
-                                      _vm.parsedScript.titleModule
-                                        .feedbackRating.averageStar
-                                    )
-                                  )
-                                ]),
-                                _vm._v("\n                -\n                "),
-                                _c("span", { staticClass: "fw-bold" }, [
-                                  _vm._v(
-                                    _vm._s(
-                                      _vm.parsedScript.titleModule.tradeCount
-                                    ) + "\n                  "
-                                  ),
-                                  _vm.locale == "ar"
-                                    ? _c("span", [_vm._v("طلبات")])
-                                    : _c("span", [_vm._v("Commandes")])
+                                  _vm._v(_vm._s(_vm.storeName))
                                 ])
-                              ])
+                              ]),
+                              _vm._v(" "),
+                              _c(
+                                "div",
+                                { staticClass: "d-flex flex-column mb-2" },
+                                [
+                                  _c(
+                                    "div",
+                                    {
+                                      staticClass:
+                                        "font-small mb-0 d-flex gap-2 align-items-center"
+                                    },
+                                    [
+                                      _c("strong", [
+                                        _vm._v(_vm._s(_vm.positiveRate))
+                                      ]),
+                                      _vm._v(" "),
+                                      this.$locale == "fr"
+                                        ? _c(
+                                            "span",
+                                            { staticClass: "text-muted" },
+                                            [
+                                              _vm._v(
+                                                "Évaluations positives\n                  "
+                                              )
+                                            ]
+                                          )
+                                        : _vm._e(),
+                                      _vm._v(" "),
+                                      this.$locale == "ar"
+                                        ? _c(
+                                            "span",
+                                            { staticClass: "text-muted" },
+                                            [_vm._v("تقييما إيجابيا")]
+                                          )
+                                        : _vm._e()
+                                    ]
+                                  ),
+                                  _vm._v(" "),
+                                  _c("div", { staticClass: "font-small" }, [
+                                    _c("strong", [
+                                      _vm._v(_vm._s(_vm.followingNumber) + " ")
+                                    ]),
+                                    _vm._v(" "),
+                                    this.$locale == "fr"
+                                      ? _c(
+                                          "span",
+                                          { staticClass: "text-muted" },
+                                          [_vm._v("Abonneés")]
+                                        )
+                                      : _vm._e(),
+                                    _vm._v(" "),
+                                    this.$locale == "ar"
+                                      ? _c(
+                                          "span",
+                                          { staticClass: "text-muted" },
+                                          [_vm._v("مشترك")]
+                                        )
+                                      : _vm._e()
+                                  ])
+                                ]
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "div",
+                                {
+                                  staticClass: "d-flex gap-1 align-items-center"
+                                },
+                                [
+                                  _c("div", {
+                                    staticClass: "Stars",
+                                    style:
+                                      "--rating: " +
+                                      _vm.parsedScript.titleModule
+                                        .feedbackRating.averageStar +
+                                      ";"
+                                  }),
+                                  _vm._v(" "),
+                                  _c("p", { staticClass: "mb-0" }, [
+                                    _c("span", { staticClass: "fw-bold" }, [
+                                      _vm._v(
+                                        _vm._s(
+                                          _vm.parsedScript.titleModule
+                                            .feedbackRating.averageStar
+                                        )
+                                      )
+                                    ]),
+                                    _vm._v(
+                                      "\n                  -\n                  "
+                                    ),
+                                    _c("span", { staticClass: "fw-bold" }, [
+                                      _vm._v(
+                                        _vm._s(
+                                          _vm.parsedScript.titleModule
+                                            .tradeCount
+                                        ) + "\n                    "
+                                      ),
+                                      _vm.locale == "ar"
+                                        ? _c("span", [_vm._v("طلبات")])
+                                        : _c("span", [_vm._v("Commandes")])
+                                    ])
+                                  ])
+                                ]
+                              )
                             ]
                           ),
                           _vm._v(" "),
@@ -39630,7 +39799,7 @@ var render = function() {
                           _vm._v(" "),
                           _c("div", {}, [
                             !_vm.chosenPrice
-                              ? _c("div", { staticClass: "text-center mb-4" }, [
+                              ? _c("div", { staticClass: "text-center mb-3" }, [
                                   _vm.equalPrice > 0
                                     ? _c(
                                         "p",
@@ -39811,231 +39980,287 @@ var render = function() {
                             _vm._v(" "),
                             _c("div", [
                               _vm.shippingCost
-                                ? _c("p", { staticClass: "mb-0" }, [
-                                    this.$locale == "ar"
-                                      ? _c("span", { staticClass: "fw-bold" }, [
-                                          _vm._v("تكاليف الشحن: ")
-                                        ])
-                                      : _c("span", { staticClass: "fw-bold" }, [
-                                          _vm._v("Frais de Livraison:")
-                                        ]),
-                                    _vm._v(" "),
-                                    _c("span", { staticClass: "fw-bold" }, [
-                                      _vm._v(
-                                        _vm._s(
-                                          new Intl.NumberFormat().format(
-                                            Math.round(_vm.shippingCost)
-                                          )
-                                        )
-                                      ),
-                                      this.$locale == "fr"
-                                        ? _c("span", [_vm._v("DA")])
-                                        : _vm._e(),
+                                ? _c(
+                                    "p",
+                                    {
+                                      staticClass: "mb-0 font-small text-muted"
+                                    },
+                                    [
                                       this.$locale == "ar"
-                                        ? _c("span", [_vm._v("دج")])
-                                        : _vm._e()
-                                    ])
-                                  ])
-                                : _c("p", { staticClass: "mb-0" }, [
-                                    this.$locale == "ar"
-                                      ? _c("span", { staticClass: "fw-bold" }, [
-                                          _vm._v("تكاليف الشحن: سيتم التأكيد")
-                                        ])
-                                      : _c("span", { staticClass: "fw-bold" }, [
-                                          _vm._v(
-                                            "Frais de Livraison: A Confirmer"
+                                        ? _c(
+                                            "span",
+                                            { staticClass: "fw-bold" },
+                                            [
+                                              _vm._v(
+                                                "تكاليف الشحن:\n                  "
+                                              )
+                                            ]
                                           )
-                                        ])
-                                  ]),
+                                        : _c(
+                                            "span",
+                                            { staticClass: "fw-bold" },
+                                            [_vm._v("Frais de Livraison:")]
+                                          ),
+                                      _vm._v(" "),
+                                      _c("span", { staticClass: "fw-bold" }, [
+                                        _vm._v(
+                                          _vm._s(
+                                            new Intl.NumberFormat().format(
+                                              Math.round(_vm.shippingCost)
+                                            )
+                                          )
+                                        ),
+                                        this.$locale == "fr"
+                                          ? _c("span", [_vm._v("DA")])
+                                          : _vm._e(),
+                                        this.$locale == "ar"
+                                          ? _c("span", [_vm._v("دج")])
+                                          : _vm._e()
+                                      ])
+                                    ]
+                                  )
+                                : _c(
+                                    "p",
+                                    {
+                                      staticClass: "mb-0 font-small text-muted"
+                                    },
+                                    [
+                                      this.$locale == "ar"
+                                        ? _c(
+                                            "span",
+                                            { staticClass: "fw-bold" },
+                                            [
+                                              _vm._v(
+                                                "تكاليف الشحن: سيتم التأكيد"
+                                              )
+                                            ]
+                                          )
+                                        : _c(
+                                            "span",
+                                            { staticClass: "fw-bold" },
+                                            [
+                                              _vm._v(
+                                                "Frais de Livraison: A Confirmer"
+                                              )
+                                            ]
+                                          )
+                                    ]
+                                  ),
                               _vm._v(" "),
                               _vm.shippingTime !== "N/A"
-                                ? _c("p", { staticClass: "mb-0" }, [
-                                    this.$locale == "ar"
-                                      ? _c("span", { staticClass: "fw-bold" }, [
-                                          _vm._v(
-                                            "مدة الشحن: " +
-                                              _vm._s(_vm.shippingTime) +
-                                              " يوم\n                  "
+                                ? _c(
+                                    "p",
+                                    {
+                                      staticClass: "mb-0 font-small text-muted"
+                                    },
+                                    [
+                                      this.$locale == "ar"
+                                        ? _c(
+                                            "span",
+                                            { staticClass: "fw-bold" },
+                                            [
+                                              _vm._v(
+                                                "مدة الشحن: " +
+                                                  _vm._s(_vm.shippingTime) +
+                                                  " يوم\n                  "
+                                              )
+                                            ]
                                           )
-                                        ])
-                                      : _c("span", { staticClass: "fw-bold" }, [
-                                          _vm._v(
-                                            "Livraison: " +
-                                              _vm._s(_vm.shippingTime) +
-                                              " Jours."
+                                        : _c(
+                                            "span",
+                                            { staticClass: "fw-bold" },
+                                            [
+                                              _vm._v(
+                                                "Livraison: " +
+                                                  _vm._s(_vm.shippingTime) +
+                                                  " Jours."
+                                              )
+                                            ]
                                           )
-                                        ])
-                                  ])
-                                : _c("p", { staticClass: "mb-0" }, [
-                                    this.$locale == "ar"
-                                      ? _c("span", [
-                                          _vm._v(
-                                            "مدة الشحن: سيتم التأكيد\n                  "
-                                          )
-                                        ])
-                                      : _c("span", [
-                                          _vm._v("Livraison: A Confirmer.")
-                                        ])
-                                  ])
+                                    ]
+                                  )
+                                : _c(
+                                    "p",
+                                    {
+                                      staticClass: "mb-0 font-small text-muted"
+                                    },
+                                    [
+                                      this.$locale == "ar"
+                                        ? _c("span", [
+                                            _vm._v(
+                                              "مدة الشحن: سيتم التأكيد\n                  "
+                                            )
+                                          ])
+                                        : _c("span", [
+                                            _vm._v("Livraison: A Confirmer.")
+                                          ])
+                                    ]
+                                  )
                             ])
                           ]),
                           _vm._v(" "),
                           _c(
                             "div",
                             { staticClass: "card shadow mb-4 mt-4" },
-                            _vm._l(_vm.options, function(option) {
-                              return _c(
+                            [
+                              _vm._l(_vm.options, function(option) {
+                                return _c(
+                                  "div",
+                                  {
+                                    key: option.skuPropertyId,
+                                    staticClass: "card-body"
+                                  },
+                                  [
+                                    _c("fieldset", { staticClass: "mb-4" }, [
+                                      _c("legend", {
+                                        staticClass: "h5",
+                                        domProps: {
+                                          innerHTML: _vm._s(
+                                            option.skuPropertyName
+                                          )
+                                        }
+                                      }),
+                                      _vm._v(" "),
+                                      _c(
+                                        "div",
+                                        {
+                                          staticClass:
+                                            "d-flex flex-wrap gap-2 flex-md-row flex-sm-fill"
+                                        },
+                                        _vm._l(
+                                          option.skuPropertyValues,
+                                          function(item, index) {
+                                            return _c(
+                                              "div",
+                                              {
+                                                key: index,
+                                                staticClass: "btn-group",
+                                                attrs: {
+                                                  role: "group",
+                                                  "aria-label":
+                                                    "Basic radio toggle button group"
+                                                }
+                                              },
+                                              [
+                                                _c("input", {
+                                                  staticClass: "btn-check",
+                                                  attrs: {
+                                                    type: "radio",
+                                                    name:
+                                                      option.skuPropertyName,
+                                                    autocomplete: "off",
+                                                    "data-propId":
+                                                      item.propertyValueId,
+                                                    id:
+                                                      item.propertyValueDisplayName
+                                                  },
+                                                  domProps: {
+                                                    value:
+                                                      item.propertyValueDisplayName
+                                                  },
+                                                  on: {
+                                                    change: function($event) {
+                                                      return _vm.setPropsId(
+                                                        $event,
+                                                        option.skuPropertyName,
+                                                        _vm.options.length,
+                                                        item.propertyValueDisplayName
+                                                      )
+                                                    }
+                                                  }
+                                                }),
+                                                _vm._v(" "),
+                                                _c("label", {
+                                                  staticClass:
+                                                    "btn btn-outline-primary btn-lg",
+                                                  attrs: {
+                                                    for:
+                                                      item.propertyValueDisplayName
+                                                  },
+                                                  domProps: {
+                                                    innerHTML: _vm._s(
+                                                      item.propertyValueDisplayName
+                                                    )
+                                                  }
+                                                })
+                                              ]
+                                            )
+                                          }
+                                        ),
+                                        0
+                                      )
+                                    ])
+                                  ]
+                                )
+                              }),
+                              _vm._v(" "),
+                              _c(
                                 "div",
                                 {
-                                  key: option.skuPropertyId,
-                                  staticClass: "card-body"
-                                },
-                                [
-                                  _c("fieldset", { staticClass: "mb-4" }, [
-                                    _c("legend", {
-                                      staticClass: "h5",
-                                      domProps: {
-                                        innerHTML: _vm._s(
-                                          option.skuPropertyName
-                                        )
-                                      }
-                                    }),
-                                    _vm._v(" "),
-                                    _c(
-                                      "div",
-                                      {
-                                        staticClass:
-                                          "d-flex flex-wrap gap-2 flex-md-row flex-sm-fill"
-                                      },
-                                      _vm._l(option.skuPropertyValues, function(
-                                        item,
-                                        index
-                                      ) {
-                                        return _c(
-                                          "div",
-                                          {
-                                            key: index,
-                                            staticClass: "btn-group",
-                                            attrs: {
-                                              role: "group",
-                                              "aria-label":
-                                                "Basic radio toggle button group"
-                                            }
-                                          },
-                                          [
-                                            _c("input", {
-                                              staticClass: "btn-check",
-                                              attrs: {
-                                                type: "radio",
-                                                name: option.skuPropertyName,
-                                                autocomplete: "off",
-                                                "data-propId":
-                                                  item.propertyValueId,
-                                                id:
-                                                  item.propertyValueDisplayName
-                                              },
-                                              domProps: {
-                                                value:
-                                                  item.propertyValueDisplayName
-                                              },
-                                              on: {
-                                                change: function($event) {
-                                                  return _vm.setPropsId(
-                                                    $event,
-                                                    option.skuPropertyName,
-                                                    _vm.options.length,
-                                                    item.propertyValueDisplayName
-                                                  )
-                                                }
-                                              }
-                                            }),
-                                            _vm._v(" "),
-                                            _c("label", {
-                                              staticClass:
-                                                "btn btn-outline-primary btn-lg",
-                                              attrs: {
-                                                for:
-                                                  item.propertyValueDisplayName
-                                              },
-                                              domProps: {
-                                                innerHTML: _vm._s(
-                                                  item.propertyValueDisplayName
-                                                )
-                                              }
-                                            })
-                                          ]
-                                        )
-                                      }),
-                                      0
-                                    )
-                                  ])
-                                ]
-                              )
-                            }),
-                            0
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "div",
-                            { staticClass: "d-flex justify-content-center" },
-                            [
-                              _c(
-                                "form",
-                                {
-                                  on: {
-                                    submit: function($event) {
-                                      $event.preventDefault()
-                                      return _vm.addToCart.apply(
-                                        null,
-                                        arguments
-                                      )
-                                    }
-                                  }
+                                  staticClass:
+                                    "d-flex justify-content-center mb-4"
                                 },
                                 [
                                   _c(
-                                    "button",
+                                    "form",
                                     {
-                                      staticClass:
-                                        "btn btn-lg btn-primary fs-5 text-uppercase px-5 py-2",
-                                      attrs: {
-                                        type: "submit",
-                                        disabled: _vm.addingToCart
+                                      on: {
+                                        submit: function($event) {
+                                          $event.preventDefault()
+                                          return _vm.addToCart.apply(
+                                            null,
+                                            arguments
+                                          )
+                                        }
                                       }
                                     },
                                     [
-                                      !_vm.addingToCart
-                                        ? _c(
-                                            "div",
-                                            {
-                                              staticClass:
-                                                "d-flex gap-2 align-items-center"
-                                            },
-                                            [
-                                              this.$locale == "ar"
-                                                ? _c("span", [
-                                                    _vm._v("أضف إلى السلة")
-                                                  ])
-                                                : _vm._e(),
-                                              _vm._v(" "),
-                                              this.$locale == "fr"
-                                                ? _c("span", [
-                                                    _vm._v("Ajouter")
-                                                  ])
-                                                : _vm._e(),
-                                              _vm._v(" "),
-                                              _c("span", {
-                                                staticClass:
-                                                  "fas fa-cart-arrow-down d-inlineblock"
-                                              })
-                                            ]
-                                          )
-                                        : _c("div", [_vm._m(5)])
+                                      _c(
+                                        "button",
+                                        {
+                                          staticClass:
+                                            "\n                      btn btn-lg btn-primary\n                      fs-5\n                      text-uppercase\n                      px-5\n                      py-2\n                    ",
+                                          attrs: {
+                                            type: "submit",
+                                            disabled: _vm.addingToCart
+                                          }
+                                        },
+                                        [
+                                          !_vm.addingToCart
+                                            ? _c(
+                                                "div",
+                                                {
+                                                  staticClass:
+                                                    "d-flex gap-2 align-items-center"
+                                                },
+                                                [
+                                                  this.$locale == "ar"
+                                                    ? _c("span", [
+                                                        _vm._v("أضف إلى السلة")
+                                                      ])
+                                                    : _vm._e(),
+                                                  _vm._v(" "),
+                                                  this.$locale == "fr"
+                                                    ? _c("span", [
+                                                        _vm._v("Ajouter")
+                                                      ])
+                                                    : _vm._e(),
+                                                  _vm._v(" "),
+                                                  _c("span", {
+                                                    staticClass:
+                                                      "fas fa-cart-arrow-down d-inlineblock"
+                                                  })
+                                                ]
+                                              )
+                                            : _c("div", [_vm._m(5)])
+                                        ]
+                                      )
                                     ]
                                   )
                                 ]
                               )
-                            ]
+                            ],
+                            2
                           ),
                           _vm._v(" "),
                           _c(
@@ -40068,6 +40293,98 @@ var render = function() {
                         ])
                       ]
                     ),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  {
+                    staticClass: "accordion mx-1 mb-5",
+                    attrs: { id: "accordionSpecs" }
+                  },
+                  [
+                    _c("div", { staticClass: "accordion-item" }, [
+                      _c(
+                        "h2",
+                        {
+                          staticClass: "accordion-header",
+                          attrs: { id: "headingOne" }
+                        },
+                        [
+                          _c(
+                            "button",
+                            {
+                              staticClass: "accordion-button collapsed",
+                              attrs: {
+                                type: "button",
+                                "data-bs-toggle": "collapse",
+                                "data-bs-target": "#collapseOne",
+                                "aria-expanded": "false",
+                                "aria-controls": "collapseOne"
+                              }
+                            },
+                            [
+                              this.$locale == "fr"
+                                ? _c("span", { staticClass: "fw-bold" }, [
+                                    _c("i", {
+                                      staticClass:
+                                        "d-inline-block mx-2 far fa-file-alt"
+                                    }),
+                                    _vm._v("Specifications")
+                                  ])
+                                : _vm._e(),
+                              _vm._v(" "),
+                              this.$locale == "ar"
+                                ? _c("span", { staticClass: "fw-bold" }, [
+                                    _vm._v("المواصفات")
+                                  ])
+                                : _vm._e()
+                            ]
+                          )
+                        ]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "div",
+                        {
+                          staticClass: "accordion-collapse collapse",
+                          attrs: {
+                            id: "collapseOne",
+                            "aria-labelledby": "headingOne",
+                            "data-bs-parent": "#accordionSpecs"
+                          }
+                        },
+                        [
+                          _c("div", { staticClass: "accordion-body" }, [
+                            _c(
+                              "div",
+                              { staticClass: "d-flex flex-wrap gap-2" },
+                              _vm._l(_vm.specs, function(prop, index) {
+                                return _c(
+                                  "div",
+                                  { key: index, staticClass: "flex-fill p-2" },
+                                  [
+                                    _c("span", {
+                                      staticClass: "text-muted",
+                                      domProps: {
+                                        innerHTML: _vm._s(prop.attrName + ": ")
+                                      }
+                                    }),
+                                    _vm._v(" "),
+                                    _c("span", {
+                                      domProps: {
+                                        innerHTML: _vm._s(prop.attrValue)
+                                      }
+                                    })
+                                  ]
+                                )
+                              }),
+                              0
+                            )
+                          ])
+                        ]
+                      )
+                    ])
+                  ]
+                ),
                 _vm._v(" "),
                 _c("div", { staticClass: "card shadow mx-1" }, [
                   _c(
@@ -40482,7 +40799,7 @@ var render = function() {
               this.$locale == "fr"
                 ? _c("span", [
                     _vm._v(
-                      "\n        C’est là que vous verrez les détails du produit, juste après avoir\n        collé le lien du produit désiré dans la barre de recherche ci-dessus\n        "
+                      "\n          C’est là que vous verrez les détails du produit, juste après avoir\n          collé le lien du produit désiré dans la barre de recherche ci-dessus\n        "
                     )
                   ])
                 : _vm._e(),
@@ -40490,7 +40807,7 @@ var render = function() {
               this.$locale == "ar"
                 ? _c("span", [
                     _vm._v(
-                      "\n          هنا سترون تفاصيل المنتج ، مباشرة بعد لصق أو نسخ رابط المنتج المنشود من AliExpress في\n          شريط البحث أعلاه\n        "
+                      "\n          هنا سترون تفاصيل المنتج ، مباشرة بعد لصق أو نسخ رابط المنتج المنشود\n          من AliExpress في شريط البحث أعلاه\n        "
                     )
                   ])
                 : _vm._e(),
