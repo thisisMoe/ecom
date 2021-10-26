@@ -18,6 +18,7 @@ class SearchProductController extends Controller
     public function getInfo(Request $request)
     {
         $httpClient = HttpClient::create(['proxy' => 'http://thisismoe:thisismoe1590_country-dz@proxy.iproyal.com:12323']);
+        // $httpClient = HttpClient::create();
 
         $clientForScraping = new Client($httpClient);
 
@@ -198,7 +199,7 @@ class SearchProductController extends Controller
                 $shippingCost = $this->get_string_between($node->text(), 'layout":[{"text":"Livraison: US $', '","type":"title"},{"text":');
                 // $this->setCaptureScript($shippingCost);
                 echo '<pre>';
-                echo $s;
+                echo $shippingCost;
                 echo '<pre>';
             }
             ++$i;

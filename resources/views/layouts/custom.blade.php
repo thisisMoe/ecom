@@ -67,7 +67,7 @@ lang="fr"
 
     <link type="text/css" href="{{ asset('css/pixel.mini.css') }}" rel="stylesheet">
 
-
+    @yield('head')
 
 </head>
 
@@ -98,6 +98,11 @@ lang="fr"
                         <li class="nav-item">
                             <a href="/searchProduct" class="nav-link" aria-expanded="false">
                                 <span class="fs-4 fas fa-search"></span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('tracking') }}" class="nav-link" aria-expanded="false">
+                                Tracking <i class="fas fa-shipping-fast"></i>
                             </a>
                         </li>
                         <li class="nav-item dropdown">
