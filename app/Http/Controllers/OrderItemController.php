@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\OrderItem;
+use App\Models\Products;
 use App\Models\ShoppingSession;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -56,13 +57,13 @@ class OrderItemController extends Controller
             'shippingCost' => 'required|integer',
             'shippingTime' => 'required|string',
         ]);
-        
+
         $orderItem->update($request->all());
 
         $total = 0;
         $totalFee = 0;
         $totalShippingCost = 0;
-        
+
         $order = ShoppingSession::find($orderItem->shopping_session_id);
         foreach ($order->orderItems as $orderItem) {
             $total += $orderItem->totalSum;
@@ -75,5 +76,31 @@ class OrderItemController extends Controller
         $order->save();
 
         return redirect()->back()->with('success', 'Updated successfully');
+    }
+
+    public function searchInput(Request $request, $productId)
+    {
+        $this->validate($request, [
+            'title' => 'required',
+            'productId' => 'required',
+            'image' => 'required',
+            'minPrice' => 'required',
+            'maxPrice' => 'required',
+            'equalPrice' => 'required',
+            'link' => 'required',
+        ]);
+
+        $product = Products::where('productId', $request->input('productId'))->first();
+
+        if ($product) {
+            ++$product->hits;
+            $product->save();
+
+            return response()->json('Item updated', Response::HTTP_NO_CONTENT);
+        }
+
+        $product = Products::create($request->all());
+
+        return response()->json('Item created', Response::HTTP_CREATED);
     }
 }

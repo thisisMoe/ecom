@@ -59,6 +59,9 @@ Route::prefix('admin')->middleware(['checkAdmin', 'auth'])->group(function () {
     Route::get('/user/{id}', [AdminController::class, 'user_edit'])->name('admin.user.edit');
     Route::patch('/user/{id}/update', [AdminController::class, 'user_update'])->name('admin.user.update');
 
+    Route::get('/searches', [AdminController::class, 'searches'])->name('admin.searches');
+    Route::delete('/searches/{id}/delete', [AdminController::class, 'searches_delete'])->name('admin.searches.delete');
+
     //Scraping tests for admin only
     Route::get('scraper', [ScraperController::class, 'scraper'])->name('scraper');
     Route::get('newScraper', [ScraperController::class, 'newScraper'])->name('newScraper');

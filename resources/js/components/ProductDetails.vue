@@ -647,6 +647,7 @@ export default {
   data() {
     return {
       empty: false,
+      link: "",
       showModal: false,
       loading: true,
       productId: null,
@@ -686,9 +687,6 @@ export default {
     this.loadInfo();
     this.fetchOrderItems();
   },
-  created() {
-    console.log("created", this.$locale);
-  },
   updated() {
     var image = new Image();
     image.src = this.images[0];
@@ -704,16 +702,17 @@ export default {
       axios
         .get("/api/info", { params: { q: this.uri, locale: this.$locale } })
         .then((response) => {
-          console.log(response.data);
+          // console.log(response.data);
           this.images = response.data.images;
           this.script = response.data.script;
+          this.link = response.data.uri;
           this.shippingCost = Number(response.data.shippingCost) * 186;
           this.shippingCost = Math.ceil(this.shippingCost / 10) * 10;
           if (response.data.shippingTime) {
             this.shippingTime = response.data.shippingTime;
           }
-          console.log("shipping cost", this.shippingCost);
-          console.log("shipping time", this.shippingTime);
+          // console.log("shipping cost", this.shippingCost);
+          // console.log("shipping time", this.shippingTime);
           // console.log(document.getElementsByClassName('carousel-item active')[0].childNodes[0].currentSrc);
         })
         .then(() => {
@@ -725,17 +724,17 @@ export default {
           this.parsedScript = JSON.parse(cleanedScript);
           // this.parsedScript = JSON.parse(this.script);
           // console.log(this.script)
-          console.log(this.parsedScript);
+          // console.log(this.parsedScript);
 
           this.title = this.parsedScript.titleModule.subject;
           this.productId = this.parsedScript.commonModule.productId;
           this.storeName = this.parsedScript.storeModule.storeName;
           this.followingNumber = this.parsedScript.storeModule.followingNumber;
           this.positiveRate = this.parsedScript.storeModule.positiveRate;
-          console.log(this.productId);
+          // console.log(this.productId);
 
           this.discount = this.parsedScript.priceModule.discount;
-          console.log("isDiscount", this.discount);
+          // console.log("isDiscount", this.discount);
 
           // const options = JSON.parse(
           //   this.getStringBetween(
@@ -753,13 +752,30 @@ export default {
         })
         .then(() => {
           this.setMinMaxPrice();
+          this.searchInput();
         })
         .catch((err) => {
-          if (err.response.status == 500) {
-            this.empty = true;
-          }
-          console.log(err.response.status);
-          console.log(err.response);
+          console.log(err);
+
+          // if (err.response.status == 500) {
+          //   this.empty = true;
+          // }
+          // console.log(err.response.status);
+        });
+    },
+    searchInput: function () {
+      axios
+        .post(`api/searches/add/${this.productId}`, {
+          title: this.title.substring(0, 100),
+          link: this.link,
+          productId: this.productId,
+          image: this.images[0],
+          minPrice: this.minPrice,
+          maxPrice: this.maxPrice,
+          equalPrice: this.equalPrice,
+        })
+        .catch((err) => {
+          console.log(err);
         });
     },
     getStringBetween: function (str, start, end) {
@@ -785,7 +801,7 @@ export default {
       } else {
         this.addProp(propName, propValue, selectedPropertyName);
       }
-      console.log("selectedProps", this.selectedProps);
+      // console.log("selectedProps", this.selectedProps);
       this.setPropsIdString();
       this.setChosenPrice();
     },
@@ -806,7 +822,7 @@ export default {
           this.propsIdString += "," + prop.value;
         }
       });
-      console.log("propsIdString", this.propsIdString);
+      // console.log("propsIdString", this.propsIdString);
     },
     setChosenPrice: function () {
       var selectedPack = this.parsedScript.skuModule.skuPriceList.filter(
@@ -820,13 +836,13 @@ export default {
       if (selectedPack.length) {
         //if promotion
         if (selectedPack[0].skuVal.actSkuCalPrice) {
-          console.log(selectedPack);
+          // console.log(selectedPack);
           var price = selectedPack[0].skuVal.actSkuCalPrice * 186;
           price = Math.ceil(price / 100) * 100;
           var oldPrice = selectedPack[0].skuVal.skuCalPrice * 186;
           oldPrice = Math.ceil(oldPrice / 10) * 10;
           this.oldPrice = oldPrice;
-          console.log("oldPrice:", oldPrice);
+          // console.log("oldPrice:", oldPrice);
           this.chosenPrice = price;
 
           /////////////checking 09/2021/////////
@@ -935,7 +951,7 @@ export default {
           }
 
           this.usdP = Number(selectedPack[0].skuVal.actSkuCalPrice);
-          console.log("usdP", this.usdP);
+          // console.log("usdP", this.usdP);
 
           // If no promotion
         } else if (selectedPack[0].skuVal.skuCalPrice) {
@@ -1050,35 +1066,35 @@ export default {
           }
 
           this.usdP = Number(selectedPack[0].skuVal.skuCalPrice);
-          console.log("usdP", this.usdP);
+          // console.log("usdP", this.usdP);
         }
       }
-      console.log("chosen price", this.chosenPrice);
+      // console.log("chosen price", this.chosenPrice);
     },
     setMinMaxPrice: function () {
       this.parsedScript.skuModule.skuPriceList.forEach((item, index) => {
-        console.log("item.skuVal.actSkuCalPrice: ", item.skuVal.actSkuCalPrice);
+        // console.log("item.skuVal.actSkuCalPrice: ", item.skuVal.actSkuCalPrice);
         // if no promotion
         if (!item.skuVal.actSkuCalPrice) {
           var price = Number(item.skuVal.skuCalPrice) * 186;
-          console.log("price:", price);
+          // console.log("price:", price);
 
           if (index == 0) {
-            console.log("when index == 0");
+            // console.log("when index == 0");
             this.minPrice = price;
-            console.log("minPrice:", this.minPrice);
+            // console.log("minPrice:", this.minPrice);
             this.maxPrice = price;
-            console.log("maxPrice:", this.maxPrice);
+            // console.log("maxPrice:", this.maxPrice);
           } else {
-            console.log("index is > 0");
+            // console.log("index is > 0");
             if (price < this.minPrice) {
               this.minPrice = price;
-              console.log("minPrice:", this.minPrice);
-              console.log("maxPrice:", this.maxPrice);
+              // console.log("minPrice:", this.minPrice);
+              // console.log("maxPrice:", this.maxPrice);
             } else if (price > this.maxPrice) {
               this.maxPrice = price;
-              console.log("minPrice:", this.minPrice);
-              console.log("maxPrice:", this.maxPrice);
+              // console.log("minPrice:", this.minPrice);
+              // console.log("maxPrice:", this.maxPrice);
             }
           }
         } else if (item.skuVal.actSkuCalPrice) {
@@ -1086,25 +1102,25 @@ export default {
           var price = Number(item.skuVal.actSkuCalPrice) * 186;
           var oldPrice = Number(item.skuVal.skuCalPrice) * 186;
           var oldPrice = Math.ceil(oldPrice / 100) * 100;
-          console.log("oldPrice:", oldPrice);
+          // console.log("oldPrice:", oldPrice);
           // price = Math.ceil(price/100)*100
-          console.log("price:", price);
+          // console.log("price:", price);
           if (index == 0) {
-            console.log("when index == 0");
+            // console.log("when index == 0");
             this.minPrice = price;
-            console.log("minPrice:", this.minPrice);
+            // console.log("minPrice:", this.minPrice);
             this.maxPrice = price;
-            console.log("maxPrice:", this.maxPrice);
+            // console.log("maxPrice:", this.maxPrice);
           } else {
-            console.log("index is > 0");
+            // console.log("index is > 0");
             if (price < this.minPrice) {
               this.minPrice = price;
-              console.log("minPrice:", this.minPrice);
-              console.log("maxPrice:", this.maxPrice);
+              // console.log("minPrice:", this.minPrice);
+              // console.log("maxPrice:", this.maxPrice);
             } else if (price > this.maxPrice) {
               this.maxPrice = price;
-              console.log("minPrice:", this.minPrice);
-              console.log("maxPrice:", this.maxPrice);
+              // console.log("minPrice:", this.minPrice);
+              // console.log("maxPrice:", this.maxPrice);
             }
           }
         }
@@ -1184,10 +1200,10 @@ export default {
           this.fee = 2500; //10% so if 2400DA => fee=300da
           this.equalPrice += this.fee;
         }
-        console.log("equalPrice", this.equalPrice);
+        // console.log("equalPrice", this.equalPrice);
       }
 
-      console.log("===== minPrice ======", this.minPrice);
+      // console.log("===== minPrice ======", this.minPrice);
       //checking minPrice
       if (this.minPrice <= 3000) {
         this.minPrice = Math.ceil(this.minPrice / 100) * 100;
@@ -1241,7 +1257,7 @@ export default {
         // this.minPrice += 400 + this.minPrice * 0.08; //400da + 8% of price
         this.minPrice += 2100;
         this.minPrice = Math.ceil(this.minPrice / 100) * 100;
-        console.log("================JAckpot==========");
+        // console.log("================JAckpot==========");
       } else if (this.minPrice > 32000 && this.minPrice < 34000) {
         // this.minPrice += 400 + this.minPrice * 0.08; //400da + 8% of price
         this.minPrice += 2200;
@@ -1321,7 +1337,7 @@ export default {
         // this.maxPrice += 400 + this.maxPrice * 0.08; //400da + 8% of price
         this.maxPrice += 2100;
         this.maxPrice = Math.ceil(this.maxPrice / 100) * 100;
-        console.log("================JAckpot==========");
+        // console.log("================JAckpot==========");
       } else if (this.maxPrice > 32000 && this.maxPrice < 34000) {
         // this.maxPrice += 400 + this.maxPrice * 0.08; //400da + 8% of price
         this.maxPrice += 2200;
@@ -1355,7 +1371,7 @@ export default {
           totalSum: this.chosenPrice,
           selectedProps: JSON.stringify(this.selectedProps),
           user_id: this.$userId,
-          uri: this.uri,
+          uri: this.link,
           productId: this.productId,
           usdP: this.usdP,
           fee: this.fee,
@@ -1364,7 +1380,7 @@ export default {
         })
         .then((response) => {
           this.fields = {}; //Clear input fields.
-          console.log("added to cart");
+          // console.log("added to cart");
           this.fetchOrderItems();
           this.noOptions = false;
           this.addingToCart = false;
@@ -1379,7 +1395,7 @@ export default {
             this.noOptions = true;
             this.addingToCart = false;
           } else {
-            console.log(error.response.status);
+            // console.log(error.response.status);
           }
         });
     },
@@ -1387,7 +1403,7 @@ export default {
       axios
         .get(`api/fetchOrderItems/${this.$userId}`)
         .then((response) => {
-          console.log("fetch", response.data);
+          // console.log("fetch", response.data);
           this.orderItems = response.data;
         })
         .then(() => {
@@ -1396,10 +1412,10 @@ export default {
         .catch((error) => {
           if (error.response.status == 404) {
             this.orderItems = [];
-            console.log("Please register or login to make an order");
-            console.log(
-              "Veuillez vous inscrire ou vous connecter pour passer une commande"
-            );
+            // console.log("Please register or login to make an order");
+            // console.log(
+            //   "Veuillez vous inscrire ou vous connecter pour passer une commande"
+            // );
           }
         });
     },
@@ -1412,22 +1428,22 @@ export default {
       axios
         .delete(`/api/deleteOrderItem/${id}`)
         .then((response) => {
-          console.log(response.data);
+          // console.log(response.data);
           this.fetchOrderItems();
         })
         .catch((error) => {
-          console.log(error);
+          // console.log(error);
         });
     },
     addOrder: function () {
       axios
         .post(`/api/addOrder/${this.$userId}`)
         .then((response) => {
-          console.log("=====Order======", response.data);
+          // console.log("=====Order======", response.data);
           window.location.href = "/account";
         })
         .catch((error) => {
-          console.log(error);
+          // console.log(error);
         });
     },
   },

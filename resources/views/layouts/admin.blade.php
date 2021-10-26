@@ -28,10 +28,10 @@
     <div id="wrapper">
 
         <!-- Sidebar -->
-        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion toggled" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{route('home')}}">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{ route('home') }}">
                 <div class="sidebar-brand-icon rotate-n-15">
                     <i class="fas fa-laugh-wink"></i>
                 </div>
@@ -42,8 +42,8 @@
             <hr class="sidebar-divider my-0">
 
             <!-- Nav Item - Dashboard -->
-            <li class="nav-item {{(request()->is('admin')) ? 'active' : ''}}">
-                <a class="nav-link" href="{{route('admin.index')}}">
+            <li class="nav-item {{ request()->is('admin') ? 'active' : '' }}">
+                <a class="nav-link" href="{{ route('admin.index') }}">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Dashboard</span></a>
             </li>
@@ -98,7 +98,7 @@
             </div>
 
             <!-- Nav Item - Pages Collapse Menu -->
-            <li class="nav-item {{ (request()->is('admin/orders*')) ? 'active' : '' }}">
+            <li class="nav-item {{ request()->is('admin/orders*') ? 'active' : '' }}">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="true" aria-controls="collapsePages">
                     <i class="fas fa-fw fa-folder"></i>
                     <span>Commandes</span>
@@ -107,36 +107,43 @@
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Filtrer:</h6>
                         @if (request()->is('admin/orders')))
-                            <a class="collapse-item {{(request()->filter['orderStatus'] == 'pending') ? 'active' : ''}}" href="{{route('admin.orders', ['filter[orderStatus]' => 'pending', 'filter[status]' => 'inactive'])}}">
+                            <a class="collapse-item {{ request()->filter['orderStatus'] == 'pending' ? 'active' : '' }}"
+                                href="{{ route('admin.orders', ['filter[orderStatus]' => 'pending', 'filter[status]' => 'inactive']) }}">
                                 Pending
                             </a>
-                            <a class="collapse-item {{(request()->filter['orderStatus'] == 'confirmed') ? 'active' : ''}}" href="{{route('admin.orders', ['filter[orderStatus]' => 'confirmed', 'filter[status]' => 'inactive'])}}">
+                            <a class="collapse-item {{ request()->filter['orderStatus'] == 'confirmed' ? 'active' : '' }}"
+                                href="{{ route('admin.orders', ['filter[orderStatus]' => 'confirmed', 'filter[status]' => 'inactive']) }}">
                                 Confirmed
                             </a>
-                            <a class="collapse-item {{(request()->filter['orderStatus'] == 'shipped') ? 'active' : ''}}" href="{{route('admin.orders', ['filter[orderStatus]' => 'shipped', 'filter[status]' => 'inactive'])}}">
+                            <a class="collapse-item {{ request()->filter['orderStatus'] == 'shipped' ? 'active' : '' }}"
+                                href="{{ route('admin.orders', ['filter[orderStatus]' => 'shipped', 'filter[status]' => 'inactive']) }}">
                                 Shipped
                             </a>
-                            <a class="collapse-item" href="{{route('admin.orders', ['filter[orderStatus]' => 'delivered', 'filter[status]' => 'inactive'])}}">
+                            <a class="collapse-item"
+                                href="{{ route('admin.orders', ['filter[orderStatus]' => 'delivered', 'filter[status]' => 'inactive']) }}">
                                 Delivered
                             </a>
                         @else
-                            <a class="collapse-item" href="{{route('admin.orders', ['filter[orderStatus]' => 'pending', 'filter[status]' => 'inactive'])}}">
-                            Pending
+                            <a class="collapse-item" href="{{ route('admin.orders', ['filter[orderStatus]' => 'pending', 'filter[status]' => 'inactive']) }}">
+                                Pending
                             </a>
-                            <a class="collapse-item" href="{{route('admin.orders', ['filter[orderStatus]' => 'confirmed', 'filter[status]' => 'inactive'])}}">
+                            <a class="collapse-item"
+                                href="{{ route('admin.orders', ['filter[orderStatus]' => 'confirmed', 'filter[status]' => 'inactive']) }}">
                                 Confirmed
                             </a>
-                            <a class="collapse-item" href="{{route('admin.orders', ['filter[orderStatus]' => 'shipped', 'filter[status]' => 'inactive'])}}">
+                            <a class="collapse-item" href="{{ route('admin.orders', ['filter[orderStatus]' => 'shipped', 'filter[status]' => 'inactive']) }}">
                                 Shipped
                             </a>
-                            <a class="collapse-item" href="{{route('admin.orders', ['filter[orderStatus]' => 'delivered', 'filter[status]' => 'inactive'])}}">
+                            <a class="collapse-item"
+                                href="{{ route('admin.orders', ['filter[orderStatus]' => 'delivered', 'filter[status]' => 'inactive']) }}">
                                 Delivered
                             </a>
                         @endif
                         <div class="collapse-divider"></div>
                         <h6 class="collapse-header">Other:</h6>
-                        <a class="collapse-item {{ request()->is('admin/orders/pending-payments') ? 'active' : ''  }}" href="{{route('pending-payments')}}">
-                                Payments to be confirmed
+                        <a class="collapse-item {{ request()->is('admin/orders/pending-payments') ? 'active' : '' }}"
+                            href="{{ route('pending-payments') }}">
+                            Payments to be confirmed
                         </a>
                     </div>
                 </div>
@@ -144,9 +151,15 @@
 
             <!-- Nav Item - Charts -->
             <li class="nav-item">
-                <a class="nav-link" href="{{route('admin.users')}}">
+                <a class="nav-link" href="{{ route('admin.users') }}">
                     <i class="fas fa-fw fa-users"></i>
                     <span>Utilisateurs</span></a>
+            </li>
+
+            <!-- Nav Item - Charts -->
+            <li class="nav-item">
+                <a class="nav-link" href="{{ route('admin.searches') }}">
+                    <i class="fas fa-search-dollar"></i> <span>Searches</span></a>
             </li>
 
             <!-- Nav Item - Tables -->
@@ -172,7 +185,7 @@
 
         </ul>
         <!-- End of Sidebar -->
-        
+
         <!-- Content Wrapper -->
         <div id="content-wrapper" class="d-flex flex-column">
 
@@ -342,7 +355,7 @@
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
                                 aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{Auth::user()->fullName}}</span>
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{ Auth::user()->fullName }}</span>
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\OrderItem;
+use App\Models\Products;
 use App\Models\ShoppingSession;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -166,5 +167,20 @@ class AdminController extends Controller
         $order->save();
 
         return redirect()->back()->with('success', 'Order status changed to delivered :) ahssannnn');
+    }
+
+    public function searches()
+    {
+        $products = Products::orderBy('hits', 'desc')->paginate(12);
+
+        return view('admin.searches', compact('products'));
+    }
+
+    public function searches_delete(Request $request, $id)
+    {
+        $product = Products::find($id);
+        $product->delete();
+
+        return back()->with('success', 'Produit supprimée avec succès.');
     }
 }
