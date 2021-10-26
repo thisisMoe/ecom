@@ -22,6 +22,7 @@ class CreateShoppingSessionsTable extends Migration
             $table->enum('status', ['Active', 'Inactive'])->default('Active');
             $table->enum('orderStatus', ['pending', 'confirmed', 'shipped', 'delivered'])->default('pending');
             $table->boolean('withPayment')->nullable()->default(false);
+            $table->string('proofImage')->nullable()->default('');
             $table->timestamps();
         });
     }

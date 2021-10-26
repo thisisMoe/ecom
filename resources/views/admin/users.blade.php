@@ -9,8 +9,9 @@
 
         <!-- DataTales Example -->
         <div class="card shadow mb-4">
-            <div class="card-header py-3">
+            <div class="card-header py-3 d-flex align-items-center justify-content-between">
                 <h6 class="m-0 font-weight-bold text-primary">Registred Users</h6>
+                <a href="{{ route('admin.users') }}" class="btn btn-primary">Tous</a>
             </div>
             <div class="card-body">
                 <div class="table-responsive">
@@ -18,7 +19,10 @@
                         <div class="row">
                             <div class="col-12 mb-3">
                                 <div id="dataTable_filter" class="dataTables_filter">
-                                    <label>Search:<input type="search" class="form-control" placeholder="" aria-controls="dataTable"></label>
+                                    <form action="{{ route('admin.users') }}">
+                                        <label>Search:<input type="search" class="form-control" placeholder="0558XXXXXX" name="phone"
+                                                aria-controls="dataTable"></label>
+                                    </form>
                                 </div>
                             </div>
                         </div>
@@ -39,7 +43,7 @@
                                             <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1"
                                                 aria-label="Start date: activate to sort column ascending" style="width: 139px;">Date d'inscription</th>
                                             <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1"
-                                            aria-label="Start date: activate to sort column ascending" style="width: 139px;">Actions</th>
+                                                aria-label="Start date: activate to sort column ascending" style="width: 139px;">Actions</th>
                                         </tr>
                                     </thead>
                                     <tfoot>
@@ -54,17 +58,17 @@
                                     </tfoot>
                                     <tbody>
                                         @foreach ($users as $user)
-                                        <tr>
-                                            <td class="">{{ $user->id }}</td>
-                                            <td>{{ $user->fullName }}</td>
-                                            <td>{{ $user->phone }}</td>
-                                            <td>{{ $user->address }}</td>
-                                            <td>{{ $user->created_at->format('d/m/Y') }} - {{ $user->created_at->diffForHumans() }}</td>
-                                            <td>
-                                                <a href="" class="btn btn-outline-primary">Edit</a>
-                                                <a href="" class="btn btn-outline-danger">Delete</a>
-                                            </td>
-                                        </tr>
+                                            <tr>
+                                                <td class="">{{ $user->id }}</td>
+                                                <td>{{ $user->fullName }}</td>
+                                                <td>{{ $user->phone }}</td>
+                                                <td>{{ $user->address }}</td>
+                                                <td>{{ $user->created_at->format('d/m/Y') }} - {{ $user->created_at->diffForHumans() }}</td>
+                                                <td>
+                                                    <a href="{{ route('admin.user.edit', $user->id) }}" class="btn btn-outline-primary">Edit</a>
+                                                    <a href="" class="btn btn-outline-danger">Delete</a>
+                                                </td>
+                                            </tr>
                                         @endforeach
                                     </tbody>
                                 </table>

@@ -3,13 +3,13 @@
 use App\Http\Controllers\Admin;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\OrderItemController;
 use App\Http\Controllers\ScraperController;
 use App\Http\Controllers\SearchProductController;
 use App\Http\Controllers\ShoppingSessionController;
 use App\Http\Controllers\UserController;
-use App\Models\ShoppingSession;
-use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,6 +26,7 @@ use Illuminate\Support\Facades\Auth;
 Route::get('language/{locale}', function ($locale) {
     app()->setLocale($locale);
     session()->put('locale', $locale);
+
     return redirect()->back();
 })->name('change_lang');
 
@@ -43,9 +44,21 @@ Auth::routes();
 Route::prefix('admin')->middleware(['checkAdmin', 'auth'])->group(function () {
     Route::get('/', [AdminController::class, 'index'])->name('admin.index');
     Route::get('/orders', [AdminController::class, 'orders'])->name('admin.orders');
+    Route::get('/orders/{id}', [AdminController::class, 'order_view'])->name('admin.order.view');
     Route::get('/orders/pending-payments', [AdminController::class, 'pendingPayments'])->name('pending-payments');
+
+    Route::delete('/orders/{id}/delete', [AdminController::class, 'order_delete'])->name('admin.orders.delete');
+    Route::patch('/orders/{id}/confirm', [AdminController::class, 'order_confirmed'])->name('admin.orders.confirmed');
+    Route::patch('/orders/{id}/shipped', [AdminController::class, 'order_shipped'])->name('admin.orders.shipped');
+    Route::patch('/orders/{id}/delivered', [AdminController::class, 'order_delivered'])->name('admin.orders.delivered');
+
+    Route::get('/order-items/{id}', [AdminController::class, 'orderItem_view'])->name('admin.orderItem');
+    Route::patch('/order-items/{id}/update', [OrderItemController::class, 'update'])->name('admin.orderItem.update');
+
     Route::get('/users', [AdminController::class, 'users'])->name('admin.users');
-    
+    Route::get('/user/{id}', [AdminController::class, 'user_edit'])->name('admin.user.edit');
+    Route::patch('/user/{id}/update', [AdminController::class, 'user_update'])->name('admin.user.update');
+
     //Scraping tests for admin only
     Route::get('scraper', [ScraperController::class, 'scraper'])->name('scraper');
     Route::get('newScraper', [ScraperController::class, 'newScraper'])->name('newScraper');
@@ -54,11 +67,11 @@ Route::prefix('admin')->middleware(['checkAdmin', 'auth'])->group(function () {
 //Users
 Route::prefix('/account')->middleware(['auth'])->group(function () {
     Route::get('/', [HomeController::class, 'account'])->middleware('auth')->name('account');
+    Route::get('/tracking', [HomeController::class, 'tracking'])->name('tracking');
     Route::get('/edit/{id}', [UserController::class, 'edit'])->name('user.edit');
     //Posting confirmation_image
-    Route::post('/confirm/{id}', [ ShoppingSessionController::class, 'storeImage' ])->name('image.upload.order');
+    Route::post('/confirm/{id}', [ShoppingSessionController::class, 'storeImage'])->name('image.upload.order');
     Route::patch('/{id}/update', [UserController::class, 'update'])->name('user.update');
 
-    Route::delete('orders/{id}/delete', [ShoppingSessionController::class, 'delete'])->name('user.orders.delete');      
-    
+    Route::delete('orders/{id}/delete', [ShoppingSessionController::class, 'delete'])->name('user.orders.delete');
 });

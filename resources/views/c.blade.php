@@ -4,6 +4,21 @@ $ar = app()->getLocale() === 'ar';
 
 @extends('layouts.custom')
 
+@section('head')
+    <style>
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        input[type=number] {
+            -moz-appearance: textfield;
+        }
+
+    </style>
+@endsection
+
 @section('content')
     <div class="container px-2 pt-lg-3" style="margin-top: 92px">
         <form action="{{ route('searchProduct') }}" class="w-100" method="GET">
@@ -29,8 +44,8 @@ $ar = app()->getLocale() === 'ar';
                     <div class="accordion" id="accordionExample1">
                         <div class="accordion-item">
                             <h2 class="accordion-header" id="headingOne">
-                                <button class="accordion-button accordion-button-rtl collapsed" style="" type="button" data-bs-toggle="collapse"
-                                    data-bs-target="#faq1" aria-expanded="false" aria-controls="faq1"><strong>{{ __('Quelles sont nos garanties ?') }}</strong></button>
+                                <button class="accordion-button accordion-button-rtl collapsed" style="" type="button" data-bs-toggle="collapse" data-bs-target="#faq1"
+                                    aria-expanded="false" aria-controls="faq1"><strong>{{ __('Quelles sont nos garanties ?') }}</strong></button>
                             </h2>
                             <div id="faq1" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample1" style="">
                                 <div class="accordion-body">
@@ -40,7 +55,8 @@ $ar = app()->getLocale() === 'ar';
                         </div>
                         <div class="accordion-item">
                             <h2 class="accordion-header" id="headingTwo"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                    data-bs-target="#faq2" aria-expanded="false" aria-controls="faq2"><strong>{{ __('Quelles sont nos méthodes de paiement acceptées?') }}</strong></button></h2>
+                                    data-bs-target="#faq2" aria-expanded="false"
+                                    aria-controls="faq2"><strong>{{ __('Quelles sont nos méthodes de paiement acceptées?') }}</strong></button></h2>
                             <div id="faq2" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample1" style="">
                                 <div class="accordion-body">
                                     {{ __('Nous acceptons: ') }} <strong>CCP, BaridiMob</strong>
@@ -49,7 +65,8 @@ $ar = app()->getLocale() === 'ar';
                         </div>
                         <div class="accordion-item">
                             <h2 class="accordion-header" id="headingThree"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                    data-bs-target="#faq8" aria-expanded="false" aria-controls="faq8"><strong>{{ __('Comment puis-je confirmer ma commande?') }}</strong></button></h2>
+                                    data-bs-target="#faq8" aria-expanded="false"
+                                    aria-controls="faq8"><strong>{{ __('Comment puis-je confirmer ma commande?') }}</strong></button></h2>
                             <div id="faq8" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample1">
                                 <div class="accordion-body">
                                     {{ __('Après avoir effectué votre paiement, vous devrez nous envoyer soit le reçu de paiement en cliquant sur ') }}
@@ -61,7 +78,8 @@ $ar = app()->getLocale() === 'ar';
                         </div>
                         <div class="accordion-item">
                             <h2 class="accordion-header" id="headingThree"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                    data-bs-target="#faq9" aria-expanded="false" aria-controls="faq9"><strong>{{ __('Dois-je payer avant ou après avoir reçu le produit?') }}</strong></button></h2>
+                                    data-bs-target="#faq9" aria-expanded="false"
+                                    aria-controls="faq9"><strong>{{ __('Dois-je payer avant ou après avoir reçu le produit?') }}</strong></button></h2>
                             <div id="faq9" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample1">
                                 <div class="accordion-body">
                                     {{ __('Le paiement de l’argent doit être fait avant de passer votre commande à AliExpress.') }}
@@ -70,7 +88,9 @@ $ar = app()->getLocale() === 'ar';
                         </div>
                         <div class="accordion-item">
                             <h2 class="accordion-header" id="headingTwo"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                    data-bs-target="#faq3" aria-expanded="false" aria-controls="faq3"><strong>{{ __('Que puis-je faire si ma commande n’arrive pas dans les délais de livraison garantis par le vendeur ?') }}</strong></button></h2>
+                                    data-bs-target="#faq3" aria-expanded="false"
+                                    aria-controls="faq3"><strong>{{ __('Que puis-je faire si ma commande n’arrive pas dans les délais de livraison garantis par le vendeur ?') }}</strong></button>
+                            </h2>
                             <div id="faq3" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample1" style="">
                                 <div class="accordion-body">
                                     {{ __('Dans le cadre des garanties AliExpress, Nous pouvons soumettre des demandes de remboursement jusqu’à 15 jours après la fin de votre commande. nous pouvons le faire en ouvrant un litige auprès d’AliExpress.') }}
@@ -82,7 +102,9 @@ $ar = app()->getLocale() === 'ar';
                         </div>
                         <div class="accordion-item">
                             <h2 class="accordion-header" id="headingThree"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                    data-bs-target="#faq4" aria-expanded="false" aria-controls="faq4"><strong><strong>{{ __('Les articles que j’ai reçus n’étaient pas tels que décrit par le vendeur. Que puis-je faire?') }}</strong></strong></button></h2>
+                                    data-bs-target="#faq4" aria-expanded="false"
+                                    aria-controls="faq4"><strong><strong>{{ __('Les articles que j’ai reçus n’étaient pas tels que décrit par le vendeur. Que puis-je faire?') }}</strong></strong></button>
+                            </h2>
                             <div id="faq4" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample1">
                                 <div class="accordion-body">
                                     {{ __('Tout produit livré qui ne correspond pas à la description du vendeur est admissible à un remboursement. Nous pouvons également trouver une solution qui convient à la fois à vous et au vendeur.') }}
@@ -91,7 +113,9 @@ $ar = app()->getLocale() === 'ar';
                         </div>
                         <div class="accordion-item">
                             <h2 class="accordion-header" id="headingThree"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                    data-bs-target="#faq5" aria-expanded="false" aria-controls="faq5"><strong>{{ __('Comment puis-je m’assurer que les produits que j’achète sont authentiques?') }}</strong></button></h2>
+                                    data-bs-target="#faq5" aria-expanded="false"
+                                    aria-controls="faq5"><strong>{{ __('Comment puis-je m’assurer que les produits que j’achète sont authentiques?') }}</strong></button>
+                            </h2>
                             <div id="faq5" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample1">
                                 <div class="accordion-body">
                                     {{ __('Sur AliExpress.com, vous pouvez trouver de nombreux vendeurs qui offrent des produits authentiques garantis.') }}
@@ -100,7 +124,9 @@ $ar = app()->getLocale() === 'ar';
                         </div>
                         <div class="accordion-item">
                             <h2 class="accordion-header" id="headingThree"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                    data-bs-target="#faq6" aria-expanded="false" aria-controls="faq6"><strong>{{ __('Quelles autres protections puis-je obtenir pour des produits qui ne sont pas authentiques?') }}</strong></button></h2>
+                                    data-bs-target="#faq6" aria-expanded="false"
+                                    aria-controls="faq6"><strong>{{ __('Quelles autres protections puis-je obtenir pour des produits qui ne sont pas authentiques?') }}</strong></button>
+                            </h2>
                             <div id="faq6" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample1">
                                 <div class="accordion-body">
                                     {{ __('Tous les produits (Guaranteed Genuine) ont été vérifiés par AliExpress. Si vous recevez toujours un produit contrefait, vous obtiendrez un remboursement complet (frais d’expédition inclus).') }}
@@ -109,7 +135,8 @@ $ar = app()->getLocale() === 'ar';
                         </div>
                         <div class="accordion-item">
                             <h2 class="accordion-header" id="headingThree"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                    data-bs-target="#faq7" aria-expanded="false" aria-controls="faq7"><strong>{{ __('Quels sont nos frais?') }}</strong></button></h2>
+                                    data-bs-target="#faq7" aria-expanded="false" aria-controls="faq7"><strong>{{ __('Quels sont nos frais?') }}</strong></button>
+                            </h2>
                             <div id="faq7" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample1">
                                 <div class="accordion-body">
                                     {{ __('Nos frais varient en fonction du prix du produit, mais en règle générale, nous l’avons fixé à un minimum de 350DA et à un maximum de 2500DA, ce petit montant nous aide à fournir les meilleurs services d’achat en ligne tout en le rendant aussi facile que possible pour vous.') }}
@@ -166,9 +193,9 @@ $ar = app()->getLocale() === 'ar';
                                 <div class="mb-3"><label for="phone">{{ __('Téléphone') }}</label>
                                     <div class="input-group" @if ($ar)
                                         style="flex-direction: row-reverse;"
-                                        @endif><span class="input-group-text" id="basic-addon3"><span class="fas fa-phone-alt"></span></span> <input type="text"
-                                            name="phone" class="form-control @error('phone') is-invalid @enderror" id="phone" placeholder="0660010203"
-                                            aria-label="Phone" aria-describedby="basic-addon3" autocomplete="username">
+                                        @endif><span class="input-group-text" id="basic-addon3"><span class="fas fa-phone-alt"></span></span> <input type="number"
+                                            name="phone" class="form-control @error('phone') is-invalid @enderror" id="phone" placeholder="06XXXXXXXX"
+                                            aria-label="Phone" aria-describedby="basic-addon3" autocomplete="username" value="{{ old('phone') }}">
                                         @error('phone')
                                             <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
@@ -220,8 +247,8 @@ $ar = app()->getLocale() === 'ar';
                                 <span class="input-group-text" id="basic-addon3">
                                     <span class="fas fa-phone-alt"></span>
                                 </span>
-                                <input type="text" name="phone" class="form-control @error('phone') is-invalid @enderror" id="phone-login" placeholder="0660010203"
-                                    value="{{ old('phone') }}" aria-label="Nom Complet" aria-describedby="basic-addon3" autocomplete="username">
+                                <input type="number" name="phone" class="form-control @error('phone') is-invalid @enderror" id="phone-login" placeholder="06XXXXXXXX"
+                                    value="{{ old('phone') }}" aria-label="Téléphone" aria-describedby="basic-addon3" autocomplete="username">
                                 @error('phone')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
