@@ -25,6 +25,7 @@ Route::get('/fetchOrderItems/{userId}', 'ShoppingSessionController@fetchOrderIte
 Route::post('/addToCart/{userId}', 'ShoppingSessionController@addToCart')->name('addOrderItem');
 Route::post('/addToCart/{userId}', 'ShoppingSessionController@addToCart')->name('addOrderItem');
 Route::post('/addOrder/{userId}', 'OrdersController@addOrder')->name('addOrder');
+Route::post('/searches/add/{productId}', 'OrderItemController@searchInput')->name('search.input');
 
 
 Route::delete('/deleteOrderItem/{id}', 'OrderItemController@deleteOrderItem')->name('deleteOrderItem');

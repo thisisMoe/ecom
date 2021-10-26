@@ -95,24 +95,24 @@
                         <div class="font-weight-bold text-tertiary text-uppercase mb-1">
                             {{ $order->totalShipping }} DA
                         </div>
-                        <div class="text-xs font-weight-bold w-100 text-uppercase my-3 d-flex" style="gap: 1rem;">
-                            <a href="{{ route('admin.order.view', $order->id) }}" class="btn btn-outline-primary w-100 font-weight-bold">Voir</a>
+                        <div class="text-xs font-weight-bold w-100 text-uppercase my-3 d-flex" style="gap: 1rem; flex-wrap:wrap;">
+                            <a href="{{ route('admin.order.view', $order->id) }}" class="btn btn-outline-primary font-weight-bold">Voir</a>
                             @if (request()->filter['orderStatus'] == 'pending')
                                 <button data-toggle="modal" data-target="#confirmModal-{{ $order->id }}"
-                                    class="btn btn-success w-100 font-weight-bold">Confirmer
+                                    class="btn btn-success font-weight-bold">Confirmer
                                 </button>
                             @endif
                             @if (request()->filter['orderStatus'] == 'confirmed')
-                                <button data-toggle="modal" data-target="#shippedModal-{{ $order->id }}" class="btn btn-primary w-100 font-weight-bold">Shipped
+                                <button data-toggle="modal" data-target="#shippedModal-{{ $order->id }}" class="btn btn-primary font-weight-bold">Shipped
                                 </button>
                             @endif
                             @if (request()->filter['orderStatus'] == 'shipped')
                                 <button data-toggle="modal" data-target="#deliveredModal-{{ $order->id }}"
-                                    class="btn btn-success w-100 font-weight-bold">Delivered
+                                    class="btn btn-success font-weight-bold">Delivered
                                 </button>
                             @endif
                             <a href="#" data-toggle="modal" data-target="#deleteModal-{{ $order->id }}"
-                                class="btn btn-danger w-100 font-weight-bold">Supprimer</a>
+                                class="btn btn-danger font-weight-bold">Supprimer</a>
                         </div>
                     </div>
                 </div>

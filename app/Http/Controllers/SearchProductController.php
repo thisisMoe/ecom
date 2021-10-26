@@ -26,6 +26,7 @@ class SearchProductController extends Controller
         $locale = $request->query('locale');
 
         if (!str_contains($uri, 'item')) {
+            // Extract link from text
             $uri = $uri.'mohammed';
             $trimmedUri = $this->get_string_between($uri, 'https', 'mohammed');
             $trimmedUri = 'https'.$trimmedUri;
@@ -37,56 +38,62 @@ class SearchProductController extends Controller
                 throw $th;
             }
 
-            $newUri = $clientForRedirects->getHistory()->current()->getUri();
-            // dd($newUri);
-            try {
-                $itemID = $this->get_string_between($newUri, 'item/', '.html?');
-            } catch (\Throwable $th) {
-                throw $th;
-            }
-            // if ('ar' == $locale) {
-            //     $workingUri = 'https://ar.aliexpress.com/item/'.$itemID.'.html';
-            // } elseif ('fr' == $locale) {
-            //     $workingUri = 'https://fr.aliexpress.com/item/'.$itemID.'.html';
+            $uri = $clientForRedirects->getHistory()->current()->getUri();
+            // // dd($newUri);
+            // try {
+            //     $itemID = $this->get_string_between($newUri, 'item/', '.html?');
+            // } catch (\Throwable $th) {
+            //     throw $th;
             // }
+            // // if ('ar' == $locale) {
+            // //     $workingUri = 'https://ar.aliexpress.com/item/'.$itemID.'.html';
+            // // } elseif ('fr' == $locale) {
+            // //     $workingUri = 'https://fr.aliexpress.com/item/'.$itemID.'.html';
+            // // }
 
-            $workingUri = 'https://fr.aliexpress.com/item/'.$itemID.'.html';
+            // $workingUri = 'https://fr.aliexpress.com/item/'.$itemID.'.html';
 
-            // $newPage = $clientForScraping->request('GET', $workingUri);
+            // // $newPage = $clientForScraping->request('GET', $workingUri);
 
-            // $script14 = $newPage->filter('script')->eq(14)->text();
+            // // $script14 = $newPage->filter('script')->eq(14)->text();
 
-            // $newPage->filter('script')->each(function ($node, $i = 0) {
+            // // $newPage->filter('script')->each(function ($node, $i = 0) {
 
-            //     if($i == 14) {
-            //         $shippingCost = $this->get_string_between($node->text(), 'freightAmount":{"currency":"USD","formatedAmount":"US $', '","value":');
-            //         $this->capturedScript = $shippingCost;
+            // //     if($i == 14) {
+            // //         $shippingCost = $this->get_string_between($node->text(), 'freightAmount":{"currency":"USD","formatedAmount":"US $', '","value":');
+            // //         $this->capturedScript = $shippingCost;
 
-            //         $shippingTime = $this->get_string_between($node->text(), '},"time":"', '","tracking":');
-            //         $this->shippingTime = $shippingTime;
-            //     }
-            //     ++$i;
-            // });
+            // //         $shippingTime = $this->get_string_between($node->text(), '},"time":"', '","tracking":');
+            // //         $this->shippingTime = $shippingTime;
+            // //     }
+            // //     ++$i;
+            // // });
 
-            // $images = $this->get_string_between($script14, '"imagePathList":[', '],');
-            // $imagesArray = $this->getContents($images, '"', '"');
+            // // $images = $this->get_string_between($script14, '"imagePathList":[', '],');
+            // // $imagesArray = $this->getContents($images, '"', '"');
 
-            // return response()->json([
-            //     'images' => $imagesArray,
-            //     'script' => $script14,
-            //     // 'script' => $cleanedScript,
-            //     'shippingCost' => $this->capturedScript,
-            //     'shippingTime' => $this->shippingTime,
-            // ]);
-            $uri = $workingUri;
-        } else {
-            $uri = $uri.'mohammed';
-            $trimmedUri = $this->get_string_between($uri, 'aliexpress.com', 'mohammed');
-            $uri = 'https://fr.aliexpress.com'.$trimmedUri;
+            // // return response()->json([
+            // //     'images' => $imagesArray,
+            // //     'script' => $script14,
+            // //     // 'script' => $cleanedScript,
+            // //     'shippingCost' => $this->capturedScript,
+            // //     'shippingTime' => $this->shippingTime,
+            // // ]);
+            // $uri = $workingUri;
         }
 
+        try {
+            $itemID = $this->get_string_between($uri, 'item/', '.html?');
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+
+        $workingUri = 'https://fr.aliexpress.com/item/'.$itemID.'.html';
+
+        // $uri = $workingUri;
+
         //if browser link:
-        $page = $clientForScraping->request('GET', $uri);
+        $page = $clientForScraping->request('GET', $workingUri);
 
         // $script14 = $page->filter('script')->eq(14)->text(); OLD VErsion
         $script15 = $page->filter('script')->eq(15)->text();
@@ -112,6 +119,7 @@ class SearchProductController extends Controller
             // 'script' => $cleanedScript,
             'shippingCost' => $this->capturedScript,
             'shippingTime' => $this->shippingTime,
+            'uri' => $workingUri,
         ]);
     }
 
@@ -195,7 +203,7 @@ class SearchProductController extends Controller
             echo '<pre>';
             echo $i;
             echo '<pre>';
-            if($i == 14) {
+            if (14 == $i) {
                 $shippingCost = $this->get_string_between($node->text(), 'layout":[{"text":"Livraison: US $', '","type":"title"},{"text":');
                 // $this->setCaptureScript($shippingCost);
                 echo '<pre>';

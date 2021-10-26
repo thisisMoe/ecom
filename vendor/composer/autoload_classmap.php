@@ -40,6 +40,7 @@ return array(
     'App\\Models\\Confirmation' => $baseDir . '/app/Models/Confirmation.php',
     'App\\Models\\OrderItem' => $baseDir . '/app/Models/OrderItem.php',
     'App\\Models\\Orders' => $baseDir . '/app/Models/Orders.php',
+    'App\\Models\\Products' => $baseDir . '/app/Models/Products.php',
     'App\\Models\\ShoppingSession' => $baseDir . '/app/Models/ShoppingSession.php',
     'App\\Models\\User' => $baseDir . '/app/Models/User.php',
     'App\\Providers\\AppServiceProvider' => $baseDir . '/app/Providers/AppServiceProvider.php',
