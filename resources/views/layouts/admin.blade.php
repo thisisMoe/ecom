@@ -271,7 +271,7 @@
                                     </a>
                                 @else
                                     @foreach ($pendingOrders as $order)
-                                        <a class="dropdown-item d-flex align-items-center" href="#">
+                                        <a class="dropdown-item d-flex align-items-center" href="{{ route('admin.order.view', $order->id) }}">
                                             <div class="mr-3">
                                                 <div class="icon-circle bg-primary">
                                                     <i class="fas fa-file-alt text-white"></i>
