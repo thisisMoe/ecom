@@ -32,7 +32,7 @@ private static $installed = array (
     'aliases' => 
     array (
     ),
-    'reference' => 'ef0a40ab0d3f33342d4417b8c4bfadc9e9a7d9d4',
+    'reference' => 'ee8f2073faf151d794a401ef2302a929c7923576',
     'name' => 'laravel/laravel',
   ),
   'versions' => 
@@ -457,6 +457,15 @@ private static $installed = array (
       ),
       'reference' => '9a8cc99d30415ec0b3f7649e1647d03a55698545',
     ),
+    'jacobbennett/laravel-http2serverpush' => 
+    array (
+      'pretty_version' => 'v5.0.4',
+      'version' => '5.0.4.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '141162e5bcb76f699c2720a8940f527f4ed671dd',
+    ),
     'kkomelin/laravel-translatable-string-exporter' => 
     array (
       'pretty_version' => '1.14.0',
@@ -498,7 +507,7 @@ private static $installed = array (
       'aliases' => 
       array (
       ),
-      'reference' => 'ef0a40ab0d3f33342d4417b8c4bfadc9e9a7d9d4',
+      'reference' => 'ee8f2073faf151d794a401ef2302a929c7923576',
     ),
     'laravel/sail' => 
     array (
@@ -571,6 +580,15 @@ private static $installed = array (
       array (
       ),
       'reference' => '18634df356bfd4119fe3d6156bdb990c414c14ea',
+    ),
+    'league/glide' => 
+    array (
+      'pretty_version' => '1.7.0',
+      'version' => '1.7.0.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => 'ae5e26700573cb678919d28e425a8b87bc71c546',
     ),
     'league/mime-type-detection' => 
     array (
@@ -645,6 +663,15 @@ private static $installed = array (
       array (
       ),
       'reference' => '9cd80396ca58d7969ab44fc7afcf03624dfa526e',
+    ),
+    'nicmart/tree' => 
+    array (
+      'pretty_version' => '0.3.1',
+      'version' => '0.3.1.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => 'c55ba47c64a3cb7454c22e6d630729fc2aab23ff',
     ),
     'nikic/php-parser' => 
     array (
@@ -1104,6 +1131,51 @@ private static $installed = array (
       ),
       'reference' => 'c6c1022351a901512170118436c764e473f6de8c',
     ),
+    'spatie/browsershot' => 
+    array (
+      'pretty_version' => '3.52.0',
+      'version' => '3.52.0.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => 'd7486fa1e9301364cf47650febd59c13a5a1735c',
+    ),
+    'spatie/crawler' => 
+    array (
+      'pretty_version' => '7.0.2',
+      'version' => '7.0.2.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '06a8651b653871de24749ccc06c2561250311a27',
+    ),
+    'spatie/image' => 
+    array (
+      'pretty_version' => '1.10.5',
+      'version' => '1.10.5.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '63a963d0200fb26f2564bf7201fc7272d9b22933',
+    ),
+    'spatie/image-optimizer' => 
+    array (
+      'pretty_version' => '1.5.0',
+      'version' => '1.5.0.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '1b3585c3da2cc8872141fce40fbd17e07e6655d1',
+    ),
+    'spatie/laravel-package-tools' => 
+    array (
+      'pretty_version' => '1.9.2',
+      'version' => '1.9.2.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => 'f710fe196c126fb9e0aee67eb5af49ad8f13f528',
+    ),
     'spatie/laravel-query-builder' => 
     array (
       'pretty_version' => '3.6.0',
@@ -1112,6 +1184,33 @@ private static $installed = array (
       array (
       ),
       'reference' => '03d8e1307dcb58b16fcc9c4947633fc60ae74802',
+    ),
+    'spatie/laravel-sitemap' => 
+    array (
+      'pretty_version' => '6.0.5',
+      'version' => '6.0.5.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '4be02b73c35f73697e3ea6cd7b41da29f0005e13',
+    ),
+    'spatie/robots-txt' => 
+    array (
+      'pretty_version' => '2.0.1',
+      'version' => '2.0.1.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '312ff78f39c0c7071fac3ee25edb0f4d1511dc60',
+    ),
+    'spatie/temporary-directory' => 
+    array (
+      'pretty_version' => '2.0.0',
+      'version' => '2.0.0.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '06fe0f10d068fdf145c9b2235030e568c913bb61',
     ),
     'swiftmailer/swiftmailer' => 
     array (

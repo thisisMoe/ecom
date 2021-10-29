@@ -10,7 +10,7 @@
             class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">Commande #{{ $orderItem->shopping_session_id }}</a>
     </div>
     @if (Session::has('success'))
-        <div class="alert alert-success alert-dismissible fade show mt-3 d-flex justify-content-between align-items-center" role="alert">
+        <div class="alert alert-success alert-dismissible fade show mt-3 d-flex justify-content-between align-items-center" style="padding-right: 1rem;" role="alert">
             <div>{!! Session::get('success') !!}</div>
             <button type="button" class="btn btn-default" data-dismiss="alert" aria-label="Close">X
             </button>
@@ -79,6 +79,7 @@
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
+
                         <button type="submit" class="btn btn-primary">Enregistrer</button>
                     </form>
                 </div>

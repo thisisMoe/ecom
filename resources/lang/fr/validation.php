@@ -38,7 +38,7 @@ return [
     'date_format' => 'The :attribute does not match the format :format.',
     'different' => 'The :attribute and :other must be different.',
     'digits' => 'Cette valeur doit être de :digits chiffres.',
-    'digits_between' => 'The :attribute must be between :min and :max digits.',
+    'digits_between' => 'Vous devez fournir votre numéro de téléphone valide.',
     'dimensions' => 'The :attribute has invalid image dimensions.',
     'distinct' => 'The :attribute field has a duplicate value.',
     'email' => 'The :attribute must be a valid email address.',

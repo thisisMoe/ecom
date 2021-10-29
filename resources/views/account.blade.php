@@ -155,8 +155,14 @@
                                                         </div>
                                                         <div class="progress-wrapper" style="display: none;">
                                                             <div class="progress-info">
-                                                                <div class="progress-label"><span class="text-success">Téléchargement:</span></div>
-                                                                <div class="progress-percentage"><span>60%</span></div>
+                                                                <div class="progress-label">
+                                                                    <div class="spinner-border text-success" role="status">
+                                                                        <span class="sr-only">Loading...</span>
+                                                                    </div>
+                                                                    <span class="text-success">Téléchargement:</span>
+                                                                </div>
+                                                                <div class="progress-percentage"><span>60%</span>
+                                                                </div>
                                                             </div>
                                                             <div class="progress">
                                                                 <div class="progress-bar bg-success" role="progressbar" style="width: 0%;" aria-valuenow="0"
@@ -191,30 +197,33 @@
                                         </div>
                                     </div>
                                 @endif
-                                <div class="d-flex justify-content-end">
+                                <div class="d-flex flex-column justify-content-end">
                                     <p class="text-light text-italic"> <span class="fw-bold">{{ $order->created_at->diffForHumans() }}</span></p>
+                                    @if ($order->orderStatus == 'pending')
+                                        <p class="font-small">{{ __('votre commande sera supprimée après 24 heures si non confirmée.') }}</p>
+                                    @endif
                                 </div>
                                 <div class="modal fade" id="modal-delete-{{ $order->id }}" tabindex="-1" aria-labelledby="modal-delete-{{ $order->id }}"
                                     style="display: none;" aria-hidden="true">
                                     <div class="modal-dialog modal-dialog-centered" role="document">
                                         <div class="modal-content">
                                             <div class="modal-header">
-                                                <h2 class="h6 modal-title">Alert</h2><button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                    aria-label="Close"></button>
+                                                <h2 class="h6 modal-title">{{ __('Alert') }}</h2><button type="button" class="btn-close"
+                                                    data-bs-dismiss="modal" aria-label="Close"></button>
                                             </div>
                                             <div class="modal-body">
-                                                <p>Êtes-vous sûr de vouloir supprimer cette commande ?</p>
+                                                <p>{{ __('Êtes-vous sûr de vouloir supprimer cette commande ?') }}</p>
                                             </div>
                                             <div class="modal-footer">
                                                 <form action="{{ route('user.orders.delete', $order->id) }}" method="POST">
                                                     @csrf
                                                     @method('delete')
                                                     <button type="submit" class="btn btn-danger">
-                                                        Supprimer
+                                                        {{ __('Supprimer') }}
                                                     </button>
                                                 </form>
                                                 <button type="button" class="btn btn-link ms-auto" data-bs-dismiss="modal">
-                                                    Annuler
+                                                    {{ __('Annuler') }}
                                                 </button>
                                             </div>
                                         </div>

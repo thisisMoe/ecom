@@ -11,7 +11,8 @@
     </div>
 
     @if (Session::has('success'))
-        <div class="alert alert-success alert-dismissible fade show mt-3 d-flex justify-content-between align-items-center" role="alert">
+        <div class="alert alert-success alert-dismissible fade show mt-3 d-flex justify-content-between align-items-center" style="padding-right: 1rem;"
+            role="alert">
             <div>{!! Session::get('success') !!}</div>
             <button type="button" class="btn btn-default" data-dismiss="alert" aria-label="Close">X
             </button>
@@ -42,7 +43,13 @@
                                 <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
                                     Prix
                                 </div>
-                                <div class="h5 mb-2 font-weight-bold text-gray-800">{{ $product->minPrice }}DA - {{ $product->maxPrice }}DA</div>
+                                <div class="h5 mb-2 font-weight-bold text-gray-800">
+                                    @if (!$product->equalPrice)
+                                        {{ $product->minPrice }}DA - {{ $product->maxPrice }}DA
+                                    @else
+                                        {{ $product->equalPrice }}DA
+                                    @endif
+                                </div>
                                 <div class="text-xs font-weight-bold text-center text-dark text-uppercase mb-1">
                                     {{ $product->created_at->diffForHumans() }}
                                 </div>

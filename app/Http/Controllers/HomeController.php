@@ -31,7 +31,7 @@ class HomeController extends Controller
 
     public function tracking(Request $request)
     {
-        if ($request->trackingNumber != "") {
+        if ('' != $request->trackingNumber) {
             $client = new Client();
             // $res = $client->request('POST', 'https://api.tracktry.com/v1/trackings/realtime', [
             //     'headers' => [
@@ -52,8 +52,8 @@ class HomeController extends Controller
                         'Tracktry-Api-Key' => '31e50fb8-e78a-4d42-8e8c-03b10935f063',
                     ],
                     'json' => [
-                        "tracking_number" => $request->trackingNumber,
-                        "carrier_code" => 'cainiao',
+                        'tracking_number' => $request->trackingNumber,
+                        'carrier_code' => 'cainiao',
                     ],
                 ]
             );
@@ -63,7 +63,7 @@ class HomeController extends Controller
             // dd(json_decode($res->getBody()));
 
             $response = json_decode($res->getBody(), true);
-        }else {
+        } else {
             $response = '';
         }
 
@@ -118,5 +118,61 @@ class HomeController extends Controller
     public function about_us()
     {
         return view('about-us');
+    }
+
+    public function panier(Request $request)
+    {
+        $user = Auth::user();
+        $activeShoppingSession = $user->shoppingSessions->where('status', 'Active')->first();
+
+        if (!$activeShoppingSession) {
+            $shoppingSession = $user->shoppingSessions()->create();
+            $orderItems = [];
+        } else {
+            $orderItems = $activeShoppingSession->orderItems;
+        }
+
+        return view('user.panier', compact('orderItems'));
+    }
+
+    public function delete_OrderItem(Request $request, $id)
+    {
+        $user = Auth::user();
+        $orderItem = $user->orderItems->where('id', $id)->first;
+        $orderItem->delete();
+
+        return redirect()->back()->with('success', 'Produit supprimé du panier');
+    }
+
+    public function addOrder(Request $request)
+    {
+        $user = Auth::user();
+        $activeShoppingSession = $user->shoppingSessions->where('status', 'Active')->first();
+
+        $order = $activeShoppingSession->order()->create([
+            'user_id' => $user->id,
+            'shopping_session_id' => $activeShoppingSession->id,
+        ]);
+
+        $activeShoppingSession->update([
+            'status' => 'Inactive',
+        ]);
+
+        return redirect()->back()->with('success', 'Nous avons reçu votre commande avec succès.');
+    }
+
+    public function contact(Request $request)
+    {
+        return view('contact');
+    }
+
+    public function signin(Request $request)
+    {
+        return view('signin');
+    }
+
+    public function signup(Request $request)
+    {
+        return view('signup');
     }
 }

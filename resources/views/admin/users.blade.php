@@ -7,6 +7,15 @@
         <h1 class="h3 mb-2 text-gray-800">Users</h1>
         <p class="mb-4">List all users</p>
 
+        @if (Session::has('success'))
+            <div class="alert alert-success alert-dismissible fade show mt-3 d-flex justify-content-between align-items-center" style="padding-right: 1rem;"
+                role="alert">
+                <div>{!! Session::get('success') !!}</div>
+                <button type="button" class="btn btn-default" data-dismiss="alert" aria-label="Close">X
+                </button>
+            </div>
+        @endif
+
         <!-- DataTales Example -->
         <div class="card shadow mb-4">
             <div class="card-header py-3 d-flex align-items-center justify-content-between">
@@ -66,7 +75,8 @@
                                                 <td>{{ $user->created_at->format('d/m/Y') }} - {{ $user->created_at->diffForHumans() }}</td>
                                                 <td>
                                                     <a href="{{ route('admin.user.edit', $user->id) }}" class="btn btn-outline-primary">Edit</a>
-                                                    <a href="" class="btn btn-outline-danger">Delete</a>
+                                                    <button data-toggle="modal" data-target="#deleteModal-{{ $user->id }}" type="button"
+                                                        class="btn btn-outline-danger">Delete</button>
                                                 </td>
                                             </tr>
                                         @endforeach
@@ -79,6 +89,30 @@
                 </div>
             </div>
         </div>
+
+        @foreach ($users as $user)
+            <div class="modal fade" id="deleteModal-{{ $user->id }}" tabindex="-1" role="dialog" aria-labelledby="deleteModal" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Are you sure you want to delete this user?</h5>
+                            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">×</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">Select "Supprimer" below if you are ready to end delete this user.</div>
+                        <div class="modal-footer">
+                            <button class="btn btn-secondary" type="button" data-dismiss="modal">Annuler</button>
+                            <form action="{{ route('admin.user.delete', $user->id) }}" method="POST">
+                                @csrf
+                                @method('delete')
+                                <button type="submit" class="btn btn-danger" href="">Supprimer</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        @endforeach
 
         <div class="d-flex justify-content-end">
             {{ $users->links() }}

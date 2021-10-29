@@ -6,15 +6,26 @@
     <!-- Hero -->
     <section class="section-header overflow-hidden pt-7 pt-lg-8 pb-9 pb-lg-12 bg-primary text-white">
         <div class="container">
+            @if (Session::has('success'))
+                <div class="modal fade show" id="modal-notification" tabindex="-1" role="dialog" aria-labelledby="modal-notification" aria-modal="true"
+                    style="display: block;">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content bg-primary text-white">
+                            <div class="modal-header border-0"><button type="button" class="btn-close bg-gray-500" id="closeButton" data-bs-dismiss="modal"
+                                    aria-label="Close"></button></div>
+                            <div class="modal-body">
+                                <div class="py-3 text-center"><span class="modal-icon display-1-lg"><span class="far fa-envelope-open"></span></span>
+                                    <h2 class="h4 modal-title my-3">{{ __('Merci de nous avoir contactés!') }}</h2>
+                                    <p class="px-lg-5">{{ __('Message reçu avec succès, nous vous répondrons dans les plus brefs délais.') }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            @endif
             <div class="row">
                 <div class="col-12 text-center">
                     <div class="bootstrap-big-icon d-none d-lg-block">
-                        {{-- <svg xmlns="http://www.w3.org/2000/svg" width="700" height="622" class="d-block my-1" viewBox="0 0 118 94" role="img">
-                                <title>Bootstrap</title>
-                                <path fill-rule="evenodd" clip-rule="evenodd"
-                                    d="M24.509 0c-6.733 0-11.715 5.893-11.492 12.284.214 6.14-.064 14.092-2.066 20.577C8.943 39.365 5.547 43.485 0 44.014v5.972c5.547.529 8.943 4.649 10.951 11.153 2.002 6.485 2.28 14.437 2.066 20.577C12.794 88.106 17.776 94 24.51 94H93.5c6.733 0 11.714-5.893 11.491-12.284-.214-6.14.064-14.092 2.066-20.577 2.009-6.504 5.396-10.624 10.943-11.153v-5.972c-5.547-.529-8.934-4.649-10.943-11.153-2.002-6.484-2.28-14.437-2.066-20.577C105.214 5.894 100.233 0 93.5 0H24.508zM80 57.863C80 66.663 73.436 72 62.543 72H44a2 2 0 01-2-2V24a2 2 0 012-2h18.437c9.083 0 15.044 4.92 15.044 12.474 0 5.302-4.01 10.049-9.119 10.88v.277C75.317 46.394 80 51.21 80 57.863zM60.521 28.34H49.948v14.934h8.905c6.884 0 10.68-2.772 10.68-7.727 0-4.643-3.264-7.207-9.012-7.207zM49.948 49.2v16.458H60.91c7.167 0 10.964-2.876 10.964-8.281 0-5.406-3.903-8.178-11.425-8.178H49.948z"
-                                    fill="currentColor"></path>
-                            </svg> --}}
                         <img src="{{ asset('assets/img/brand/logo-hero.png') }}" alt="Pixel Free Mockup">
                     </div>
                     <h1 class="fw-bolder display-2">DZ AliExpress</h1>
@@ -44,7 +55,13 @@
     <div class="section py-0">
         <div class="container mt-n10 mt-lg-n12 z-2">
             <div class="row justify-content-center">
-                <div class="col-12 col-md-10"><img src="{{ asset('assets/img/homepage.png') }}" alt="DZ-AliExpress"></div>
+                <div class="col-12 col-md-10 text-center">
+                    {{-- <video height="420" controls muted autoplay>
+                        <source src="{{ asset('assets/videos/promo-video.mp4') }}" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video> --}}
+                    <img src="{{ asset('assets/img/home.webp') }}" alt="DZ-AliExpress">
+                </div>
             </div>
         </div>
     </div>
@@ -70,14 +87,16 @@
             <div id="howTo" class="row justify-content-between align-items-center mb-5 mb-lg-7">
                 <div class="col-12 col-lg-5 mb-5 mb-lg-0 order-lg-2">
                     <h2 class="h1 text-capitalize">{{ __('étape 1') }}</h2>
-                    <p class="mb-4 lead fw-bold">{{ __('Sélectionnez votre produit préféré sur le site Web ou l’application Alixpress et copiez son lien.') }}</p>
+                    <p class="mb-4 lead fw-bold">{{ __('Sélectionnez votre produit préféré sur le site Web ou l’application Alixpress et copiez son lien.') }}
+                    </p>
                     <a href="{{ route('searchProduct', ['q' => '']) }}" class="btn btn-primary mt-2 animate-up-2">
                         <span class="fas fa-search me-2"></span> {{ __('Commencer') }}
                     </a>
                 </div>
                 <div class="col-12 col-lg-6 order-lg-1 text-center">
 
-                    <video loop autoplay playsinline muted style="border-radius: 16px;box-shadow: 0 0 60px 10px rgba(70, 70, 70, 0.03), -10px 10px 50px rgba(0, 0, 0, 0.1), -50px 50px 70px rgba(0, 0, 0, 0.05), -100px 100px 100px rgba(0, 0, 0, 0.03), -150px 150px 150px rgba(0, 0, 0, 0.02); max-width: 65%">
+                    <video loop autoplay playsinline muted
+                        style="border-radius: 16px;box-shadow: 0 0 60px 10px rgba(70, 70, 70, 0.03), -10px 10px 50px rgba(0, 0, 0, 0.1), -50px 50px 70px rgba(0, 0, 0, 0.05), -100px 100px 100px rgba(0, 0, 0, 0.03), -150px 150px 150px rgba(0, 0, 0, 0.02); max-width: 65%">
                         <source src="{{ asset('assets/img/step1.mp4') }}" type="video/mp4">
                     </video>
                 </div>
@@ -92,7 +111,8 @@
                         {{ __('Commencer') }}</a>
                 </div>
                 <div class="col-lg-6 text-center">
-                    <video loop playsinline autoplay muted style="border-radius: 16px;box-shadow: 0 0 60px 10px rgba(70, 70, 70, 0.03), -10px 10px 50px rgba(0, 0, 0, 0.1), -50px 50px 70px rgba(0, 0, 0, 0.05), -100px 100px 100px rgba(0, 0, 0, 0.03), -150px 150px 150px rgba(0, 0, 0, 0.02); max-width: 65%">
+                    <video loop playsinline autoplay muted
+                        style="border-radius: 16px;box-shadow: 0 0 60px 10px rgba(70, 70, 70, 0.03), -10px 10px 50px rgba(0, 0, 0, 0.1), -50px 50px 70px rgba(0, 0, 0, 0.05), -100px 100px 100px rgba(0, 0, 0, 0.03), -150px 150px 150px rgba(0, 0, 0, 0.02); max-width: 65%">
                         <source src="{{ asset('assets/img/step2.mp4') }}" type="video/mp4">
                     </video>
                 </div>
@@ -111,7 +131,8 @@
                     </a>
                 </div>
                 <div class="col-12 col-lg-6 order-lg-1 text-center">
-                    <video loop playsinline autoplay muted style="border-radius: 16px;box-shadow: 0 0 60px 10px rgba(70, 70, 70, 0.03), -10px 10px 50px rgba(0, 0, 0, 0.1), -50px 50px 70px rgba(0, 0, 0, 0.05), -100px 100px 100px rgba(0, 0, 0, 0.03), -150px 150px 150px rgba(0, 0, 0, 0.02); max-width: 65%">
+                    <video loop playsinline autoplay muted
+                        style="border-radius: 16px;box-shadow: 0 0 60px 10px rgba(70, 70, 70, 0.03), -10px 10px 50px rgba(0, 0, 0, 0.1), -50px 50px 70px rgba(0, 0, 0, 0.05), -100px 100px 100px rgba(0, 0, 0, 0.03), -150px 150px 150px rgba(0, 0, 0, 0.02); max-width: 65%">
                         <source src="{{ asset('assets/img/step3.mp4') }}" type="video/mp4">
                     </video>
                 </div>
@@ -126,11 +147,24 @@
                         {{ __('Commencer') }}</a>
                 </div>
                 <div class="col-lg-6 text-center">
-                    <video loop playsinline autoplay muted style="border-radius: 16px;max-width: 65%; box-shadow: 0 0 60px 10px rgba(70, 70, 70, 0.03), -10px 10px 50px rgba(0, 0, 0, 0.1), -50px 50px 70px rgba(0, 0, 0, 0.05), -100px 100px 100px rgba(0, 0, 0, 0.03), -150px 150px 150px rgba(0, 0, 0, 0.02);">
+                    <video loop playsinline autoplay muted
+                        style="border-radius: 16px;max-width: 65%; box-shadow: 0 0 60px 10px rgba(70, 70, 70, 0.03), -10px 10px 50px rgba(0, 0, 0, 0.1), -50px 50px 70px rgba(0, 0, 0, 0.05), -100px 100px 100px rgba(0, 0, 0, 0.03), -150px 150px 150px rgba(0, 0, 0, 0.02);">
                         <source src="{{ asset('assets/img/step4.mp4') }}" type="video/mp4">
                     </video>
                 </div>
             </div>
         </div>
     </section>
+    @if (Session::has('success'))
+        <div id="modal-backdrop" class="modal-backdrop fade show"></div>
+    @endif
+@endsection
+
+@section('scripts')
+    <script>
+        $('#closeButton').click(function() {
+            $('#modal-notification').hide();
+            $('#modal-backdrop').hide();
+        })
+    </script>
 @endsection

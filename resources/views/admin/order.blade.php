@@ -11,7 +11,8 @@
     </div>
 
     @if (Session::has('success'))
-        <div class="alert alert-success alert-dismissible fade show mt-3 d-flex justify-content-between align-items-center" role="alert">
+        <div class="alert alert-success alert-dismissible fade show mt-3 d-flex justify-content-between align-items-center" style="padding-right: 1rem;"
+            role="alert">
             <div>{!! Session::get('success') !!}</div>
             <button type="button" class="btn btn-default" data-dismiss="alert" aria-label="Close">X
             </button>
@@ -58,6 +59,15 @@
             <div class="card shadow mb-4 p-3">
                 <h5 class="font-weight-bold">Total: {{ $order->total + $order->totalShipping }} DA</h5>
                 <h5 class="font-weight-bold">Revenue: + <span class="text-success">{{ $order->totalFee }} </span>DA</h5>
+                <h5 class="font-weight-bold">Tracking: {{ $order->trackingNumber }} </h5>
+                <form action="{{ route('admin.orders.update.tracking', $order->id) }}" method="POST">
+                    @csrf
+                    @method('patch')
+                    <div class="d-flex" style="gap: 1rem">
+                        <input type="text" placeholder="Tracking" value="{{ $order->trackingNumber }}" name="trackingNumber" class="form-control">
+                        <button type="submit" class="btn btn-info">Modifier</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
@@ -101,13 +111,17 @@
                     </div>
 
                     @if ($orderItem->shippingCost == 0)
-                        <div class="input-group mb-3 mt-1">
-                            <input type="text" class="form-control" style="max-width: 100px" placeholder="0" aria-label="Shipping costs"
-                                aria-describedby="basic-addon2">
-                            <div class="input-group-append">
-                                <button class="btn btn-success font-weight-bold" type="button"><span class="fas fa-check"></span></button>
+                        <form action="{{ route('admin.orderItems.update.shippingCost', $orderItem->id) }}" method="POST">
+                        @csrf
+                        @method('patch')
+                            <div class="input-group mb-3 mt-1">
+                                <input type="text" name="shippingCost" class="form-control" style="max-width: 100px" value="{{ $orderItem->shippingCost }}" aria-label="Shipping costs"
+                                    aria-describedby="basic-addon2">
+                                <div class="input-group-append">
+                                    <button class="btn btn-success font-weight-bold" type="submit"><span class="fas fa-check"></span></button>
+                                </div>
                             </div>
-                        </div>
+                        </form>
                     @else
                         <div class="font-weight-bold text-uppercase">
                             {{ $orderItem->shippingCost }} DA

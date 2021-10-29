@@ -33,7 +33,7 @@ lang="fr"
     <title>DZ-AliExpress | {{ __('Service de commandes de produits AliExpress pour l’Algérie') }}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="title" content="DZ-AliExpress">
-    <meta name="author" content="Sidi Mohammed">
+    <meta name="author" content="bounoua.smm@gmail.com">
     <meta name="description" content="Commandez n’importe quel produit chez AliExpress en 30 secondes. Copiez le lien de n’importe quel produit que vous aimez d’AliExpress, Mettez le lien dans notre barre de recherche et nous nous occupons du reste jusqu’à la livraison en Algérie">
 
     <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -69,6 +69,8 @@ lang="fr"
 
     @yield('head')
 
+    @include('partials.analytics')
+
 </head>
 
 <body>
@@ -97,12 +99,12 @@ lang="fr"
                     <ul class="navbar-nav navbar-nav-hover align-items-lg-center">
                         <li class="nav-item">
                             <a href="/searchProduct" class="nav-link" aria-expanded="false">
-                                <span class="fs-4 fas fa-search"></span>
+                                {{ __('Recherche') }} <i class="fas fa-search"></i>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a href="{{ route('tracking') }}" class="nav-link" aria-expanded="false">
-                                Tracking <i class="fas fa-shipping-fast"></i>
+                                {{ __('Tracking') }} <i class="fas fa-shipping-fast"></i>
                             </a>
                         </li>
                         <li class="nav-item dropdown">
@@ -147,7 +149,7 @@ lang="fr"
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="#" class="nav-link" aria-expanded="false">
+                            <a href="{{ route('contact') }}" class="nav-link" aria-expanded="false">
                                 {{ __('Contact') }}
                             </a>
                         </li>
@@ -156,16 +158,17 @@ lang="fr"
                 <div class="ml-3 d-flex align-items-center gap-3">
                     @auth
                         <div class="dropdown">
-                            <a class="btn btn-white dropdown-toggle" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
-                                <i style="font-size: 1.2rem; padding-left: 2px; padding-right: 2px;" class="far fa-user"></i>
+                            <a class="dropdown-toggle" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                                {{-- <i style="font-size: 1.2rem; padding-left: 2px; padding-right: 2px;" class="far fa-user"></i> --}}
+                                <img width="32px" src="{{ asset('assets/img/user-profile.png') }}" alt="">
                             </a>
 
-                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                            <ul class="dropdown-menu" style="left:-20px" aria-labelledby="dropdownMenuLink">
                                 @if (Auth::user()->role == 'admin')
                                     <li><a class="dropdown-item" href="{{ route('admin.index') }}">{{ __('Dashboard') }}</a>
                                     </li>
                                 @endif
-                                <li><a class="dropdown-item" href="">{{ __('Mon Panier') }} <span class="badge bg-info">{{ Auth::user()->cartCount() }}</span></a>
+                                <li><a class="dropdown-item" href="{{ route('panier') }}">{{ __('Mon Panier') }} <span class="badge bg-info">{{ Auth::user()->cartCount() }}</span></a>
                                 </li>
                                 <li><a class="dropdown-item" href="{{ route('account') }}">{{ __('Mes Commandes') }} <span class="badge bg-info">{{ Auth::user()->ordersCount() }}</span></a>
                                 </li>
@@ -177,7 +180,10 @@ lang="fr"
                                 </li>
                             </ul>
                         </div>
-
+                    @else
+                        <a href="{{ route('login') }}" class="">
+                            <img src="{{ asset('assets/img/lock.png') }}" width="32px" alt="Login">
+                        </a>
                     @endauth
                     <div class="">
                         @include('partials/language_switcher')
@@ -244,12 +250,12 @@ lang="fr"
                     <p class="mt-4"> {{ __("Notre rôle est d'offrir la possibilité d'achat et de suivi de produits AliExpress conforme à la règlementation algérienne des produits importés à tous les citoyens algériens sur tout le territoire national") }}</p>
                     <ul class="social-buttons mb-5 mb-lg-0">
                         <li>
-                            <a href="#" class="icon-white me-2" aria-label="facebook social link">
+                            <a href="https://www.facebook.com/DZ.ALIEXPRESS.service" class="icon-white me-2" aria-label="facebook social link">
                                 <span class="fab fa-facebook"></span>
                             </a>
                         </li>
                         <li>
-                            <a href="#" class="icon-white me-2" aria-label="dribbble social link">
+                            <a href="https://www.instagram.com/dz_ali.express/" class="icon-white me-2" aria-label="dribbble social link">
                                 <span class="fab fa-instagram"></span>
                             </a>
                         </li>
@@ -289,9 +295,9 @@ lang="fr"
 
                         </div>
                         <div class="col-12 d-grid">
-                            <button type="submit" class="btn btn-tertiary" data-loading-text="Sending">
+                            <a href="{{ route('contact') }}" class="btn btn-tertiary" data-loading-text="Sending">
                                 <span>{{ __('Nous Contacter') }}</span>
-                            </button>
+                            </a>
                         </div>
                     </div>
 
