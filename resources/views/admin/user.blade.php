@@ -11,7 +11,7 @@
 
     <!-- Content Row -->
     @if (Session::has('success'))
-        <div class="alert alert-success alert-dismissible fade show mt-3 d-flex justify-content-between align-items-center" role="alert">
+        <div class="alert alert-success alert-dismissible fade show mt-3 d-flex justify-content-between align-items-center" style="padding-right: 1rem;" role="alert">
             <div>{!! Session::get('success') !!}</div>
             <button type="button" class="btn btn-default" data-dismiss="alert" aria-label="Close">X
             </button>

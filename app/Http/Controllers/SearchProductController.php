@@ -83,7 +83,7 @@ class SearchProductController extends Controller
         }
 
         try {
-            $itemID = $this->get_string_between($uri, 'item/', '.html?');
+            $itemID = $this->get_string_between($uri, 'item/', '.html');
         } catch (\Throwable $th) {
             throw $th;
         }

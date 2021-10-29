@@ -35,19 +35,16 @@ class AdminController extends Controller
 
     public function orders(Request $request)
     {
-        $orders = QueryBuilder::for(ShoppingSession::class)->allowedFilters('orderStatus', 'status', 'confirmation_image')->paginate(6)->appends(request()->query());
+        $orders = QueryBuilder::for(ShoppingSession::class)->allowedFilters('orderStatus', 'status', 'withPayment')->paginate(6)->appends(request()->query());
+
+        foreach ($orders as $order) {
+            $order->seen = true;
+            $order->save();
+        }
 
         $ordersCount = $orders->count();
 
         return view('admin.pending', compact('orders', 'ordersCount'));
-    }
-
-    public function pendingPayments(Request $request)
-    {
-        $orders = ShoppingSession::where(['orderStatus' => 'pending', 'withPayment' => true])->paginate(6);
-        $ordersCount = ShoppingSession::where(['orderStatus' => 'pending', 'withPayment' => true])->get()->count();
-
-        return view('admin.pending-payments', compact('orders', 'ordersCount'));
     }
 
     public function user_edit(Request $request, $id)
@@ -79,6 +76,14 @@ class AdminController extends Controller
         $user->save();
 
         return redirect()->back()->with('success', 'Ce profil a été mis à jour avec succès.');
+    }
+
+    public function user_delete(Request $request, $id)
+    {
+        $user = User::find($id);
+        $user->delete();
+
+        return redirect()->back()->with('success', 'User Deleted Successfully');
     }
 
     public function order_delete(Request $request, $id)
@@ -123,7 +128,7 @@ class AdminController extends Controller
         } catch (\Throwable $th) {
             dd($th);
         }
-        $imageName = 'DZ'.$order->id.'-shipped-'.date('Y-m-d-H:i:s', time()).'.'.$request->proof_image->extension();
+        $imageName = 'DZ'.$order->id.'-confirmed-'.date('Y-m-d-H:i:s', time()).'.'.$request->proof_image->extension();
 
         // $image = $request->confirmation_image->storeAs('public/images/order-confirmationz', $imageName);
 
@@ -152,9 +157,12 @@ class AdminController extends Controller
 
     public function order_shipped(Request $request, $id)
     {
+        $request->validate([
+            'trackingNumber' => 'required|string',
+        ]);
         $order = ShoppingSession::find($id);
         $order->orderStatus = 'shipped';
-        // $order->trackingNumber = $request->input('tracking-number');
+        $order->trackingNumber = $request->input('trackingNumber');
         $order->save();
 
         return redirect()->back()->with('success', 'Order Confirmed!');
@@ -182,5 +190,13 @@ class AdminController extends Controller
         $product->delete();
 
         return back()->with('success', 'Produit supprimée avec succès.');
+    }
+    public function order_update_tracking(Request $request, $id)
+    {
+        $order = ShoppingSession::find($id);
+        $order->trackingNumber = $request->input('trackingNumber');
+        $order->save();
+
+        return redirect()->back()->with('success', 'Tracking number updated!');
     }
 }

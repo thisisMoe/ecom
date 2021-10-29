@@ -18,7 +18,7 @@
             Generate Report</a>
     </div>
     @if (Session::has('success'))
-        <div class="alert alert-success alert-dismissible fade show mt-3 d-flex justify-content-between align-items-center" role="alert">
+        <div class="alert alert-success alert-dismissible fade show mt-3 d-flex justify-content-between align-items-center" style="padding-right: 1rem;" role="alert">
             <div>{!! Session::get('success') !!}</div>
             <button type="button" class="btn btn-default" data-dismiss="alert" aria-label="Close">X
             </button>
@@ -45,7 +45,7 @@
                     <div class="card-body">
                         <div>
                             <div class="font-weight-bold mb-1 d-flex align-items-center">
-                                {{ $order->created_at->diffForHumans() }}
+                                #{{ $order->id }} - {{ $order->created_at->diffForHumans() }}
                             </div>
                             <div class="font-weight-bold mb-1 d-flex align-items-center">
                                 <div class="mr-2 far fa-user"></div>
@@ -98,8 +98,7 @@
                         <div class="text-xs font-weight-bold w-100 text-uppercase my-3 d-flex" style="gap: 1rem; flex-wrap:wrap;">
                             <a href="{{ route('admin.order.view', $order->id) }}" class="btn btn-outline-primary font-weight-bold">Voir</a>
                             @if (request()->filter['orderStatus'] == 'pending')
-                                <button data-toggle="modal" data-target="#confirmModal-{{ $order->id }}"
-                                    class="btn btn-success font-weight-bold">Confirmer
+                                <button data-toggle="modal" data-target="#confirmModal-{{ $order->id }}" class="btn btn-success font-weight-bold">Confirmer
                                 </button>
                             @endif
                             @if (request()->filter['orderStatus'] == 'confirmed')
@@ -107,12 +106,10 @@
                                 </button>
                             @endif
                             @if (request()->filter['orderStatus'] == 'shipped')
-                                <button data-toggle="modal" data-target="#deliveredModal-{{ $order->id }}"
-                                    class="btn btn-success font-weight-bold">Delivered
+                                <button data-toggle="modal" data-target="#deliveredModal-{{ $order->id }}" class="btn btn-success font-weight-bold">Delivered
                                 </button>
                             @endif
-                            <a href="#" data-toggle="modal" data-target="#deleteModal-{{ $order->id }}"
-                                class="btn btn-danger font-weight-bold">Supprimer</a>
+                            <a href="#" data-toggle="modal" data-target="#deleteModal-{{ $order->id }}" class="btn btn-danger font-weight-bold">Supprimer</a>
                         </div>
                     </div>
                 </div>
@@ -149,17 +146,24 @@
                                     <span aria-hidden="true">×</span>
                                 </button>
                             </div>
-                            <div class="modal-body">
-                               Please don't forget to add the tracking number.
-                            </div>
-                            <div class="modal-footer">
-                                <button class="btn btn-secondary" type="button" data-dismiss="modal">Annuler</button>
-                                <form action="{{ route('admin.orders.shipped', $order->id) }}" method="POST">
-                                    @csrf
-                                    @method('patch')
+                            <form action="{{ route('admin.orders.shipped', $order->id) }}" method="POST">
+                                @csrf
+                                @method('patch')
+                                <div class="modal-body">
+                                    Please don't forget to add the tracking number.
+                                    <div class="mb-4 mt-3">
+                                        <label for="exampleInputEmail6" class="font-weight-bold">Tracking Number:</label> 
+                                        <input type="text" name="trackingNumber" class="form-control" id="exampleInputEmail6">
+                                        <small id="emailHelp" class="form-text text-gray">Make sure it is the right one ;).
+
+                                        </small>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Annuler</button>
                                     <button type="submit" class="btn btn-success" href="">Okay</button>
-                                </form>
-                            </div>
+                                </div>
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -191,7 +195,8 @@
                     </div>
                 </div>
                 <!-- delivered Modal-->
-                <div class="modal fade" id="deliveredModal-{{ $order->id }}" tabindex="-1" role="dialog" aria-labelledby="deliveredModal" aria-hidden="true">
+                <div class="modal fade" id="deliveredModal-{{ $order->id }}" tabindex="-1" role="dialog" aria-labelledby="deliveredModal"
+                    aria-hidden="true">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
@@ -201,7 +206,7 @@
                                 </button>
                             </div>
                             <div class="modal-body">
-                               Please don't forget to ask the client for proof of delivery
+                                Please don't forget to ask the client for proof of delivery
                             </div>
                             <div class="modal-footer">
                                 <button class="btn btn-secondary" type="button" data-dismiss="modal">Annuler</button>

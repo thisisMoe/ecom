@@ -231,6 +231,14 @@ $ar = app()->getLocale() === 'ar';
                             <div class="d-flex justify-content-center">
                                 <button class="btn btn-lg btn-primary fs-5 text-uppercase px-5 py-2" type="submit">{{ __("S'inscrire") }}</button>
                             </div>
+                            <div class="d-flex justify-content-center align-items-center mt-4">
+                                <span class="fw-normal">{{ __('Mot de passe oublié?') }}
+                                    <a href="#/" class="mb-3 text-underline fw-bold" data-bs-container="body" data-bs-toggle="popover" data-bs-placement="top" title=""
+                                        data-bs-content="Pour demander un nouveau mot de passe, veuillez nous envoyer un message à ce numéro (0558494325) avec ce texte (mdp)"
+                                        data-bs-original-title="{{ __('Nouveau Mot de Passe') }}"
+                                        aria-describedby="popover415920">{{ __('Demander un nouveau Mot de passe') }}</a>
+                                </span>
+                            </div>
                         </div>
                     </form>
                 </div>
@@ -274,17 +282,18 @@ $ar = app()->getLocale() === 'ar';
                                         {{ old('remember') ? 'checked' : '' }}> <label class="form-check-label"
                                         for="remember">{{ __('Réster Connecter?') }}</label></div>
                             </div>
-
-                            @if (Route::has('password.request'))
-                                <a class="btn btn-link" href="{{ route('password.request') }}">
-                                    {{ __('Mot de passe oublié?') }}
-                                </a>
-                            @endif
-
                         </div>
                         <div class="container">
                             <div class="d-flex justify-content-center">
                                 <button class="btn btn-lg btn-primary fs-5 text-uppercase px-5 py-2" type="submit">{{ __('Se connecter') }}</button>
+                            </div>
+                            <div class="d-flex justify-content-center align-items-center mt-4">
+                                <span class="fw-normal">{{ __('Mot de passe oublié?') }}
+                                    <a href="#/" class="mb-3 text-underline fw-bold" data-bs-container="body" data-bs-toggle="popover" data-bs-placement="top" title=""
+                                        data-bs-content="Pour demander un nouveau mot de passe, veuillez nous envoyer un message à ce numéro (0558494325) avec ce texte (mdp)"
+                                        data-bs-original-title="{{ __('Nouveau Mot de Passe') }}"
+                                        aria-describedby="popover415920">{{ __('Demander un nouveau Mot de passe') }}</a>
+                                </span>
                             </div>
                         </div>
                     </form>

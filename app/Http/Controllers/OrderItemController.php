@@ -103,4 +103,13 @@ class OrderItemController extends Controller
 
         return response()->json('Item created', Response::HTTP_CREATED);
     }
+
+    public function update_shippingCost(Request $request, $id)
+    {
+        $orderItem = OrderItem::find($id);
+        $orderItem->shippingCost = $request->input('shippingCost');
+        $orderItem->save();
+
+        return redirect()->back()->with('success', 'Shipping Cost updated!');
+    }
 }

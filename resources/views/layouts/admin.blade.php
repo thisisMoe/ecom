@@ -119,19 +119,21 @@
                                 href="{{ route('admin.orders', ['filter[orderStatus]' => 'shipped', 'filter[status]' => 'inactive']) }}">
                                 Shipped
                             </a>
-                            <a class="collapse-item"
+                            <a class="collapse-item {{ request()->filter['orderStatus'] == 'delivered' ? 'active' : '' }}"
                                 href="{{ route('admin.orders', ['filter[orderStatus]' => 'delivered', 'filter[status]' => 'inactive']) }}">
                                 Delivered
                             </a>
                         @else
-                            <a class="collapse-item" href="{{ route('admin.orders', ['filter[orderStatus]' => 'pending', 'filter[status]' => 'inactive']) }}">
+                            <a class="collapse-item"
+                                href="{{ route('admin.orders', ['filter[orderStatus]' => 'pending', 'filter[status]' => 'inactive']) }}">
                                 Pending
                             </a>
                             <a class="collapse-item"
                                 href="{{ route('admin.orders', ['filter[orderStatus]' => 'confirmed', 'filter[status]' => 'inactive']) }}">
                                 Confirmed
                             </a>
-                            <a class="collapse-item" href="{{ route('admin.orders', ['filter[orderStatus]' => 'shipped', 'filter[status]' => 'inactive']) }}">
+                            <a class="collapse-item"
+                                href="{{ route('admin.orders', ['filter[orderStatus]' => 'shipped', 'filter[status]' => 'inactive']) }}">
                                 Shipped
                             </a>
                             <a class="collapse-item"
@@ -142,7 +144,7 @@
                         <div class="collapse-divider"></div>
                         <h6 class="collapse-header">Other:</h6>
                         <a class="collapse-item {{ request()->is('admin/orders/pending-payments') ? 'active' : '' }}"
-                            href="{{ route('pending-payments') }}">
+                            href="{{ route('admin.orders', ['filter[orderStatus]' => 'pending', 'filter[status]' => 'inactive', 'filter[withPayment]' => true]) }}">
                             Payments to be confirmed
                         </a>
                     </div>
@@ -160,6 +162,11 @@
             <li class="nav-item">
                 <a class="nav-link" href="{{ route('admin.searches') }}">
                     <i class="fas fa-search-dollar"></i> <span>Searches</span></a>
+            </li>
+            <!-- Nav Item - Charts -->
+            <li class="nav-item">
+                <a class="nav-link" href="{{ route('admin.messages') }}">
+                    <i class="far fa-comments"></i> <span>Messages</span></a>
             </li>
 
             <!-- Nav Item - Tables -->
@@ -244,47 +251,48 @@
                                 aria-expanded="false">
                                 <i class="fas fa-bell fa-fw"></i>
                                 <!-- Counter - Alerts -->
-                                <span class="badge badge-danger badge-counter">3+</span>
+                                <span class="badge badge-danger badge-counter" style="font-size: 16px">{{ $pendingCount }}</span>
                             </a>
                             <!-- Dropdown - Alerts -->
                             <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="alertsDropdown">
                                 <h6 class="dropdown-header">
-                                    Alerts Center
+                                    Pending Orders
                                 </h6>
-                                <a class="dropdown-item d-flex align-items-center" href="#">
-                                    <div class="mr-3">
-                                        <div class="icon-circle bg-primary">
-                                            <i class="fas fa-file-alt text-white"></i>
+                                @if (!$pendingOrders->count())
+                                    <a class="dropdown-item d-flex align-items-center" href="#/">
+                                        <div class="mr-3">
+                                            <div class="icon-circle bg-primary">
+                                                <i class="fas fa-file-alt text-white"></i>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div>
-                                        <div class="small text-gray-500">December 12, 2019</div>
-                                        <span class="font-weight-bold">A new monthly report is ready to download!</span>
-                                    </div>
-                                </a>
-                                <a class="dropdown-item d-flex align-items-center" href="#">
-                                    <div class="mr-3">
-                                        <div class="icon-circle bg-success">
-                                            <i class="fas fa-donate text-white"></i>
+                                        <div>
+                                            <span class="font-weight-bold">0 New Pending Orders</span>
                                         </div>
-                                    </div>
-                                    <div>
-                                        <div class="small text-gray-500">December 7, 2019</div>
-                                        $290.29 has been deposited into your account!
-                                    </div>
-                                </a>
-                                <a class="dropdown-item d-flex align-items-center" href="#">
-                                    <div class="mr-3">
-                                        <div class="icon-circle bg-warning">
-                                            <i class="fas fa-exclamation-triangle text-white"></i>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <div class="small text-gray-500">December 2, 2019</div>
-                                        Spending Alert: We've noticed unusually high spending for your account.
-                                    </div>
-                                </a>
-                                <a class="dropdown-item text-center small text-gray-500" href="#">Show All Alerts</a>
+                                    </a>
+                                @else
+                                    @foreach ($pendingOrders as $order)
+                                        <a class="dropdown-item d-flex align-items-center" href="#">
+                                            <div class="mr-3">
+                                                <div class="icon-circle bg-primary">
+                                                    <i class="fas fa-file-alt text-white"></i>
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <div class="small text-gray-500">{{ $order->created_at->diffForHumans() }}</div>
+                                                <span class="font-weight-bold">
+                                                    #{{ $order->id }} Full Total: {{ $order->total + $order->totalShipping }}DA
+                                                </span>
+                                                <div class="font-weight-bold text-success">
+                                                    Fee: {{ $order->totalFee }}DA
+                                                </div>
+                                                <div class="text-small">
+                                                    {{ $order->user->fullName }} - {{ $order->user->phone }}
+                                                </div>
+                                            </div>
+                                        </a>
+                                    @endforeach
+                                @endif
+                                <a class="dropdown-item text-center small text-gray-500" href="{{ route('admin.orders', ['filter[orderStatus]' => 'pending', 'filter[status]' => 'inactive']) }}">Show All Pending Orders</a>
                             </div>
                         </li>
 
@@ -294,58 +302,31 @@
                                 aria-expanded="false">
                                 <i class="fas fa-envelope fa-fw"></i>
                                 <!-- Counter - Messages -->
-                                <span class="badge badge-danger badge-counter">7</span>
+                                <span class="badge badge-danger badge-counter" style="font-size: 16px">{{ $messagesCount ?? 0 }}</span>
                             </a>
                             <!-- Dropdown - Messages -->
                             <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="messagesDropdown">
                                 <h6 class="dropdown-header">
                                     Message Center
                                 </h6>
-                                <a class="dropdown-item d-flex align-items-center" href="#">
-                                    <div class="dropdown-list-image mr-3">
-                                        <img class="rounded-circle" src="img/undraw_profile_1.svg" alt="...">
-                                        <div class="status-indicator bg-success"></div>
-                                    </div>
-                                    <div class="font-weight-bold">
-                                        <div class="text-truncate">Hi there! I am wondering if you can help me with a
-                                            problem I've been having.</div>
-                                        <div class="small text-gray-500">Emily Fowler · 58m</div>
-                                    </div>
-                                </a>
-                                <a class="dropdown-item d-flex align-items-center" href="#">
-                                    <div class="dropdown-list-image mr-3">
-                                        <img class="rounded-circle" src="img/undraw_profile_2.svg" alt="...">
-                                        <div class="status-indicator"></div>
-                                    </div>
-                                    <div>
-                                        <div class="text-truncate">I have the photos that you ordered last month, how
-                                            would you like them sent to you?</div>
-                                        <div class="small text-gray-500">Jae Chun · 1d</div>
-                                    </div>
-                                </a>
-                                <a class="dropdown-item d-flex align-items-center" href="#">
-                                    <div class="dropdown-list-image mr-3">
-                                        <img class="rounded-circle" src="img/undraw_profile_3.svg" alt="...">
-                                        <div class="status-indicator bg-warning"></div>
-                                    </div>
-                                    <div>
-                                        <div class="text-truncate">Last month's report looks great, I am very happy with
-                                            the progress so far, keep up the good work!</div>
-                                        <div class="small text-gray-500">Morgan Alvarez · 2d</div>
-                                    </div>
-                                </a>
-                                <a class="dropdown-item d-flex align-items-center" href="#">
-                                    <div class="dropdown-list-image mr-3">
-                                        <img class="rounded-circle" src="https://source.unsplash.com/Mv9hjnEUHR4/60x60" alt="...">
-                                        <div class="status-indicator bg-success"></div>
-                                    </div>
-                                    <div>
-                                        <div class="text-truncate">Am I a good boy? The reason I ask is because someone
-                                            told me that people say this to all dogs, even if they aren't good...</div>
-                                        <div class="small text-gray-500">Chicken the Dog · 2w</div>
-                                    </div>
-                                </a>
-                                <a class="dropdown-item text-center small text-gray-500" href="#">Read More Messages</a>
+                                @if (!$latestMessages->count())
+                                    <a class="dropdown-item d-flex align-items-center" href="#">
+                                        <div class="font-weight-bold">
+                                            <div class="">Vous avez 0 messages non lus</div>
+                                        </div>
+                                    </a>
+                                @else
+                                    @foreach ($latestMessages as $message)
+                                        <a class="dropdown-item d-flex align-items-center" href="#">
+                                            <div class="font-weight-bold">
+                                                <div class="text-truncate">{{ $message->message }}</div>
+                                                <div class="small text-gray-500">{{ $message->phone }} · {{ $message->email }}</div>
+                                                <div class="small text-gray-500">{{ $message->created_at->diffForHumans() }}</div>
+                                            </div>
+                                        </a>
+                                    @endforeach
+                                @endif
+                                <a class="dropdown-item text-center small text-gray-500" href="{{ route('admin.messages') }}">Read More Messages</a>
                             </div>
                         </li>
 
@@ -355,7 +336,8 @@
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
                                 aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{ Auth::user()->fullName }}</span>
+                                <span class="mr-2 d-inline text-gray-600 small">{{ Auth::user()->fullName }}
+                                </span>
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
@@ -447,7 +429,6 @@
 
     <!-- Custom scripts for all pages-->
     <script src="{{ asset('js/sb-admin-2.min.js') }}"></script>
-
 </body>
 
 </html>

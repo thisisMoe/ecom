@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'name' => env('APP_NAME', 'Laravel'),
+    'name' => env('APP_NAME', 'DZ AliExpress'),
 
     /*
     |--------------------------------------------------------------------------
@@ -52,7 +52,7 @@ return [
     |
     */
 
-    'url' => env('APP_URL', 'http://207.154.211.193'),
+    'url' => env('APP_URL', 'https://dz-ali.express'),
 
     'asset_url' => env('ASSET_URL', null),
 

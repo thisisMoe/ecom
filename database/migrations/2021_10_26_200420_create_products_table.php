@@ -21,7 +21,7 @@ class CreateProductsTable extends Migration
             $table->string('link');
             $table->string('minPrice');
             $table->string('maxPrice');
-            $table->integer('equalPrice');
+            $table->string('equalPrice');
             $table->integer('hits')->default(1);
             $table->timestamps();
         });

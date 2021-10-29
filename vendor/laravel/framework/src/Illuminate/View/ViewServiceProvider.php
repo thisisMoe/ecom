@@ -2,6 +2,10 @@
 
 namespace Illuminate\View;
 
+use App\Models\Message;
+use App\Models\ShoppingSession;
+use App\Models\User;
+use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\View\Compilers\BladeCompiler;
 use Illuminate\View\Engines\CompilerEngine;
@@ -12,9 +16,47 @@ use Illuminate\View\Engines\PhpEngine;
 class ViewServiceProvider extends ServiceProvider
 {
     /**
+     * Bootstrap any application services.
+     */
+    public function boot()
+    {
+        View::composer('layouts.admin', function ($view) {
+            $messagesCount = Message::where('seen', false)->count();
+            $pendingCount = ShoppingSession::where('seen', false)->where('orderStatus', 'pending')->count();
+
+            $messages = Message::where('seen', false)->take(5)->get();
+            $pendingOrders = ShoppingSession::where('seen', false)->where('orderStatus', 'pending')->take(5)->get();
+
+            $view->with('messagesCount', $messagesCount)->with('pendingCount', $pendingCount)->with('latestMessages', $messages)->with('pendingOrders', $pendingOrders);
+        });
+
+        View::composer('admin.index', function ($view) {
+            $orders = ShoppingSession::where('status', 'Inactive')->get();
+            
+            $pendingOrders = ShoppingSession::where('status', 'Inactive')->where('orderStatus', 'pending')->count();
+
+            $pendingOrdersWithPayments = ShoppingSession::where('withPayment', true)->where('orderStatus', 'pending')->count();
+            
+            $confirmedOrders = ShoppingSession::where('status', 'Inactive')->where('orderStatus', 'confirmed')->count();
+            
+            $shippedOrders = ShoppingSession::where('status', 'Inactive')->where('orderStatus', 'shipped')->count();
+            
+            $deliveredOrders = ShoppingSession::where('status', 'Inactive')->where('orderStatus', 'delivered')->count();
+
+            $users = User::all()->count();
+
+            $fullTotal = 0;
+            $totalFee = 0;
+            foreach ($orders as $order) {
+                $fullTotal += ($order->total + $order->totalShipping);
+                $totalFee += ($order->totalFee);
+            }
+            $view->with('fullTotal', $fullTotal)->with('totalFee', $totalFee)->with('pendingOrders', $pendingOrders)->with('confirmedOrders', $confirmedOrders)->with('shippedOrders', $shippedOrders)->with('deliveredOrders', $deliveredOrders)->with('pendingOrdersWithPayments', $pendingOrdersWithPayments)->with('users', $users);
+        });
+    }
+
+    /**
      * Register the service provider.
-     *
-     * @return void
      */
     public function register()
     {
@@ -26,8 +68,6 @@ class ViewServiceProvider extends ServiceProvider
 
     /**
      * Register the view environment.
-     *
-     * @return void
      */
     public function registerFactory()
     {
@@ -53,22 +93,7 @@ class ViewServiceProvider extends ServiceProvider
     }
 
     /**
-     * Create a new Factory Instance.
-     *
-     * @param  \Illuminate\View\Engines\EngineResolver  $resolver
-     * @param  \Illuminate\View\ViewFinderInterface  $finder
-     * @param  \Illuminate\Contracts\Events\Dispatcher  $events
-     * @return \Illuminate\View\Factory
-     */
-    protected function createFactory($resolver, $finder, $events)
-    {
-        return new Factory($resolver, $finder, $events);
-    }
-
-    /**
      * Register the view finder implementation.
-     *
-     * @return void
      */
     public function registerViewFinder()
     {
@@ -79,8 +104,6 @@ class ViewServiceProvider extends ServiceProvider
 
     /**
      * Register the Blade compiler implementation.
-     *
-     * @return void
      */
     public function registerBladeCompiler()
     {
@@ -93,13 +116,11 @@ class ViewServiceProvider extends ServiceProvider
 
     /**
      * Register the engine resolver instance.
-     *
-     * @return void
      */
     public function registerEngineResolver()
     {
         $this->app->singleton('view.engine.resolver', function () {
-            $resolver = new EngineResolver;
+            $resolver = new EngineResolver();
 
             // Next, we will register the various view engines with the resolver so that the
             // environment will resolve the engines needed for various views based on the
@@ -115,8 +136,7 @@ class ViewServiceProvider extends ServiceProvider
     /**
      * Register the file engine implementation.
      *
-     * @param  \Illuminate\View\Engines\EngineResolver  $resolver
-     * @return void
+     * @param \Illuminate\View\Engines\EngineResolver $resolver
      */
     public function registerFileEngine($resolver)
     {
@@ -128,8 +148,7 @@ class ViewServiceProvider extends ServiceProvider
     /**
      * Register the PHP engine implementation.
      *
-     * @param  \Illuminate\View\Engines\EngineResolver  $resolver
-     * @return void
+     * @param \Illuminate\View\Engines\EngineResolver $resolver
      */
     public function registerPhpEngine($resolver)
     {
@@ -141,13 +160,26 @@ class ViewServiceProvider extends ServiceProvider
     /**
      * Register the Blade engine implementation.
      *
-     * @param  \Illuminate\View\Engines\EngineResolver  $resolver
-     * @return void
+     * @param \Illuminate\View\Engines\EngineResolver $resolver
      */
     public function registerBladeEngine($resolver)
     {
         $resolver->register('blade', function () {
             return new CompilerEngine($this->app['blade.compiler'], $this->app['files']);
         });
+    }
+
+    /**
+     * Create a new Factory Instance.
+     *
+     * @param \Illuminate\View\Engines\EngineResolver $resolver
+     * @param \Illuminate\View\ViewFinderInterface    $finder
+     * @param \Illuminate\Contracts\Events\Dispatcher $events
+     *
+     * @return \Illuminate\View\Factory
+     */
+    protected function createFactory($resolver, $finder, $events)
+    {
+        return new Factory($resolver, $finder, $events);
     }
 }

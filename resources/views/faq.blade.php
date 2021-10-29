@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="container mb-5 pt-7">
-                <h1 class="mb-5 text-center">Questions Fréquentes</h1>
+                <h1 class="mb-5 text-center">{{ __('Questions Fréquentes') }}</h1>
             <div class="row justify-content-center mt-4">
                 <div class="col-12 col-lg-8">
                     <div class="accordion" id="accordionExample1">
@@ -22,7 +22,7 @@
                                     data-bs-target="#faq2" aria-expanded="false" aria-controls="faq2"><strong>{{ __('Quelles sont nos méthodes de paiement acceptées?') }}</strong></button></h2>
                             <div id="faq2" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample1" style="">
                                 <div class="accordion-body">
-                                    {{ __('Nous acceptons: ') }} <strong>CCP, BaridiMob</strong>
+                                    {{ __('Nous acceptons: ') }} <strong>CCP, BaridiMob, virement bancaire.</strong>
                                 </div>
                             </div>
                         </div>
@@ -49,10 +49,22 @@
                         </div>
                         <div class="accordion-item">
                             <h2 class="accordion-header" id="headingTwo"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                    data-bs-target="#faq3" aria-expanded="false" aria-controls="faq3"><strong>{{ __('Que puis-je faire si ma commande n’arrive pas dans les délais de livraison garantis par le vendeur ?') }}</strong></button></h2>
+                                    data-bs-target="#faq3" aria-expanded="false" aria-controls="faq3"><strong>{{ __('Que faire si je veux annuler ma commande?') }}</strong></button></h2>
                             <div id="faq3" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample1" style="">
                                 <div class="accordion-body">
                                     {{ __('Dans le cadre des garanties AliExpress, Nous pouvons soumettre des demandes de remboursement jusqu’à 15 jours après la fin de votre commande. nous pouvons le faire en ouvrant un litige auprès d’AliExpress.') }}
+                                    <strong>
+                                        {{ __('Veuillez noter que nous ne pouvons ouvrir qu’un seul litige par commande.') }}
+                                    </strong>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="headingTwo"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#faq10" aria-expanded="false" aria-controls="faq10"><strong>{{ __('Que puis-je faire si ma commande n’arrive pas dans les délais de livraison garantis par le vendeur ?') }}</strong></button></h2>
+                            <div id="faq10" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample1" style="">
+                                <div class="accordion-body">
+                                    {{ __('Dans le cadre des garanties AliExpress, Nous pouvons soumettre des demandes de remboursement si le produit n’a pas été reçu dans les 70 jours comme promis par AliExpress. nous pouvons le faire en lançant un litige avec AliExpress.') }}
                                     <strong>
                                         {{ __('Veuillez noter que nous ne pouvons ouvrir qu’un seul litige par commande.') }}
                                     </strong>
