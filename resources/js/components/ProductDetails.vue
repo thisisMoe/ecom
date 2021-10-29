@@ -755,7 +755,7 @@ export default {
           this.parsedScript = JSON.parse(cleanedScript);
           // this.parsedScript = JSON.parse(this.script);
           // console.log(this.script)
-          // console.log(this.parsedScript);
+          console.log(this.parsedScript);
 
           this.title = this.parsedScript.titleModule.subject;
           this.productId = this.parsedScript.commonModule.productId;
@@ -863,9 +863,9 @@ export default {
       );
       if (selectedPack.length) {
         //if promotion
-        if (selectedPack[0].skuVal.actSkuCalPrice) {
+        if (selectedPack[0].skuVal.actSkuBulkCalPrice) {
           // console.log(selectedPack);
-          var price = selectedPack[0].skuVal.actSkuCalPrice * 186;
+          var price = selectedPack[0].skuVal.actSkuBulkCalPrice * 186;
           console.log("var price", price);
           price = Math.ceil(price / 100) * 100;
           console.log("price ceiled", this.price);
@@ -982,7 +982,7 @@ export default {
             this.chosenPrice += this.fee;
           }
 
-          this.usdP = Number(selectedPack[0].skuVal.actSkuCalPrice);
+          this.usdP = Number(selectedPack[0].skuVal.actSkuBulkCalPrice);
           // console.log("usdP", this.usdP);
 
           // If no promotion
@@ -1105,9 +1105,9 @@ export default {
     },
     setMinMaxPrice: function () {
       this.parsedScript.skuModule.skuPriceList.forEach((item, index) => {
-        // console.log("item.skuVal.actSkuCalPrice: ", item.skuVal.actSkuCalPrice);
+        // console.log("item.skuVal.actSkuBulkCalPrice: ", item.skuVal.actSkuBulkCalPrice);
         // if no promotion
-        if (!item.skuVal.actSkuCalPrice) {
+        if (!item.skuVal.actSkuBulkCalPrice) {
           var price = Number(item.skuVal.skuCalPrice) * 186;
           // console.log("price:", price);
 
@@ -1129,9 +1129,9 @@ export default {
               // console.log("maxPrice:", this.maxPrice);
             }
           }
-        } else if (item.skuVal.actSkuCalPrice) {
+        } else if (item.skuVal.actSkuBulkCalPrice) {
           // if promotion
-          var price = Number(item.skuVal.actSkuCalPrice) * 186;
+          var price = Number(item.skuVal.actSkuBulkCalPrice) * 186;
           var oldPrice = Number(item.skuVal.skuCalPrice) * 186;
           var oldPrice = Math.ceil(oldPrice / 100) * 100;
           // console.log("oldPrice:", oldPrice);

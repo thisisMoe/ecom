@@ -98,6 +98,9 @@ class AdminController extends Controller
     {
         $order = ShoppingSession::find($id);
 
+        $order->seen = true;
+        $order->save();
+
         $orderItems = $order->orderItems->all();
 
         return view('admin.order', compact('order'));

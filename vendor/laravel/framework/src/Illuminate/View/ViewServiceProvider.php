@@ -22,10 +22,10 @@ class ViewServiceProvider extends ServiceProvider
     {
         View::composer('layouts.admin', function ($view) {
             $messagesCount = Message::where('seen', false)->count();
-            $pendingCount = ShoppingSession::where('seen', false)->where('orderStatus', 'pending')->count();
+            $pendingCount = ShoppingSession::where('seen', false)->where('orderStatus', 'pending')->where('status', 'Inactive')->count();
 
             $messages = Message::where('seen', false)->take(5)->get();
-            $pendingOrders = ShoppingSession::where('seen', false)->where('orderStatus', 'pending')->take(5)->get();
+            $pendingOrders = ShoppingSession::where('seen', false)->where('orderStatus', 'pending')->where('status', 'Inactive')->take(5)->get();
 
             $view->with('messagesCount', $messagesCount)->with('pendingCount', $pendingCount)->with('latestMessages', $messages)->with('pendingOrders', $pendingOrders);
         });

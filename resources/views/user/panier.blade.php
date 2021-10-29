@@ -7,13 +7,13 @@ $ar = app()->getLocale() === 'ar';
     <div class="container pt-7">
         <div class="d-flex gap-2 align-items-center justify-content-between">
             <h2>{{ __('Mon Panier') }}</h2>
-            @empty($orderItems)
-            @else
+            @if ($orderItems)
                 <form action="{{ route('panier.addOrder') }}" method="POST">
                   @csrf
                     <button type="submit" class="btn btn-success text-white px-4">{{ __('Passez ma commande') }}</button>
                 </form>
-            @endempty
+            @else
+            @endif
         </div>
         @if (Session::has('success'))
             <div class="alert alert-success alert-dismissible fade show mt-3" role="alert">
@@ -23,7 +23,7 @@ $ar = app()->getLocale() === 'ar';
             </div>
         @endif
         <div class="row mb-3 mt-4">
-            @empty($orderItems)
+            @if(!$orderItems)
                 <div class="col-12 mt-5">
                     <div class="card shadow mb-6">
                         <div class="card-body px-5 py-5 text-center text-md-left">
@@ -121,7 +121,7 @@ $ar = app()->getLocale() === 'ar';
                         </div>
                     </div>
                 @endforeach
-            @endempty
+            @endif
         </div>
     </div>
 @endsection
