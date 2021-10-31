@@ -55,6 +55,10 @@
                                 <div class="mr-2 fas fa-mobile-alt"></div>
                                 <div>{{ $order->user->phone }}</div>
                             </div>
+                            <div class="font-weight-bold d-flex align-items-center">
+                                <div class="mr-2 fas fa-map-marker-alt"></div>
+                                <div>{{ $order->user->address }}</div>
+                            </div>
                         </div>
                         @if ($order->confirmations->count() == 0)
                             <div class="border border-danger py-3 my-auto mb-2 width-100" style="border-radius: 6px">
