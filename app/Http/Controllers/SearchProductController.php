@@ -147,7 +147,7 @@ class SearchProductController extends Controller
             $newUri = $clientForRedirects->getHistory()->current()->getUri();
             // dd($newUri);
             try {
-                $itemID = $this->get_string_between($newUri, 'item/', '.html?');
+                $itemID = $this->get_string_between($newUri, 'item/', '.html');
             } catch (\Throwable $th) {
                 throw $th;
             }
