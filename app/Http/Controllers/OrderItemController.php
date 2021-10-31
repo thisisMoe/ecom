@@ -94,6 +94,9 @@ class OrderItemController extends Controller
 
         if ($product) {
             ++$product->hits;
+            $product->minPrice = $request->input('minPrice');
+            $product->maxPrice = $request->input('maxPrice');
+            $product->equalPrice = $request->input('equalPrice');
             $product->save();
 
             return response()->json('Item updated', Response::HTTP_NO_CONTENT);
