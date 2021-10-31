@@ -34,7 +34,11 @@ lang="fr"
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="title" content="DZ-AliExpress">
     <meta name="author" content="bounoua.smm@gmail.com">
-    <meta name="description" content="Commandez n’importe quel produit chez AliExpress en 30 secondes. Copiez le lien de n’importe quel produit que vous aimez d’AliExpress, Mettez le lien dans notre barre de recherche et nous nous occupons du reste jusqu’à la livraison en Algérie">
+    <meta name="description" content="Commandez vos produits chez AliExpress en 30 secondes et payer en Dinar Algérien. Copiez le lien de n’importe quel produit que vous aimez d’AliExpress, Mettez le lien dans notre barre de recherche et nous nous occupons du reste jusqu’à la livraison en Algérie">
+
+    <meta property="og:description" content="Commandez vos produits chez AliExpress en 30 secondes et payer en Dinar Algérien. Copiez le lien de n’importe quel produit que vous aimez d’AliExpress, Mettez le lien dans notre barre de recherche et nous nous occupons du reste jusqu’à la livraison en Algérie" />
+    <meta property="og:image" content="{{ asset('assets/img/meta-image.png') }}" />
+
 
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="locale" content="{{ app()->getLocale() }}">
