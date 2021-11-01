@@ -293,7 +293,7 @@
               <div class="card shadow mb-4 mt-4">
                 <div class="text-center">
                   <p class="text-muted fw-bold p-3" v-if="this.$locale == 'fr'">Couleur: {{this.chosenColor}}</p>
-                  <p class="text-muted fw-bold p-3" v-if="this.$locale == 'ar'">{{this.chosenColor}} اللون:</p>
+                  <p class="text-muted fw-bold p-3" v-if="this.$locale == 'ar'">اللون: {{this.chosenColor}}</p>
                 </div>
                 <div
                   class="card-body"
