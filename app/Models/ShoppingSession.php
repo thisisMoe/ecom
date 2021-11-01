@@ -2,11 +2,8 @@
 
 namespace App\Models;
 
-use App\Traits\StoreImageTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Http\Client\Request;
 
 class ShoppingSession extends Model
 {
@@ -33,16 +30,35 @@ class ShoppingSession extends Model
     {
         return $this->hasMany(Confirmation::class);
     }
-    
+
     //function to loop through orderitems and calculate total shippingCost again
     public function updateTotalShippingCost()
     {
         $totalShippingCost = 0;
 
-        foreach ($this->orderItems as $$orderItem) {
+        foreach ($this->orderItems as ${$orderItem}) {
             $totalShippingCost += $orderItem->shippingCost;
         }
         $this->totalShipping = $totalShippingCost;
         $this->save();
+    }
+
+    public static function calcSessionTotal($id)
+    {
+        $total = 0;
+        $totalFee = 0;
+        $totalShipping = 0;
+        $shoppingSession = ShoppingSession::find($id);
+        foreach ($shoppingSession->orderItems as $orderItem) {
+            $total = $total + $orderItem->totalSum;
+            $totalFee = $totalFee + $orderItem->fee;
+            $totalShipping = $totalShipping + $orderItem->shippingCost;
+        }
+
+        $shoppingSession->update([
+            'total' => $total,
+            'totalFee' => $totalFee,
+            'totalShipping' => $totalShipping,
+        ]);
     }
 }
