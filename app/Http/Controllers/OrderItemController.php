@@ -42,6 +42,7 @@ class OrderItemController extends Controller
     {
         $orderItem = OrderItem::find($id);
         $orderItem->delete();
+        ShoppingSession::calcSessionTotal($orderItem->shoppingSession->id);
 
         return response()->json('Item deleted', Response::HTTP_NO_CONTENT);
     }

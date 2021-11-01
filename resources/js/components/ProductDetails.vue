@@ -208,7 +208,7 @@
                     ><span v-show="this.$locale == 'ar'">دج</span> -
                     {{ maxPrice }}<span v-if="this.$locale == 'fr'">DA</span
                     ><span v-if="this.$locale == 'ar'">دج</span>
-                    <span class="badge bg-danger ms-2 me-2"
+                    <span v-if="discount" class="badge bg-danger ms-2 me-2"
                       >-{{ discount }}%</span
                     >
                   </p>
@@ -291,6 +291,10 @@
                 </div>
               </div>
               <div class="card shadow mb-4 mt-4">
+                <div class="text-center">
+                  <p class="text-muted fw-bold p-3" v-if="this.$locale == 'fr'">Couleur: {{this.chosenColor}}</p>
+                  <p class="text-muted fw-bold p-3" v-if="this.$locale == 'ar'">اللون: {{this.chosenColor}}</p>
+                </div>
                 <div
                   class="card-body"
                   v-for="option in options"
@@ -309,28 +313,70 @@
                         role="group"
                         aria-label="Basic radio toggle button group"
                       >
-                        <input
-                          type="radio"
-                          class="btn-check"
-                          :name="option.skuPropertyName"
-                          :value="item.propertyValueDisplayName"
-                          autocomplete="off"
-                          :data-propId="item.propertyValueId"
-                          :id="item.propertyValueDisplayName"
-                          v-on:change="
-                            setPropsId(
-                              $event,
-                              option.skuPropertyName,
-                              options.length,
-                              item.propertyValueDisplayName
-                            )
-                          "
-                        />
-                        <label
-                          v-html="item.propertyValueDisplayName"
-                          class="btn btn-outline-primary btn-lg"
-                          :for="item.propertyValueDisplayName"
-                        ></label>
+                        <div v-if="item.skuPropertyImageSummPath">
+                          <input
+                            type="radio"
+                            v-on:change="
+                              setPropsId(
+                                $event,
+                                option.skuPropertyName,
+                                options.length,
+                                item.propertyValueDisplayName,
+                                isImage = true,
+                              )
+                            "
+                            :name="option.skuPropertyName"
+                            :id="item.propertyValueDisplayName"
+                            class="d-none imgbgchk"
+                            :value="item.propertyValueDisplayName"
+                            autocomplete="off"
+                            :data-propId="item.propertyValueId"
+                          />
+                          <label
+                            :for="item.propertyValueDisplayName"
+                            style="
+                              margin-right: 0.6rem;
+                              border: 1px solid #ccc;
+                              border-radius: 6px;
+                            "
+                          >
+                            <img
+                              :src="item.skuPropertyImageSummPath"
+                              alt="Image 4"
+                              style="border-radius: 6px"
+                            />
+                            <div class="tick_container">
+                              <div class="tick">
+                                <i class="fa fa-check"></i>
+                              </div>
+                            </div>
+                          </label>
+                        </div>
+                        <div v-else>
+                          <input
+                            type="radio"
+                            class="btn-check"
+                            :name="option.skuPropertyName"
+                            :value="item.propertyValueDisplayName"
+                            autocomplete="off"
+                            :data-propId="item.propertyValueId"
+                            :id="item.propertyValueDisplayName"
+                            v-on:change="
+                              setPropsId(
+                                $event,
+                                option.skuPropertyName,
+                                options.length,
+                                item.propertyValueDisplayName,
+                                isImage = false,
+                              )
+                            "
+                          />
+                          <label
+                            v-html="item.propertyValueDisplayName"
+                            class="btn btn-outline-primary btn-lg"
+                            :for="item.propertyValueDisplayName"
+                          ></label>
+                        </div>
                       </div>
                     </div>
                     <!-- End of Radio -->
@@ -664,6 +710,8 @@ export default {
       positiveRate: "",
       followingNumber: 0,
       specs: [],
+      rate: 1.36,
+      chosenColor: '',
     };
   },
   mounted() {
@@ -704,6 +752,7 @@ export default {
             ", csrfToken:"
           );
           this.parsedScript = JSON.parse(cleanedScript);
+          console.log(this.parsedScript);
 
           this.title = this.parsedScript.titleModule.subject;
           this.productId = this.parsedScript.commonModule.productId;
@@ -724,6 +773,7 @@ export default {
           this.searchInput();
         })
         .catch((err) => {
+          console.log(err);
           if (err.response.status == 500) {
             this.empty = true;
           }
@@ -754,7 +804,7 @@ export default {
       const len = string.indexOf(end, ini) - ini;
       return string.substr(ini, len);
     },
-    setPropsId: function (e, propName, numberOfOptions, selectedPropertyName) {
+    setPropsId: function (e, propName, numberOfOptions, selectedPropertyName, isImage) {
       var propValue = e.target.getAttribute("data-propId");
       if (!this.selectedProps.length) {
         this.addProp(propName, propValue, selectedPropertyName);
@@ -769,6 +819,9 @@ export default {
       }
       this.setPropsIdString();
       this.setChosenPrice();
+      if(isImage) {
+        this.chosenColor = selectedPropertyName;
+      }
     },
     addProp: function (propName, value, selectedPropertyName) {
       this.obj = {
@@ -798,11 +851,18 @@ export default {
         }
       );
       if (selectedPack.length) {
-        if (selectedPack[0].skuVal.actSkuBulkCalPrice) {
-          var price = selectedPack[0].skuVal.actSkuBulkCalPrice * 186;
+        if (selectedPack[0].skuVal.isActivity) {
+          var price =
+            selectedPack[0].skuVal.skuActivityAmount.value * this.rate;
+          if (selectedPack[0].skuVal.discount == "99") {
+            price = selectedPack[0].skuVal.skuCalPrice * 186;
+          } else if (price < 200) {
+            price = 200;
+          }
+          console.log("price", price);
           price = Math.ceil(price / 100) * 100;
           var oldPrice = selectedPack[0].skuVal.skuCalPrice * 186;
-          oldPrice = Math.ceil(oldPrice / 10) * 10;
+          oldPrice = Math.ceil(oldPrice / 100) * 100;
           this.oldPrice = oldPrice;
           this.chosenPrice = price;
 
@@ -876,9 +936,9 @@ export default {
             this.chosenPrice += this.fee;
           }
 
-          this.usdP = Number(selectedPack[0].skuVal.actSkuBulkCalPrice);
-        } else if (selectedPack[0].skuVal.skuCalPrice) {
-          var price = selectedPack[0].skuVal.skuCalPrice * 186;
+          this.usdP = Number(selectedPack[0].skuVal.actSkuCalPrice);
+        } else {
+          var price = selectedPack[0].skuVal.skuAmount.value * this.rate;
           price = Math.ceil(price / 100) * 100;
           this.chosenPrice = price;
           if (this.chosenPrice < 3000) {
@@ -952,40 +1012,199 @@ export default {
           }
 
           this.usdP = Number(selectedPack[0].skuVal.skuCalPrice);
+          console.log(this.selectedProps);
         }
+        // if (selectedPack[0].skuVal.actSkuBulkCalPrice) {
+        //   var price = selectedPack[0].skuVal.actSkuBulkCalPrice * 186;
+        //   console.log("price", price);
+        //   price = Math.ceil(price / 100) * 100;
+        //   var oldPrice = selectedPack[0].skuVal.skuCalPrice * 186;
+        //   oldPrice = Math.ceil(oldPrice / 10) * 10;
+        //   this.oldPrice = oldPrice;
+        //   this.chosenPrice = price;
+
+        //   if (this.chosenPrice < 3000) {
+        //     this.fee = 350;
+        //     this.firstPrice = this.chosenPrice;
+        //     this.chosenPrice += this.fee;
+        //   } else if (this.chosenPrice >= 3000 && this.chosenPrice < 10000) {
+        //     this.fee = Math.ceil(this.chosenPrice / 1000) * 1000 * 0.1;
+        //     this.firstPrice = this.chosenPrice;
+        //     this.chosenPrice += this.fee;
+        //   } else if (this.chosenPrice >= 10000 && this.chosenPrice < 12000) {
+        //     this.fee = 1100;
+        //     this.firstPrice = this.chosenPrice;
+        //     this.chosenPrice += this.fee;
+        //   } else if (this.chosenPrice >= 12000 && this.chosenPrice < 14000) {
+        //     this.fee = 1200;
+        //     this.firstPrice = this.chosenPrice;
+        //     this.chosenPrice += this.fee;
+        //   } else if (this.chosenPrice >= 14000 && this.chosenPrice < 16000) {
+        //     this.fee = 1300;
+        //     this.firstPrice = this.chosenPrice;
+        //     this.chosenPrice += this.fee;
+        //   } else if (this.chosenPrice >= 16000 && this.chosenPrice < 18000) {
+        //     this.fee = 1400;
+        //     this.firstPrice = this.chosenPrice;
+        //     this.chosenPrice += this.fee;
+        //   } else if (this.chosenPrice >= 18000 && this.chosenPrice < 20000) {
+        //     this.fee = 1500;
+        //     this.firstPrice = this.chosenPrice;
+        //     this.chosenPrice += this.fee;
+        //   } else if (this.chosenPrice >= 20000 && this.chosenPrice < 22000) {
+        //     this.fee = 1600;
+        //     this.firstPrice = this.chosenPrice;
+        //     this.chosenPrice += this.fee;
+        //   } else if (this.chosenPrice >= 22000 && this.chosenPrice < 24000) {
+        //     this.fee = 1700;
+        //     this.firstPrice = this.chosenPrice;
+        //     this.chosenPrice += this.fee;
+        //   } else if (this.chosenPrice >= 24000 && this.chosenPrice < 26000) {
+        //     this.fee = 1800;
+        //     this.firstPrice = this.chosenPrice;
+        //     this.chosenPrice += this.fee;
+        //   } else if (this.chosenPrice >= 26000 && this.chosenPrice < 28000) {
+        //     this.fee = 1900;
+        //     this.firstPrice = this.chosenPrice;
+        //     this.chosenPrice += this.fee;
+        //   } else if (this.chosenPrice >= 28000 && this.chosenPrice < 30000) {
+        //     this.fee = 2000;
+        //     this.firstPrice = this.chosenPrice;
+        //     this.chosenPrice += this.fee;
+        //   } else if (this.chosenPrice >= 30000 && this.chosenPrice < 32000) {
+        //     this.fee = 2100;
+        //     this.firstPrice = this.chosenPrice;
+        //     this.chosenPrice += this.fee;
+        //   } else if (this.chosenPrice >= 32000 && this.chosenPrice < 34000) {
+        //     this.fee = 2200;
+        //     this.firstPrice = this.chosenPrice;
+        //     this.chosenPrice += this.fee;
+        //   } else if (this.chosenPrice >= 34000 && this.chosenPrice < 36000) {
+        //     this.fee = 2300;
+        //     this.firstPrice = this.chosenPrice;
+        //     this.chosenPrice += this.fee;
+        //   } else if (this.chosenPrice >= 36000 && this.chosenPrice < 38000) {
+        //     this.fee = 2400;
+        //     this.firstPrice = this.chosenPrice;
+        //     this.chosenPrice += this.fee;
+        //   } else if (this.chosenPrice >= 38000) {
+        //     this.fee = 2500;
+        //     this.firstPrice = this.chosenPrice;
+        //     this.chosenPrice += this.fee;
+        //   }
+
+        //   this.usdP = Number(selectedPack[0].skuVal.actSkuBulkCalPrice);
+        // } else if (selectedPack[0].skuVal.skuCalPrice) {
+        //   if (selectedPack[0].skuVal.isActivity) {}
+        //   var price = selectedPack[0].skuVal.skuCalPrice * 186;
+        //   price = Math.ceil(price / 100) * 100;
+        //   this.chosenPrice = price;
+        //   if (this.chosenPrice < 3000) {
+        //     this.fee = 350;
+        //     this.firstPrice = this.chosenPrice;
+        //     this.chosenPrice += this.fee;
+        //   } else if (this.chosenPrice >= 3000 && this.chosenPrice < 10000) {
+        //     this.fee = Math.ceil(this.chosenPrice / 1000) * 1000 * 0.1;
+        //     this.firstPrice = this.chosenPrice;
+        //     this.chosenPrice += this.fee;
+        //   } else if (this.chosenPrice >= 10000 && this.chosenPrice < 12000) {
+        //     this.fee = 1100;
+        //     this.firstPrice = this.chosenPrice;
+        //     this.chosenPrice += this.fee;
+        //   } else if (this.chosenPrice >= 12000 && this.chosenPrice < 14000) {
+        //     this.fee = 1200;
+        //     this.firstPrice = this.chosenPrice;
+        //     this.chosenPrice += this.fee;
+        //   } else if (this.chosenPrice >= 14000 && this.chosenPrice < 16000) {
+        //     this.fee = 1300;
+        //     this.firstPrice = this.chosenPrice;
+        //     this.chosenPrice += this.fee;
+        //   } else if (this.chosenPrice >= 16000 && this.chosenPrice < 18000) {
+        //     this.fee = 1400;
+        //     this.firstPrice = this.chosenPrice;
+        //     this.chosenPrice += this.fee;
+        //   } else if (this.chosenPrice >= 18000 && this.chosenPrice < 20000) {
+        //     this.fee = 1500;
+        //     this.firstPrice = this.chosenPrice;
+        //     this.chosenPrice += this.fee;
+        //   } else if (this.chosenPrice >= 20000 && this.chosenPrice < 22000) {
+        //     this.fee = 1600;
+        //     this.firstPrice = this.chosenPrice;
+        //     this.chosenPrice += this.fee;
+        //   } else if (this.chosenPrice >= 22000 && this.chosenPrice < 24000) {
+        //     this.fee = 1700;
+        //     this.firstPrice = this.chosenPrice;
+        //     this.chosenPrice += this.fee;
+        //   } else if (this.chosenPrice >= 24000 && this.chosenPrice < 26000) {
+        //     this.fee = 1800;
+        //     this.firstPrice = this.chosenPrice;
+        //     this.chosenPrice += this.fee;
+        //   } else if (this.chosenPrice >= 26000 && this.chosenPrice < 28000) {
+        //     this.fee = 1900;
+        //     this.firstPrice = this.chosenPrice;
+        //     this.chosenPrice += this.fee;
+        //   } else if (this.chosenPrice >= 28000 && this.chosenPrice < 30000) {
+        //     this.fee = 2000;
+        //     this.firstPrice = this.chosenPrice;
+        //     this.chosenPrice += this.fee;
+        //   } else if (this.chosenPrice >= 30000 && this.chosenPrice < 32000) {
+        //     this.fee = 2100;
+        //     this.firstPrice = this.chosenPrice;
+        //     this.chosenPrice += this.fee;
+        //   } else if (this.chosenPrice >= 32000 && this.chosenPrice < 34000) {
+        //     this.fee = 2200;
+        //     this.firstPrice = this.chosenPrice;
+        //     this.chosenPrice += this.fee;
+        //   } else if (this.chosenPrice >= 34000 && this.chosenPrice < 36000) {
+        //     this.fee = 2300;
+        //     this.firstPrice = this.chosenPrice;
+        //     this.chosenPrice += this.fee;
+        //   } else if (this.chosenPrice >= 36000 && this.chosenPrice < 38000) {
+        //     this.fee = 2400;
+        //     this.firstPrice = this.chosenPrice;
+        //     this.chosenPrice += this.fee;
+        //   } else if (this.chosenPrice >= 38000) {
+        //     this.fee = 2500;
+        //     this.firstPrice = this.chosenPrice;
+        //     this.chosenPrice += this.fee;
+        //   }
+
+        //   this.usdP = Number(selectedPack[0].skuVal.skuCalPrice);
+        //   console.log(this.selectedProps);
+        // }
       }
     },
     setMinMaxPrice: function () {
-      this.parsedScript.skuModule.skuPriceList.forEach((item, index) => {
-        if (!item.skuVal.actSkuBulkCalPrice) {
-          var price = Number(item.skuVal.skuCalPrice) * 186;
+      if (
+        this.parsedScript.priceModule.activity == false ||
+        this.parsedScript.priceModule.discountTips == "-99%"
+      ) {
+        this.minPrice =
+          this.parsedScript.priceModule.minAmount.value * this.rate;
+        this.minPrice = Math.ceil(this.minPrice / 100) * 100;
+        this.maxPrice =
+          this.parsedScript.priceModule.maxAmount.value * this.rate;
+        this.maxPrice = Math.ceil(this.maxPrice / 100) * 100;
+      } else if (
+        this.parsedScript.priceModule.activity == true &&
+        this.parsedScript.priceModule.discountTips != "-99%"
+      ) {
+        this.minPrice =
+          this.parsedScript.priceModule.minActivityAmount.value * this.rate;
+        this.minPrice = Math.ceil(this.minPrice / 100) * 100;
+        this.maxPrice =
+          this.parsedScript.priceModule.maxActivityAmount.value * this.rate;
+        this.maxPrice = Math.ceil(this.maxPrice / 100) * 100;
 
-          if (index == 0) {
-            this.minPrice = price;
-            this.maxPrice = price;
-          } else {
-            if (price < this.minPrice) {
-              this.minPrice = price;
-            } else if (price > this.maxPrice) {
-              this.maxPrice = price;
-            }
-          }
-        } else if (item.skuVal.actSkuBulkCalPrice) {
-          var price = Number(item.skuVal.actSkuBulkCalPrice) * 186;
-          var oldPrice = Number(item.skuVal.skuCalPrice) * 186;
-          var oldPrice = Math.ceil(oldPrice / 100) * 100;
-          if (index == 0) {
-            this.minPrice = price;
-            this.maxPrice = price;
-          } else {
-            if (price < this.minPrice) {
-              this.minPrice = price;
-            } else if (price > this.maxPrice) {
-              this.maxPrice = price;
-            }
-          }
-        }
-      });
+        var minOldPrice =
+          this.parsedScript.priceModule.minAmount.value * this.rate;
+        minOldPrice = Math.ceil(minOldPrice / 100) * 100;
+        var maxOldPrice =
+          this.parsedScript.priceModule.maxAmount.value * this.rate;
+        maxOldPrice = Math.ceil(maxOldPrice / 100) * 100;
+
+        this.oldPrice = `${minOldPrice}DA - ${maxOldPrice}DA`;
+      }
 
       if (this.minPrice == this.maxPrice) {
         this.equalPrice = this.minPrice;

@@ -23,7 +23,6 @@ Route::get('/info', 'SearchProductController@getInfo')->name('getInfo');
 Route::get('/fetchOrderItems/{userId}', 'ShoppingSessionController@fetchOrderItems')->name('fetchOrderItems');
 
 Route::post('/addToCart/{userId}', 'ShoppingSessionController@addToCart')->name('addOrderItem');
-Route::post('/addToCart/{userId}', 'ShoppingSessionController@addToCart')->name('addOrderItem');
 Route::post('/addOrder/{userId}', 'OrdersController@addOrder')->name('addOrder');
 Route::post('/searches/add/{productId}', 'OrderItemController@searchInput')->name('search.input');
 
