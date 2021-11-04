@@ -23,10 +23,12 @@ $ar = app()->getLocale() === 'ar';
     <div class="container px-2 pt-lg-3" style="margin-top: 92px">
         <form action="{{ route('searchProduct') }}" class="w-100" method="GET">
             <div class="input-group" @if ($ar)
-                style="flex-direction: row-reverse;"
-                @endif>
-                <input type="text" name="q" class="form-control" id="searchProduct" placeholder="{{ __('Coller un lien ici') }}" aria-label="Search"
-                    aria-describedby="basic-addon2">
+                style=" flex-direction: row-reverse;" @endif>
+                <button type="button" class="input-group-text px-2" id="clearButton">
+                    {{ __('Effacer') }} <i class="fas fa-eraser mx-1"></i>
+                </button>
+                <input type="text" name="q" class="form-control" id="searchProduct" placeholder="{{ __('Coller un lien AliExpress ici...') }}"
+                    aria-label="Search" aria-describedby="basic-addon2" autocomplete="off" value="">
                 <button type="submit" class="input-group-text px-4" id="basic-addon2">
                     <span class="fas fa-search text-primary"></span>
                 </button>
@@ -301,4 +303,12 @@ $ar = app()->getLocale() === 'ar';
             </div>
         </div>
     @endauth
+@endsection
+
+@section('scripts')
+    <script>
+        $('#clearButton').click(function() {
+            $('#searchProduct').val('');
+        })
+    </script>
 @endsection

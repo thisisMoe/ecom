@@ -36,8 +36,11 @@
                         <form action="{{ route('searchProduct') }}" class="w-100" method="GET">
                             <div class="input-group" @if ($ar)
                                 style=" flex-direction: row-reverse;" @endif>
+                                <button type="button" class="input-group-text px-2" id="clearButton">
+                                    {{ __('Effacer') }} <i class="fas fa-eraser mx-1"></i>
+                                </button>
                                 <input type="text" name="q" class="form-control" id="searchProduct" placeholder="{{ __('Coller un lien AliExpress ici...') }}"
-                                    aria-label="Search" aria-describedby="basic-addon2">
+                                    aria-label="Search" aria-describedby="basic-addon2" autocomplete="off" value="{{ old('q') }}">
                                 <button type="submit" class="input-group-text px-4" id="basic-addon2">
                                     <span class="fas fa-search text-primary"></span>
                                 </button>
@@ -165,6 +168,10 @@
         $('#closeButton').click(function() {
             $('#modal-notification').hide();
             $('#modal-backdrop').hide();
+        })
+
+        $('#clearButton').click(function() {
+            $('#searchProduct').val('');
         })
     </script>
 @endsection

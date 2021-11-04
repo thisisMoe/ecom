@@ -28,15 +28,36 @@ lang="fr"
 >
 
 <head>
+    <!-- Google Tag Manager -->
+    <script>
+        (function(w, d, s, l, i) {
+            w[l] = w[l] || [];
+            w[l].push({
+                'gtm.start': new Date().getTime(),
+                event: 'gtm.js'
+            });
+            var f = d.getElementsByTagName(s)[0],
+                j = d.createElement(s),
+                dl = l != 'dataLayer' ? '&l=' + l : '';
+            j.async = true;
+            j.src =
+                'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
+            f.parentNode.insertBefore(j, f);
+        })(window, document, 'script', 'dataLayer', 'GTM-MP5BKTB');
+    </script>
+    <!-- End Google Tag Manager -->
+
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <!-- Primary Meta Tags -->
     <title>DZ-AliExpress | {{ __('Service de commandes de produits AliExpress pour l’Algérie') }}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="title" content="DZ-AliExpress">
     <meta name="author" content="bounoua.smm@gmail.com">
-    <meta name="description" content="Commandez vos produits chez AliExpress en 30 secondes et payer en Dinar Algérien. Copiez le lien de n’importe quel produit que vous aimez d’AliExpress, Mettez le lien dans notre barre de recherche et nous nous occupons du reste jusqu’à la livraison en Algérie">
+    <meta name="description"
+        content="Commandez vos produits chez AliExpress en 30 secondes et payer en Dinar Algérien. Copiez le lien de n’importe quel produit que vous aimez d’AliExpress, Mettez le lien dans notre barre de recherche et nous nous occupons du reste jusqu’à la livraison en Algérie">
 
-    <meta property="og:description" content="Commandez vos produits chez AliExpress en 30 secondes et payer en Dinar Algérien. Copiez le lien de n’importe quel produit que vous aimez d’AliExpress, Mettez le lien dans notre barre de recherche et nous nous occupons du reste jusqu’à la livraison en Algérie" />
+    <meta property="og:description"
+        content="Commandez vos produits chez AliExpress en 30 secondes et payer en Dinar Algérien. Copiez le lien de n’importe quel produit que vous aimez d’AliExpress, Mettez le lien dans notre barre de recherche et nous nous occupons du reste jusqu’à la livraison en Algérie" />
     <meta property="og:image" content="{{ asset('assets/img/meta-image.png') }}" />
 
 
@@ -79,6 +100,11 @@ lang="fr"
 
 <body>
 
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MP5BKTB" height="0" width="0"
+            style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+
     <header class="header-global">
         <nav id="navbar-main" aria-label="Primary navigation" class="navbar navbar-main navbar-expand-lg navbar-theme-primary headroom navbar-dark">
             <div class="container position-relative">
@@ -119,8 +145,7 @@ lang="fr"
                             <div class="dropdown-menu dropdown-menu-lg" aria-labelledby="supportDropdown">
                                 <div class="col-auto px-0">
                                     <div class="list-group list-group-flush">
-                                        <a href="/#howTo"
-                                            class="list-group-item list-group-item-action gap-3 d-flex align-items-center p-0 py-3 px-lg-4">
+                                        <a href="/#howTo" class="list-group-item list-group-item-action gap-3 d-flex align-items-center p-0 py-3 px-lg-4">
                                             <span class="icon icon-sm">
                                                 <span class="fas fa-cart-arrow-down"></span>
                                             </span>
@@ -172,9 +197,11 @@ lang="fr"
                                     <li><a class="dropdown-item" href="{{ route('admin.index') }}">{{ __('Dashboard') }}</a>
                                     </li>
                                 @endif
-                                <li><a class="dropdown-item" href="{{ route('panier') }}">{{ __('Mon Panier') }} <span class="badge bg-info">{{ Auth::user()->cartCount() }}</span></a>
+                                <li><a class="dropdown-item" href="{{ route('panier') }}">{{ __('Mon Panier') }} <span
+                                            class="badge bg-info">{{ Auth::user()->cartCount() }}</span></a>
                                 </li>
-                                <li><a class="dropdown-item" href="{{ route('account') }}">{{ __('Mes Commandes') }} <span class="badge bg-info">{{ Auth::user()->ordersCount() }}</span></a>
+                                <li><a class="dropdown-item" href="{{ route('account') }}">{{ __('Mes Commandes') }} <span
+                                            class="badge bg-info">{{ Auth::user()->ordersCount() }}</span></a>
                                 </li>
                                 <li>
                                     <form action="{{ route('logout') }}" method="POST">
@@ -202,42 +229,22 @@ lang="fr"
     </header>
     <main>
         <div class="preloader bg-dark flex-column justify-content-center align-items-center">
-            <svg
-          id="loader-logo"
-          xmlns="http://www.w3.org/2000/svg"
-          xmlns:xlink="http://www.w3.org/1999/xlink"
-          style="
+            <svg id="loader-logo" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" style="
             margin: auto;
             background: none;
             display: block;
             shape-rendering: auto;
-          "
-          width="200px"
-          height="200px"
-          viewBox="0 0 100 100"
-          preserveAspectRatio="xMidYMid"
-        >
-          <path
-            fill="none"
-            stroke="#ffffff"
-            stroke-width="8"
-            stroke-dasharray="42.76482137044271 42.76482137044271"
-            d="M24.3 30C11.4 30 5 43.3 5 50s6.4 20 19.3 20c19.3 0 32.1-40 51.4-40 C88.6 30 95 43.3 95 50s-6.4 20-19.3 20C56.4 70 43.6 30 24.3 30z"
-            stroke-linecap="round"
-            style="
+          " width="200px" height="200px" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid">
+                <path fill="none" stroke="#ffffff" stroke-width="8" stroke-dasharray="42.76482137044271 42.76482137044271"
+                    d="M24.3 30C11.4 30 5 43.3 5 50s6.4 20 19.3 20c19.3 0 32.1-40 51.4-40 C88.6 30 95 43.3 95 50s-6.4 20-19.3 20C56.4 70 43.6 30 24.3 30z"
+                    stroke-linecap="round" style="
               transform: scale(0.7100000000000001);
               transform-origin: 50px 50px;
-            "
-          >
-            <animate
-              attributeName="stroke-dashoffset"
-              repeatCount="indefinite"
-              dur="1.075268817204301s"
-              keyTimes="0;1"
-              values="0;256.58892822265625"
-            ></animate>
-          </path>
-        </svg>
+            ">
+                    <animate attributeName="stroke-dashoffset" repeatCount="indefinite" dur="1.075268817204301s" keyTimes="0;1" values="0;256.58892822265625">
+                    </animate>
+                </path>
+            </svg>
         </div>
 
         @yield('content')
@@ -251,7 +258,9 @@ lang="fr"
                         <img class="navbar-brand-dark logo-size" height="35" src="{{ asset('assets/img/brand/logo-white-trans.png') }}" alt="Logo light">
                         <span class="fs-5">DZ AliExpress</span>
                     </div>
-                    <p class="mt-4"> {{ __("Notre rôle est d'offrir la possibilité d'achat et de suivi de produits AliExpress conforme à la règlementation algérienne des produits importés à tous les citoyens algériens sur tout le territoire national") }}</p>
+                    <p class="mt-4">
+                        {{ __("Notre rôle est d'offrir la possibilité d'achat et de suivi de produits AliExpress conforme à la règlementation algérienne des produits importés à tous les citoyens algériens sur tout le territoire national") }}
+                    </p>
                     <ul class="social-buttons mb-5 mb-lg-0">
                         <li>
                             <a href="https://www.facebook.com/DZ.ALIEXPRESS.service" class="icon-white me-2" aria-label="facebook social link">
@@ -306,7 +315,7 @@ lang="fr"
                     </div>
 
                     <p class="text-muted font-small m-0">
-                            {{ __('Nous ne partagerons jamais vos données. Voir notre') }} 
+                        {{ __('Nous ne partagerons jamais vos données. Voir notre') }}
                         <a class="text-white" href="#">
                             {{ __('Politique de Confidentialité') }}
                         </a>
