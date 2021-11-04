@@ -292,8 +292,12 @@
               </div>
               <div class="card shadow mb-4 mt-4">
                 <div class="text-center">
-                  <p class="text-muted fw-bold p-3" v-if="this.$locale == 'fr'">Couleur: {{this.chosenColor}}</p>
-                  <p class="text-muted fw-bold p-3" v-if="this.$locale == 'ar'">اللون: {{this.chosenColor}}</p>
+                  <p class="text-muted fw-bold p-3" v-if="this.$locale == 'fr'">
+                    Couleur: {{ this.chosenColor }}
+                  </p>
+                  <p class="text-muted fw-bold p-3" v-if="this.$locale == 'ar'">
+                    اللون: {{ this.chosenColor }}
+                  </p>
                 </div>
                 <div
                   class="card-body"
@@ -322,7 +326,7 @@
                                 option.skuPropertyName,
                                 options.length,
                                 item.propertyValueDisplayName,
-                                isImage = true,
+                                (isImage = true)
                               )
                             "
                             :name="option.skuPropertyName"
@@ -344,6 +348,7 @@
                               :src="item.skuPropertyImageSummPath"
                               alt="Image 4"
                               style="border-radius: 6px"
+                              v-bind:class="{ 'no-options': noOptions }"
                             />
                             <div class="tick_container">
                               <div class="tick">
@@ -367,7 +372,7 @@
                                 option.skuPropertyName,
                                 options.length,
                                 item.propertyValueDisplayName,
-                                isImage = false,
+                                (isImage = false)
                               )
                             "
                           />
@@ -375,6 +380,7 @@
                             v-html="item.propertyValueDisplayName"
                             class="btn btn-outline-primary btn-lg"
                             :for="item.propertyValueDisplayName"
+                            v-bind:class="{ 'no-options': noOptions }"
                           ></label>
                         </div>
                       </div>
@@ -382,8 +388,11 @@
                     <!-- End of Radio -->
                   </fieldset>
                 </div>
-                <div class="d-flex justify-content-center mb-4">
-                  <form @submit.prevent="addToCart">
+                <div
+                  class="d-flex justify-content-center mb-4"
+                  v-bind:class="{ 'flex-row-reverse': this.$locale == 'ar' }"
+                >
+                  <form @submit.prevent="addToCart" class="d-flex">
                     <button
                       class="
                         btn btn-lg btn-primary
@@ -391,6 +400,12 @@
                         text-uppercase
                         px-5
                         py-2
+                      "
+                      style="
+                        border-top-right-radius: 0;
+                        border-right: 1px solid #f5f9fc;
+                        border-bottom-right-radius: 0;
+                        display: inline;
                       "
                       type="submit"
                       :disabled="addingToCart"
@@ -412,12 +427,32 @@
                       </div>
                     </button>
                   </form>
+                  <div>
+                    <button
+                      @click="showModal = true"
+                      class="btn btn-primary py-2 fs-5"
+                      style="
+                        border-top-left-radius: 0;
+                        border-left: 1px solid #f5f9fc;
+                        border-bottom-left-radius: 0;
+                        display: inline;
+                      "
+                    >
+                      <i class="fas fa-shopping-cart"></i>
+
+                      <span class="">({{ orderItems.length }})</span>
+                    </button>
+                  </div>
                 </div>
               </div>
               <div class="d-flex justify-content-center mt-2">
                 <span v-show="noOptions" class="text-small text-danger"
-                  >Veuillez choisir vos options de produits avant de
-                  continuer</span
+                  >الرجاء تحديد خيارات المنتج قبل المواصلة</span
+                >
+                <span
+                  v-show="addedToCart"
+                  class="text-small text-success fw-bold fs-5"
+                  >تم إضافة منتجك إلى عربة التسوق</span
                 >
               </div>
             </div>
@@ -492,22 +527,24 @@
       <div
         style="
           position: fixed;
-          top: calc(100vh - 120px);
-          right: 2rem;
+          top: calc(100vh - 151px);
+          right: 1rem;
           z-index: 1055;
         "
       >
         <!-- <button id="show-modal" @click="showModal = true">Show Modal</button> -->
         <button
           id="showModal"
-          style="box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1)"
+          style="
+            box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+            border-radius: 50%;
+          "
           @click="showModal = true"
-          target=""
-          class="btn btn-tertiary position-relative"
+          class="btn btn-primary position-relative"
         >
           <div style="">
             <i
-              style="font-size: 2em"
+              style="font-size: 1.5em; color: rgb(245, 249, 252)"
               class="fas py-2 fa-shopping-cart me-2"
             ></i>
             <span class="cart-number-2">
@@ -667,6 +704,70 @@
         </blockquote>
       </div>
     </div>
+    <div
+      class="
+        fixed-bottom-bar
+        fw-bold
+        text-primary
+        d-flex
+        w-100
+        align-items-center
+        justify-content-between
+        px-2 px-md-3
+        d-md-none
+      "
+    >
+      <!-- todoo -->
+      <div
+        class="
+          d-flex
+          fw-bold
+          flex-column
+          justify-content-start
+          align-items-center
+          pb-1
+        "
+      >
+        <div class="font-small" v-if="this.$locale == 'fr'">
+          {{ minPrice }} DA - {{ maxPrice }} DA
+        </div>
+        <div class="font-small" v-if="this.$locale == 'ar'">
+          <span>{{ minPrice }} دج - {{ maxPrice }} دج</span>
+        </div>
+        <div class="font-small text-muted" v-if="this.$locale == 'fr'">
+          Frais de Livraison: {{ shippingCost }}
+        </div>
+        <div class="font-small text-muted" v-if="this.$locale == 'ar'">
+          تكاليف الشحن: {{ shippingCost }}
+        </div>
+        <div class="font-small text-muted" v-if="this.$locale == 'fr'">
+          Livraison: {{ shippingTime }} Jours.
+        </div>
+        <div class="font-small text-muted" v-if="this.$locale == 'ar'">
+          مدة الشحن: {{ shippingTime }} يوم
+        </div>
+      </div>
+      <div class="">
+        <form @submit.prevent="addToCart">
+          <button
+            class="btn btn-primary fs-6 text-uppercase px-3 py-2"
+            type="submit"
+            :disabled="addingToCart"
+          >
+            <div v-if="!addingToCart" class="d-flex gap-2 align-items-center">
+              <span v-if="this.$locale == 'ar'">أضف إلى السلة</span>
+              <span v-if="this.$locale == 'fr'">Ajouter</span>
+              <span class="fas fa-cart-arrow-down d-inlineblock"></span>
+            </div>
+            <div v-else>
+              <div class="spinner-border text-light" role="status">
+                <span class="visually-hidden">Chargement...</span>
+              </div>
+            </div>
+          </button>
+        </form>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -711,7 +812,8 @@ export default {
       followingNumber: 0,
       specs: [],
       rate: 1.36,
-      chosenColor: '',
+      chosenColor: "",
+      addedToCart: false,
     };
   },
   mounted() {
@@ -739,7 +841,7 @@ export default {
           this.images = response.data.images;
           this.script = response.data.script;
           this.link = response.data.uri;
-          this.shippingCost = Number(response.data.shippingCost) * 186;
+          this.shippingCost = Number(response.data.shippingCost) * 191;
           this.shippingCost = Math.ceil(this.shippingCost / 10) * 10;
           if (response.data.shippingTime) {
             this.shippingTime = response.data.shippingTime;
@@ -804,7 +906,13 @@ export default {
       const len = string.indexOf(end, ini) - ini;
       return string.substr(ini, len);
     },
-    setPropsId: function (e, propName, numberOfOptions, selectedPropertyName, isImage) {
+    setPropsId: function (
+      e,
+      propName,
+      numberOfOptions,
+      selectedPropertyName,
+      isImage
+    ) {
       var propValue = e.target.getAttribute("data-propId");
       if (!this.selectedProps.length) {
         this.addProp(propName, propValue, selectedPropertyName);
@@ -819,7 +927,7 @@ export default {
       }
       this.setPropsIdString();
       this.setChosenPrice();
-      if(isImage) {
+      if (isImage) {
         this.chosenColor = selectedPropertyName;
       }
     },
@@ -855,13 +963,13 @@ export default {
           var price =
             selectedPack[0].skuVal.skuActivityAmount.value * this.rate;
           if (selectedPack[0].skuVal.discount == "99") {
-            price = selectedPack[0].skuVal.skuCalPrice * 186;
+            price = selectedPack[0].skuVal.skuCalPrice * 191;
           } else if (price < 200) {
             price = 200;
           }
           console.log("price", price);
           price = Math.ceil(price / 100) * 100;
-          var oldPrice = selectedPack[0].skuVal.skuCalPrice * 186;
+          var oldPrice = selectedPack[0].skuVal.skuCalPrice * 191;
           oldPrice = Math.ceil(oldPrice / 100) * 100;
           this.oldPrice = oldPrice;
           this.chosenPrice = price;
@@ -1015,10 +1123,10 @@ export default {
           console.log(this.selectedProps);
         }
         // if (selectedPack[0].skuVal.actSkuBulkCalPrice) {
-        //   var price = selectedPack[0].skuVal.actSkuBulkCalPrice * 186;
+        //   var price = selectedPack[0].skuVal.actSkuBulkCalPrice * 191;
         //   console.log("price", price);
         //   price = Math.ceil(price / 100) * 100;
-        //   var oldPrice = selectedPack[0].skuVal.skuCalPrice * 186;
+        //   var oldPrice = selectedPack[0].skuVal.skuCalPrice * 191;
         //   oldPrice = Math.ceil(oldPrice / 10) * 10;
         //   this.oldPrice = oldPrice;
         //   this.chosenPrice = price;
@@ -1096,7 +1204,7 @@ export default {
         //   this.usdP = Number(selectedPack[0].skuVal.actSkuBulkCalPrice);
         // } else if (selectedPack[0].skuVal.skuCalPrice) {
         //   if (selectedPack[0].skuVal.isActivity) {}
-        //   var price = selectedPack[0].skuVal.skuCalPrice * 186;
+        //   var price = selectedPack[0].skuVal.skuCalPrice * 191;
         //   price = Math.ceil(price / 100) * 100;
         //   this.chosenPrice = price;
         //   if (this.chosenPrice < 3000) {
@@ -1395,6 +1503,7 @@ export default {
           this.fetchOrderItems();
           this.noOptions = false;
           this.addingToCart = false;
+          this.addedToCart = true;
         })
         .catch((error) => {
           if (error.response.status == 404) {
