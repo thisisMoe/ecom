@@ -20,7 +20,6 @@ class ShoppingSessionController extends Controller
         $this->validate($request, [
             'title' => 'required|string',
             'totalSum' => 'required',
-            'selectedProps' => 'required',
             'uri' => 'required',
             'user_id' => 'required',
             'productId' => 'required',

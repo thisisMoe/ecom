@@ -291,7 +291,7 @@
                 </div>
               </div>
               <div class="card shadow mb-4 mt-4">
-                <div class="text-center">
+                <div class="text-center" v-if="options">
                   <p class="text-muted fw-bold p-3" v-if="this.$locale == 'fr'">
                     Couleur: {{ this.chosenColor }}
                   </p>
@@ -299,6 +299,23 @@
                     اللون: {{ this.chosenColor }}
                   </p>
                 </div>
+
+                <div v-if="!options" class="card-body">
+                  <div>
+                    <input
+                      type="radio"
+                      class="btn-check"
+                      autocomplete="off"
+                      id="noOptionsButton"
+                      v-on:change="checkNoOptions"/>
+                    <label
+                      class="btn btn-outline-primary btn-lg"
+                      for="noOptionsButton"
+                      >Chine</label
+                    >
+                  </div>
+                </div>
+
                 <div
                   class="card-body"
                   v-for="option in options"
@@ -389,7 +406,7 @@
                   </fieldset>
                 </div>
                 <div
-                  class="d-flex justify-content-center mb-4"
+                  class="d-flex justify-content-center mb-4 mt-4"
                   v-bind:class="{ 'flex-row-reverse': this.$locale == 'ar' }"
                 >
                   <form @submit.prevent="addToCart" class="d-flex">
@@ -837,6 +854,10 @@ export default {
     reloadPage() {
       window.location.reload();
     },
+    checkNoOptions() {
+      this.chosenPrice = this.minPrice;
+      this.usdP = 0;
+    },
     loadInfo: function () {
       if (this.uri == "") {
         return (this.empty = true);
@@ -860,7 +881,7 @@ export default {
             ", csrfToken:"
           );
           this.parsedScript = JSON.parse(cleanedScript);
-          console.log(this.parsedScript);
+          // console.log(this.parsedScript);
 
           this.title = this.parsedScript.titleModule.subject;
           this.productId = this.parsedScript.commonModule.productId;
@@ -885,13 +906,15 @@ export default {
               this.parsedScript.crossLinkModule.breadCrumbPathList[2].cateId;
             this.mainCatName =
               this.parsedScript.crossLinkModule.breadCrumbPathList[2].name;
-            this.catId = this.parsedScript.crossLinkModule.breadCrumbPathList[3].cateId;
-            this.catName = this.parsedScript.crossLinkModule.breadCrumbPathList[3].name;
+            this.catId =
+              this.parsedScript.crossLinkModule.breadCrumbPathList[3].cateId;
+            this.catName =
+              this.parsedScript.crossLinkModule.breadCrumbPathList[3].name;
             this.subCatId = null;
             this.subCatName = null;
           }
           if (
-            this.parsedScript.crossLinkModule.breadCrumbPathList.length == 5
+            this.parsedScript.crossLinkModule.breadCrumbPathList.length >= 5
           ) {
             this.mainCatId =
               this.parsedScript.crossLinkModule.breadCrumbPathList[2].cateId;
@@ -901,8 +924,10 @@ export default {
               this.parsedScript.crossLinkModule.breadCrumbPathList[3].cateId;
             this.catName =
               this.parsedScript.crossLinkModule.breadCrumbPathList[3].name;
-            this.subCatId = this.parsedScript.crossLinkModule.breadCrumbPathList[4].cateId;
-            this.subCatName = this.parsedScript.crossLinkModule.breadCrumbPathList[4].name;
+            this.subCatId =
+              this.parsedScript.crossLinkModule.breadCrumbPathList[4].cateId;
+            this.subCatName =
+              this.parsedScript.crossLinkModule.breadCrumbPathList[4].name;
           }
 
           this.storeName = this.parsedScript.storeModule.storeName;
@@ -1020,7 +1045,6 @@ export default {
           } else if (price < 200) {
             price = 200;
           }
-          console.log("price", price);
           price = Math.ceil(price / 100) * 100;
           var oldPrice = selectedPack[0].skuVal.skuCalPrice * 191;
           oldPrice = Math.ceil(oldPrice / 100) * 100;
@@ -1173,7 +1197,6 @@ export default {
           }
 
           this.usdP = Number(selectedPack[0].skuVal.skuCalPrice);
-          console.log(this.selectedProps);
         }
         // if (selectedPack[0].skuVal.actSkuBulkCalPrice) {
         //   var price = selectedPack[0].skuVal.actSkuBulkCalPrice * 191;
