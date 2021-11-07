@@ -94,16 +94,18 @@ class OrderItemController extends Controller
             'link' => 'required',
         ]);
 
-        $mainCat = MainCategory::where('catId', $request->input('mainCatId'))->first();
-        if (!$mainCat) {
+        if (MainCategory::where('catId', $request->input('mainCatId'))->exists()) {
+            $mainCat = MainCategory::where('catId', $request->input('mainCatId'))->first();
+        } else {
             $mainCat = MainCategory::create([
                 'catId' => $request->input('mainCatId'),
                 'name' => $request->input('mainCatName'),
             ]);
         }
 
-        $cat = Category::where('catId', $request->input('catId'))->first();
-        if (!$cat) {
+        if (Category::where('catId', $request->input('catId'))->exists()) {
+            $cat = Category::where('catId', $request->input('catId'))->first();
+        } else {
             $cat = Category::create([
                 'catId' => $request->input('catId'),
                 'name' => $request->input('catName'),
@@ -111,8 +113,9 @@ class OrderItemController extends Controller
             ]);
         }
 
-        $subCat = SubCategory::where('catId', $request->input('subCatId'))->first();
-        if (!$subCat) {
+        if (SubCategory::where('catId', $request->input('subCatId'))->exists()) {
+            $subCat = SubCategory::where('catId', $request->input('subCatId'))->first();
+        } else {
             $subCat = SubCategory::create([
                 'catId' => $request->input('subCatId'),
                 'name' => $request->input('subCatName'),
@@ -121,14 +124,13 @@ class OrderItemController extends Controller
             ]);
         }
 
-        $product = Products::where('productId', $request->input('productId'))->first();
-
-        if ($product) {
+        if (Products::where('productId', $request->input('productId'))->exists()) {
+            $product = Products::where('productId', $request->input('productId'));
             ++$product->hits;
             $product->minPrice = $request->input('minPrice');
             $product->maxPrice = $request->input('maxPrice');
             $product->equalPrice = $request->input('equalPrice');
-            if($product->sub_category_id == 0) {
+            if (!$product->sub_category_id) {
                 $product->main_category_id = $mainCat->id;
                 $product->category_id = $cat->id;
                 $product->sub_category_id = $subCat->id;
