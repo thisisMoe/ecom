@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
+use App\Models\MainCategory;
 use App\Models\OrderItem;
 use App\Models\Products;
 use App\Models\ShoppingSession;
+use App\Models\SubCategory;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -85,11 +88,38 @@ class OrderItemController extends Controller
             'title' => 'required',
             'productId' => 'required',
             'image' => 'required',
-            'minPrice' => 'required',
-            'maxPrice' => 'required',
-            'equalPrice' => 'required',
+            'minPrice' => 'required|integer',
+            'maxPrice' => 'required|integer',
+            'equalPrice' => 'required|integer',
             'link' => 'required',
         ]);
+
+        $mainCat = MainCategory::where('catId', $request->input('mainCatId'))->first();
+        if (!$mainCat) {
+            $mainCat = MainCategory::create([
+                'catId' => $request->input('mainCatId'),
+                'name' => $request->input('mainCatName'),
+            ]);
+        }
+
+        $cat = Category::where('catId', $request->input('catId'))->first();
+        if (!$cat) {
+            $cat = Category::create([
+                'catId' => $request->input('catId'),
+                'name' => $request->input('catName'),
+                'main_category_id' => $mainCat->id,
+            ]);
+        }
+
+        $subCat = SubCategory::where('catId', $request->input('subCatId'))->first();
+        if (!$subCat) {
+            $subCat = SubCategory::create([
+                'catId' => $request->input('subCatId'),
+                'name' => $request->input('subCatName'),
+                'main_category_id' => $mainCat->id,
+                'category_id' => $cat->id,
+            ]);
+        }
 
         $product = Products::where('productId', $request->input('productId'))->first();
 
@@ -98,12 +128,28 @@ class OrderItemController extends Controller
             $product->minPrice = $request->input('minPrice');
             $product->maxPrice = $request->input('maxPrice');
             $product->equalPrice = $request->input('equalPrice');
+            if($product->sub_category_id == 0) {
+                $product->main_category_id = $mainCat->id;
+                $product->category_id = $cat->id;
+                $product->sub_category_id = $subCat->id;
+            }
             $product->save();
 
             return response()->json('Item updated', Response::HTTP_NO_CONTENT);
         }
 
-        $product = Products::create($request->all());
+        $product = Products::create([
+            'title' => $request->input('title'),
+            'productId' => $request->input('productId'),
+            'image' => $request->input('image'),
+            'minPrice' => $request->input('minPrice'),
+            'maxPrice' => $request->input('maxPrice'),
+            'equalPrice' => $request->input('equalPrice'),
+            'link' => $request->input('link'),
+            'main_category_id' => $mainCat->id,
+            'category_id' => $cat->id,
+            'sub_category_id' => $subCat->id,
+        ]);
 
         return response()->json('Item created', Response::HTTP_CREATED);
     }

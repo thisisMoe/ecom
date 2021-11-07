@@ -814,6 +814,12 @@ export default {
       rate: 1.36,
       chosenColor: "",
       addedToCart: false,
+      mainCatId: null,
+      catId: null,
+      subCatId: null,
+      mainCatName: '',
+      catName: '',
+      subCatName: '',
     };
   },
   mounted() {
@@ -858,6 +864,12 @@ export default {
 
           this.title = this.parsedScript.titleModule.subject;
           this.productId = this.parsedScript.commonModule.productId;
+          this.mainCatId = this.parsedScript.crossLinkModule.breadCrumbPathList[2].cateId;
+          this.catId = this.parsedScript.crossLinkModule.breadCrumbPathList[3].cateId;
+          this.subCatId = this.parsedScript.crossLinkModule.breadCrumbPathList[4].cateId;
+          this.mainCatName = this.parsedScript.crossLinkModule.breadCrumbPathList[2].name;
+          this.catName = this.parsedScript.crossLinkModule.breadCrumbPathList[3].name;
+          this.subCatName = this.parsedScript.crossLinkModule.breadCrumbPathList[4].name;
           this.storeName = this.parsedScript.storeModule.storeName;
           this.followingNumber = this.parsedScript.storeModule.followingNumber;
           this.positiveRate = this.parsedScript.storeModule.positiveRate;
@@ -891,6 +903,12 @@ export default {
           minPrice: this.minPrice,
           maxPrice: this.maxPrice,
           equalPrice: this.equalPrice,
+          mainCatId: this.mainCatId,
+          catId: this.catId,
+          subCatId: this.subCatId,
+          mainCatName: this.mainCatName,
+          catName: this.catName,
+          subCatName: this.subCatName,
         })
         .catch((err) => {
           console.log(err);
@@ -1479,9 +1497,6 @@ export default {
         this.maxPrice = Math.ceil(this.maxPrice / 100) * 100;
       }
 
-      this.minPrice = new Intl.NumberFormat().format(this.minPrice);
-      this.maxPrice = new Intl.NumberFormat().format(this.maxPrice);
-      this.equalPrice = new Intl.NumberFormat().format(this.equalPrice);
     },
     addToCart: function () {
       this.addingToCart = true;
