@@ -50,6 +50,24 @@
                                         {{ $product->equalPrice }}DA
                                     @endif
                                 </div>
+                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                    Main Category
+                                </div>
+                                <div class="h5 mb-2 font-weight-bold text-gray-800">
+                                    {!!$product->mainCategory->name ?? ''!!}
+                                </div>
+                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                    Category
+                                </div>
+                                <div class="h5 mb-2 font-weight-bold text-gray-800">
+                                    {!!$product->category->name ?? '' !!}
+                                </div>
+                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                    Sub Category
+                                </div>
+                                <div class="h5 mb-2 font-weight-bold text-gray-800">
+                                    {!!$product->subCategory->name ?? '' !!}
+                                </div>
                                 <div class="text-xs font-weight-bold text-center text-dark text-uppercase mb-1">
                                     {{ $product->created_at->diffForHumans() }}
                                 </div>
