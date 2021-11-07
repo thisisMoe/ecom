@@ -125,7 +125,7 @@ class OrderItemController extends Controller
         }
 
         if (Products::where('productId', $request->input('productId'))->exists()) {
-            $product = Products::where('productId', $request->input('productId'));
+            $product = Products::where('productId', $request->input('productId'))->first();
             ++$product->hits;
             $product->minPrice = $request->input('minPrice');
             $product->maxPrice = $request->input('maxPrice');
