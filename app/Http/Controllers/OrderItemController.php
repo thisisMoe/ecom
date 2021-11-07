@@ -94,18 +94,18 @@ class OrderItemController extends Controller
             'link' => 'required',
         ]);
 
-        if (MainCategory::where('catId', $request->input('mainCatId'))->exists()) {
-            $mainCat = MainCategory::where('catId', $request->input('mainCatId'))->first();
-        } else {
+        try {
+            $mainCat = MainCategory::where('catId', $request->input('mainCatId'))->firstOrFail();
+        } catch (\Throwable $th) {
             $mainCat = MainCategory::create([
                 'catId' => $request->input('mainCatId'),
                 'name' => $request->input('mainCatName'),
             ]);
         }
 
-        if (Category::where('catId', $request->input('catId'))->exists()) {
-            $cat = Category::where('catId', $request->input('catId'))->first();
-        } else {
+        try {
+            $cat = Category::where('catId', $request->input('catId'))->firstOrFail();
+        } catch (\Throwable $th) {
             $cat = Category::create([
                 'catId' => $request->input('catId'),
                 'name' => $request->input('catName'),
@@ -113,9 +113,9 @@ class OrderItemController extends Controller
             ]);
         }
 
-        if (SubCategory::where('catId', $request->input('subCatId'))->exists()) {
-            $subCat = SubCategory::where('catId', $request->input('subCatId'))->first();
-        } else {
+        try {
+            $subCat = SubCategory::where('catId', $request->input('subCatId'))->firstOrFail();
+        } catch (\Throwable $th) {
             $subCat = SubCategory::create([
                 'catId' => $request->input('subCatId'),
                 'name' => $request->input('subCatName'),
@@ -124,36 +124,65 @@ class OrderItemController extends Controller
             ]);
         }
 
-        if (Products::where('productId', $request->input('productId'))->exists()) {
-            $product = Products::where('productId', $request->input('productId'))->first();
+        try {
+            $product = Products::where('productId', $request->input('productId'))->firstOrFail();
             ++$product->hits;
             $product->minPrice = $request->input('minPrice');
             $product->maxPrice = $request->input('maxPrice');
             $product->equalPrice = $request->input('equalPrice');
-            if (!$product->sub_category_id) {
-                $product->main_category_id = $mainCat->id;
-                $product->category_id = $cat->id;
-                $product->sub_category_id = $subCat->id;
-            }
+            $product->main_category_id = $mainCat->id;
+            $product->category_id = $cat->id;
+            $product->sub_category_id = $subCat->id;
             $product->save();
 
             return response()->json('Item updated', Response::HTTP_NO_CONTENT);
+        } catch (\Throwable $th) {
+            $product = Products::create([
+                'title' => $request->input('title'),
+                'productId' => $request->input('productId'),
+                'image' => $request->input('image'),
+                'minPrice' => $request->input('minPrice'),
+                'maxPrice' => $request->input('maxPrice'),
+                'equalPrice' => $request->input('equalPrice'),
+                'link' => $request->input('link'),
+                'main_category_id' => $mainCat->id,
+                'category_id' => $cat->id,
+                'sub_category_id' => $subCat->id,
+            ]);
+
+            return response()->json('Item created', Response::HTTP_CREATED);
         }
 
-        $product = Products::create([
-            'title' => $request->input('title'),
-            'productId' => $request->input('productId'),
-            'image' => $request->input('image'),
-            'minPrice' => $request->input('minPrice'),
-            'maxPrice' => $request->input('maxPrice'),
-            'equalPrice' => $request->input('equalPrice'),
-            'link' => $request->input('link'),
-            'main_category_id' => $mainCat->id,
-            'category_id' => $cat->id,
-            'sub_category_id' => $subCat->id,
-        ]);
+        // if (Products::where('productId', $request->input('productId'))->exists()) {
+        //     $product = Products::where('productId', $request->input('productId'))->first();
+        //     ++$product->hits;
+        //     $product->minPrice = $request->input('minPrice');
+        //     $product->maxPrice = $request->input('maxPrice');
+        //     $product->equalPrice = $request->input('equalPrice');
+        //     if (!$product->sub_category_id) {
+        //         $product->main_category_id = $mainCat->id;
+        //         $product->category_id = $cat->id;
+        //         $product->sub_category_id = $subCat->id;
+        //     }
+        //     $product->save();
 
-        return response()->json('Item created', Response::HTTP_CREATED);
+        //     return response()->json('Item updated', Response::HTTP_NO_CONTENT);
+        // }
+
+        // $product = Products::create([
+        //     'title' => $request->input('title'),
+        //     'productId' => $request->input('productId'),
+        //     'image' => $request->input('image'),
+        //     'minPrice' => $request->input('minPrice'),
+        //     'maxPrice' => $request->input('maxPrice'),
+        //     'equalPrice' => $request->input('equalPrice'),
+        //     'link' => $request->input('link'),
+        //     'main_category_id' => $mainCat->id,
+        //     'category_id' => $cat->id,
+        //     'sub_category_id' => $subCat->id,
+        // ]);
+
+        // return response()->json('Item created', Response::HTTP_CREATED);
     }
 
     public function update_shippingCost(Request $request, $id)

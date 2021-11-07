@@ -817,9 +817,9 @@ export default {
       mainCatId: null,
       catId: null,
       subCatId: null,
-      mainCatName: '',
-      catName: '',
-      subCatName: '',
+      mainCatName: "",
+      catName: "",
+      subCatName: "",
     };
   },
   mounted() {
@@ -864,12 +864,47 @@ export default {
 
           this.title = this.parsedScript.titleModule.subject;
           this.productId = this.parsedScript.commonModule.productId;
-          this.mainCatId = this.parsedScript.crossLinkModule.breadCrumbPathList[2].cateId;
-          this.catId = this.parsedScript.crossLinkModule.breadCrumbPathList[3].cateId;
-          this.subCatId = this.parsedScript.crossLinkModule.breadCrumbPathList[4].cateId;
-          this.mainCatName = this.parsedScript.crossLinkModule.breadCrumbPathList[2].name;
-          this.catName = this.parsedScript.crossLinkModule.breadCrumbPathList[3].name;
-          this.subCatName = this.parsedScript.crossLinkModule.breadCrumbPathList[4].name;
+
+          if (
+            this.parsedScript.crossLinkModule.breadCrumbPathList.length == 3
+          ) {
+            this.mainCatId =
+              this.parsedScript.crossLinkModule.breadCrumbPathList[2].cateId;
+            this.mainCatName =
+              this.parsedScript.crossLinkModule.breadCrumbPathList[2].name;
+            this.catId = null;
+            this.catName = null;
+            this.subCatId = null;
+            this.subCatName = null;
+          }
+
+          if (
+            this.parsedScript.crossLinkModule.breadCrumbPathList.length == 4
+          ) {
+            this.mainCatId =
+              this.parsedScript.crossLinkModule.breadCrumbPathList[2].cateId;
+            this.mainCatName =
+              this.parsedScript.crossLinkModule.breadCrumbPathList[2].name;
+            this.catId = this.parsedScript.crossLinkModule.breadCrumbPathList[3].cateId;
+            this.catName = this.parsedScript.crossLinkModule.breadCrumbPathList[3].name;
+            this.subCatId = null;
+            this.subCatName = null;
+          }
+          if (
+            this.parsedScript.crossLinkModule.breadCrumbPathList.length == 5
+          ) {
+            this.mainCatId =
+              this.parsedScript.crossLinkModule.breadCrumbPathList[2].cateId;
+            this.mainCatName =
+              this.parsedScript.crossLinkModule.breadCrumbPathList[2].name;
+            this.catId =
+              this.parsedScript.crossLinkModule.breadCrumbPathList[3].cateId;
+            this.catName =
+              this.parsedScript.crossLinkModule.breadCrumbPathList[3].name;
+            this.subCatId = this.parsedScript.crossLinkModule.breadCrumbPathList[4].cateId;
+            this.subCatName = this.parsedScript.crossLinkModule.breadCrumbPathList[4].name;
+          }
+
           this.storeName = this.parsedScript.storeModule.storeName;
           this.followingNumber = this.parsedScript.storeModule.followingNumber;
           this.positiveRate = this.parsedScript.storeModule.positiveRate;
@@ -1496,7 +1531,6 @@ export default {
         this.maxPrice += 2500;
         this.maxPrice = Math.ceil(this.maxPrice / 100) * 100;
       }
-
     },
     addToCart: function () {
       this.addingToCart = true;
