@@ -292,7 +292,9 @@
                                         </a>
                                     @endforeach
                                 @endif
-                                <a class="dropdown-item text-center small text-gray-500" href="{{ route('admin.orders', ['filter[orderStatus]' => 'pending', 'filter[status]' => 'inactive']) }}">Show All Pending Orders</a>
+                                <a class="dropdown-item text-center small text-gray-500"
+                                    href="{{ route('admin.orders', ['filter[orderStatus]' => 'pending', 'filter[status]' => 'inactive']) }}">Show All Pending
+                                    Orders</a>
                             </div>
                         </li>
 

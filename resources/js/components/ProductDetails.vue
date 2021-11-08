@@ -307,7 +307,8 @@
                       class="btn-check"
                       autocomplete="off"
                       id="noOptionsButton"
-                      v-on:change="checkNoOptions"/>
+                      v-on:change="checkNoOptions"
+                    />
                     <label
                       class="btn btn-outline-primary btn-lg"
                       for="noOptionsButton"
@@ -828,7 +829,7 @@ export default {
       positiveRate: "",
       followingNumber: 0,
       specs: [],
-      rate: 1.36,
+      rate: 1.38,
       chosenColor: "",
       addedToCart: false,
       mainCatId: null,
@@ -855,6 +856,11 @@ export default {
       window.location.reload();
     },
     checkNoOptions() {
+      if (this.minPrice <= 2000) {
+        this.fee = this.shippingCost * 0.1 + 200;
+      } else {
+        this.fee = (this.minPrice + this.shippingCost) * 0.1;
+      }
       this.chosenPrice = this.minPrice;
       this.usdP = 0;
     },
@@ -1045,317 +1051,33 @@ export default {
           } else if (price < 200) {
             price = 200;
           }
-          price = Math.ceil(price / 100) * 100;
           var oldPrice = selectedPack[0].skuVal.skuCalPrice * 191;
+          oldPrice += (oldPrice + this.shippingCost) * 0.1;
           oldPrice = Math.ceil(oldPrice / 100) * 100;
           this.oldPrice = oldPrice;
-          this.chosenPrice = price;
-
-          if (this.chosenPrice < 3000) {
-            this.fee = 350;
-            this.firstPrice = this.chosenPrice;
-            this.chosenPrice += this.fee;
-          } else if (this.chosenPrice >= 3000 && this.chosenPrice < 10000) {
-            this.fee = Math.ceil(this.chosenPrice / 1000) * 1000 * 0.1;
-            this.firstPrice = this.chosenPrice;
-            this.chosenPrice += this.fee;
-          } else if (this.chosenPrice >= 10000 && this.chosenPrice < 12000) {
-            this.fee = 1100;
-            this.firstPrice = this.chosenPrice;
-            this.chosenPrice += this.fee;
-          } else if (this.chosenPrice >= 12000 && this.chosenPrice < 14000) {
-            this.fee = 1200;
-            this.firstPrice = this.chosenPrice;
-            this.chosenPrice += this.fee;
-          } else if (this.chosenPrice >= 14000 && this.chosenPrice < 16000) {
-            this.fee = 1300;
-            this.firstPrice = this.chosenPrice;
-            this.chosenPrice += this.fee;
-          } else if (this.chosenPrice >= 16000 && this.chosenPrice < 18000) {
-            this.fee = 1400;
-            this.firstPrice = this.chosenPrice;
-            this.chosenPrice += this.fee;
-          } else if (this.chosenPrice >= 18000 && this.chosenPrice < 20000) {
-            this.fee = 1500;
-            this.firstPrice = this.chosenPrice;
-            this.chosenPrice += this.fee;
-          } else if (this.chosenPrice >= 20000 && this.chosenPrice < 22000) {
-            this.fee = 1600;
-            this.firstPrice = this.chosenPrice;
-            this.chosenPrice += this.fee;
-          } else if (this.chosenPrice >= 22000 && this.chosenPrice < 24000) {
-            this.fee = 1700;
-            this.firstPrice = this.chosenPrice;
-            this.chosenPrice += this.fee;
-          } else if (this.chosenPrice >= 24000 && this.chosenPrice < 26000) {
-            this.fee = 1800;
-            this.firstPrice = this.chosenPrice;
-            this.chosenPrice += this.fee;
-          } else if (this.chosenPrice >= 26000 && this.chosenPrice < 28000) {
-            this.fee = 1900;
-            this.firstPrice = this.chosenPrice;
-            this.chosenPrice += this.fee;
-          } else if (this.chosenPrice >= 28000 && this.chosenPrice < 30000) {
-            this.fee = 2000;
-            this.firstPrice = this.chosenPrice;
-            this.chosenPrice += this.fee;
-          } else if (this.chosenPrice >= 30000 && this.chosenPrice < 32000) {
-            this.fee = 2100;
-            this.firstPrice = this.chosenPrice;
-            this.chosenPrice += this.fee;
-          } else if (this.chosenPrice >= 32000 && this.chosenPrice < 34000) {
-            this.fee = 2200;
-            this.firstPrice = this.chosenPrice;
-            this.chosenPrice += this.fee;
-          } else if (this.chosenPrice >= 34000 && this.chosenPrice < 36000) {
-            this.fee = 2300;
-            this.firstPrice = this.chosenPrice;
-            this.chosenPrice += this.fee;
-          } else if (this.chosenPrice >= 36000 && this.chosenPrice < 38000) {
-            this.fee = 2400;
-            this.firstPrice = this.chosenPrice;
-            this.chosenPrice += this.fee;
-          } else if (this.chosenPrice >= 38000) {
-            this.fee = 2500;
-            this.firstPrice = this.chosenPrice;
-            this.chosenPrice += this.fee;
+          if (price <= 2000) {
+            this.fee = this.shippingCost * 0.1 + 200;
+          } else {
+            this.fee = (price + this.shippingCost) * 0.1;
           }
+          price += this.fee;
+          price = Math.ceil(price / 100) * 100;
+          this.chosenPrice = price;
 
           this.usdP = Number(selectedPack[0].skuVal.actSkuCalPrice);
         } else {
           var price = selectedPack[0].skuVal.skuAmount.value * this.rate;
+          if (price <= 2000) {
+            this.fee = this.shippingCost * 0.1 + 200;
+          } else {
+            this.fee = (price + this.shippingCost) * 0.1;
+          }
+          price += this.fee;
           price = Math.ceil(price / 100) * 100;
           this.chosenPrice = price;
-          if (this.chosenPrice < 3000) {
-            this.fee = 350;
-            this.firstPrice = this.chosenPrice;
-            this.chosenPrice += this.fee;
-          } else if (this.chosenPrice >= 3000 && this.chosenPrice < 10000) {
-            this.fee = Math.ceil(this.chosenPrice / 1000) * 1000 * 0.1;
-            this.firstPrice = this.chosenPrice;
-            this.chosenPrice += this.fee;
-          } else if (this.chosenPrice >= 10000 && this.chosenPrice < 12000) {
-            this.fee = 1100;
-            this.firstPrice = this.chosenPrice;
-            this.chosenPrice += this.fee;
-          } else if (this.chosenPrice >= 12000 && this.chosenPrice < 14000) {
-            this.fee = 1200;
-            this.firstPrice = this.chosenPrice;
-            this.chosenPrice += this.fee;
-          } else if (this.chosenPrice >= 14000 && this.chosenPrice < 16000) {
-            this.fee = 1300;
-            this.firstPrice = this.chosenPrice;
-            this.chosenPrice += this.fee;
-          } else if (this.chosenPrice >= 16000 && this.chosenPrice < 18000) {
-            this.fee = 1400;
-            this.firstPrice = this.chosenPrice;
-            this.chosenPrice += this.fee;
-          } else if (this.chosenPrice >= 18000 && this.chosenPrice < 20000) {
-            this.fee = 1500;
-            this.firstPrice = this.chosenPrice;
-            this.chosenPrice += this.fee;
-          } else if (this.chosenPrice >= 20000 && this.chosenPrice < 22000) {
-            this.fee = 1600;
-            this.firstPrice = this.chosenPrice;
-            this.chosenPrice += this.fee;
-          } else if (this.chosenPrice >= 22000 && this.chosenPrice < 24000) {
-            this.fee = 1700;
-            this.firstPrice = this.chosenPrice;
-            this.chosenPrice += this.fee;
-          } else if (this.chosenPrice >= 24000 && this.chosenPrice < 26000) {
-            this.fee = 1800;
-            this.firstPrice = this.chosenPrice;
-            this.chosenPrice += this.fee;
-          } else if (this.chosenPrice >= 26000 && this.chosenPrice < 28000) {
-            this.fee = 1900;
-            this.firstPrice = this.chosenPrice;
-            this.chosenPrice += this.fee;
-          } else if (this.chosenPrice >= 28000 && this.chosenPrice < 30000) {
-            this.fee = 2000;
-            this.firstPrice = this.chosenPrice;
-            this.chosenPrice += this.fee;
-          } else if (this.chosenPrice >= 30000 && this.chosenPrice < 32000) {
-            this.fee = 2100;
-            this.firstPrice = this.chosenPrice;
-            this.chosenPrice += this.fee;
-          } else if (this.chosenPrice >= 32000 && this.chosenPrice < 34000) {
-            this.fee = 2200;
-            this.firstPrice = this.chosenPrice;
-            this.chosenPrice += this.fee;
-          } else if (this.chosenPrice >= 34000 && this.chosenPrice < 36000) {
-            this.fee = 2300;
-            this.firstPrice = this.chosenPrice;
-            this.chosenPrice += this.fee;
-          } else if (this.chosenPrice >= 36000 && this.chosenPrice < 38000) {
-            this.fee = 2400;
-            this.firstPrice = this.chosenPrice;
-            this.chosenPrice += this.fee;
-          } else if (this.chosenPrice >= 38000) {
-            this.fee = 2500;
-            this.firstPrice = this.chosenPrice;
-            this.chosenPrice += this.fee;
-          }
 
           this.usdP = Number(selectedPack[0].skuVal.skuCalPrice);
         }
-        // if (selectedPack[0].skuVal.actSkuBulkCalPrice) {
-        //   var price = selectedPack[0].skuVal.actSkuBulkCalPrice * 191;
-        //   console.log("price", price);
-        //   price = Math.ceil(price / 100) * 100;
-        //   var oldPrice = selectedPack[0].skuVal.skuCalPrice * 191;
-        //   oldPrice = Math.ceil(oldPrice / 10) * 10;
-        //   this.oldPrice = oldPrice;
-        //   this.chosenPrice = price;
-
-        //   if (this.chosenPrice < 3000) {
-        //     this.fee = 350;
-        //     this.firstPrice = this.chosenPrice;
-        //     this.chosenPrice += this.fee;
-        //   } else if (this.chosenPrice >= 3000 && this.chosenPrice < 10000) {
-        //     this.fee = Math.ceil(this.chosenPrice / 1000) * 1000 * 0.1;
-        //     this.firstPrice = this.chosenPrice;
-        //     this.chosenPrice += this.fee;
-        //   } else if (this.chosenPrice >= 10000 && this.chosenPrice < 12000) {
-        //     this.fee = 1100;
-        //     this.firstPrice = this.chosenPrice;
-        //     this.chosenPrice += this.fee;
-        //   } else if (this.chosenPrice >= 12000 && this.chosenPrice < 14000) {
-        //     this.fee = 1200;
-        //     this.firstPrice = this.chosenPrice;
-        //     this.chosenPrice += this.fee;
-        //   } else if (this.chosenPrice >= 14000 && this.chosenPrice < 16000) {
-        //     this.fee = 1300;
-        //     this.firstPrice = this.chosenPrice;
-        //     this.chosenPrice += this.fee;
-        //   } else if (this.chosenPrice >= 16000 && this.chosenPrice < 18000) {
-        //     this.fee = 1400;
-        //     this.firstPrice = this.chosenPrice;
-        //     this.chosenPrice += this.fee;
-        //   } else if (this.chosenPrice >= 18000 && this.chosenPrice < 20000) {
-        //     this.fee = 1500;
-        //     this.firstPrice = this.chosenPrice;
-        //     this.chosenPrice += this.fee;
-        //   } else if (this.chosenPrice >= 20000 && this.chosenPrice < 22000) {
-        //     this.fee = 1600;
-        //     this.firstPrice = this.chosenPrice;
-        //     this.chosenPrice += this.fee;
-        //   } else if (this.chosenPrice >= 22000 && this.chosenPrice < 24000) {
-        //     this.fee = 1700;
-        //     this.firstPrice = this.chosenPrice;
-        //     this.chosenPrice += this.fee;
-        //   } else if (this.chosenPrice >= 24000 && this.chosenPrice < 26000) {
-        //     this.fee = 1800;
-        //     this.firstPrice = this.chosenPrice;
-        //     this.chosenPrice += this.fee;
-        //   } else if (this.chosenPrice >= 26000 && this.chosenPrice < 28000) {
-        //     this.fee = 1900;
-        //     this.firstPrice = this.chosenPrice;
-        //     this.chosenPrice += this.fee;
-        //   } else if (this.chosenPrice >= 28000 && this.chosenPrice < 30000) {
-        //     this.fee = 2000;
-        //     this.firstPrice = this.chosenPrice;
-        //     this.chosenPrice += this.fee;
-        //   } else if (this.chosenPrice >= 30000 && this.chosenPrice < 32000) {
-        //     this.fee = 2100;
-        //     this.firstPrice = this.chosenPrice;
-        //     this.chosenPrice += this.fee;
-        //   } else if (this.chosenPrice >= 32000 && this.chosenPrice < 34000) {
-        //     this.fee = 2200;
-        //     this.firstPrice = this.chosenPrice;
-        //     this.chosenPrice += this.fee;
-        //   } else if (this.chosenPrice >= 34000 && this.chosenPrice < 36000) {
-        //     this.fee = 2300;
-        //     this.firstPrice = this.chosenPrice;
-        //     this.chosenPrice += this.fee;
-        //   } else if (this.chosenPrice >= 36000 && this.chosenPrice < 38000) {
-        //     this.fee = 2400;
-        //     this.firstPrice = this.chosenPrice;
-        //     this.chosenPrice += this.fee;
-        //   } else if (this.chosenPrice >= 38000) {
-        //     this.fee = 2500;
-        //     this.firstPrice = this.chosenPrice;
-        //     this.chosenPrice += this.fee;
-        //   }
-
-        //   this.usdP = Number(selectedPack[0].skuVal.actSkuBulkCalPrice);
-        // } else if (selectedPack[0].skuVal.skuCalPrice) {
-        //   if (selectedPack[0].skuVal.isActivity) {}
-        //   var price = selectedPack[0].skuVal.skuCalPrice * 191;
-        //   price = Math.ceil(price / 100) * 100;
-        //   this.chosenPrice = price;
-        //   if (this.chosenPrice < 3000) {
-        //     this.fee = 350;
-        //     this.firstPrice = this.chosenPrice;
-        //     this.chosenPrice += this.fee;
-        //   } else if (this.chosenPrice >= 3000 && this.chosenPrice < 10000) {
-        //     this.fee = Math.ceil(this.chosenPrice / 1000) * 1000 * 0.1;
-        //     this.firstPrice = this.chosenPrice;
-        //     this.chosenPrice += this.fee;
-        //   } else if (this.chosenPrice >= 10000 && this.chosenPrice < 12000) {
-        //     this.fee = 1100;
-        //     this.firstPrice = this.chosenPrice;
-        //     this.chosenPrice += this.fee;
-        //   } else if (this.chosenPrice >= 12000 && this.chosenPrice < 14000) {
-        //     this.fee = 1200;
-        //     this.firstPrice = this.chosenPrice;
-        //     this.chosenPrice += this.fee;
-        //   } else if (this.chosenPrice >= 14000 && this.chosenPrice < 16000) {
-        //     this.fee = 1300;
-        //     this.firstPrice = this.chosenPrice;
-        //     this.chosenPrice += this.fee;
-        //   } else if (this.chosenPrice >= 16000 && this.chosenPrice < 18000) {
-        //     this.fee = 1400;
-        //     this.firstPrice = this.chosenPrice;
-        //     this.chosenPrice += this.fee;
-        //   } else if (this.chosenPrice >= 18000 && this.chosenPrice < 20000) {
-        //     this.fee = 1500;
-        //     this.firstPrice = this.chosenPrice;
-        //     this.chosenPrice += this.fee;
-        //   } else if (this.chosenPrice >= 20000 && this.chosenPrice < 22000) {
-        //     this.fee = 1600;
-        //     this.firstPrice = this.chosenPrice;
-        //     this.chosenPrice += this.fee;
-        //   } else if (this.chosenPrice >= 22000 && this.chosenPrice < 24000) {
-        //     this.fee = 1700;
-        //     this.firstPrice = this.chosenPrice;
-        //     this.chosenPrice += this.fee;
-        //   } else if (this.chosenPrice >= 24000 && this.chosenPrice < 26000) {
-        //     this.fee = 1800;
-        //     this.firstPrice = this.chosenPrice;
-        //     this.chosenPrice += this.fee;
-        //   } else if (this.chosenPrice >= 26000 && this.chosenPrice < 28000) {
-        //     this.fee = 1900;
-        //     this.firstPrice = this.chosenPrice;
-        //     this.chosenPrice += this.fee;
-        //   } else if (this.chosenPrice >= 28000 && this.chosenPrice < 30000) {
-        //     this.fee = 2000;
-        //     this.firstPrice = this.chosenPrice;
-        //     this.chosenPrice += this.fee;
-        //   } else if (this.chosenPrice >= 30000 && this.chosenPrice < 32000) {
-        //     this.fee = 2100;
-        //     this.firstPrice = this.chosenPrice;
-        //     this.chosenPrice += this.fee;
-        //   } else if (this.chosenPrice >= 32000 && this.chosenPrice < 34000) {
-        //     this.fee = 2200;
-        //     this.firstPrice = this.chosenPrice;
-        //     this.chosenPrice += this.fee;
-        //   } else if (this.chosenPrice >= 34000 && this.chosenPrice < 36000) {
-        //     this.fee = 2300;
-        //     this.firstPrice = this.chosenPrice;
-        //     this.chosenPrice += this.fee;
-        //   } else if (this.chosenPrice >= 36000 && this.chosenPrice < 38000) {
-        //     this.fee = 2400;
-        //     this.firstPrice = this.chosenPrice;
-        //     this.chosenPrice += this.fee;
-        //   } else if (this.chosenPrice >= 38000) {
-        //     this.fee = 2500;
-        //     this.firstPrice = this.chosenPrice;
-        //     this.chosenPrice += this.fee;
-        //   }
-
-        //   this.usdP = Number(selectedPack[0].skuVal.skuCalPrice);
-        //   console.log(this.selectedProps);
-        // }
       }
     },
     setMinMaxPrice: function () {
@@ -1366,8 +1088,14 @@ export default {
         this.minPrice =
           this.parsedScript.priceModule.minAmount.value * this.rate;
         this.minPrice = Math.ceil(this.minPrice / 100) * 100;
+        //price equals (price + shipping) * 0.1 + price
+        this.minPrice += (this.minPrice + this.shippingCost) * 0.1;
+        this.minPrice = Math.ceil(this.minPrice / 100) * 100;
         this.maxPrice =
           this.parsedScript.priceModule.maxAmount.value * this.rate;
+        this.maxPrice = Math.ceil(this.maxPrice / 100) * 100;
+        //price equals (price + shipping) * 0.1 + price
+        this.maxPrice += (this.maxPrice + this.shippingCost) * 0.1;
         this.maxPrice = Math.ceil(this.maxPrice / 100) * 100;
       } else if (
         this.parsedScript.priceModule.activity == true &&
@@ -1375,16 +1103,42 @@ export default {
       ) {
         this.minPrice =
           this.parsedScript.priceModule.minActivityAmount.value * this.rate;
+        //price equals (price + shipping) * 0.1 + price
+        this.minPrice = Math.ceil(this.minPrice / 100) * 100;
+        if (this.minPrice <= 2000) {
+          this.minPrice += this.shippingCost * 0.1 + 200;
+        } else {
+          this.minPrice += (this.minPrice + this.shippingCost) * 0.1;
+        }
         this.minPrice = Math.ceil(this.minPrice / 100) * 100;
         this.maxPrice =
           this.parsedScript.priceModule.maxActivityAmount.value * this.rate;
+          this.maxPrice = Math.ceil(this.maxPrice / 100) * 100;
+        //price equals (price + shipping) * 0.1 + price
+        if (this.maxPrice <= 2000) {
+          this.maxPrice += this.shippingCost * 0.1 + 200;
+        } else {
+          this.maxPrice += (this.maxPrice + this.shippingCost) * 0.1;
+        }
         this.maxPrice = Math.ceil(this.maxPrice / 100) * 100;
 
         var minOldPrice =
           this.parsedScript.priceModule.minAmount.value * this.rate;
+        //price equals (price + shipping) * 0.1 + price
+        if (minOldPrice <= 2000) {
+          minOldPrice += this.shippingCost * 0.1 + 200;
+        } else {
+          minOldPrice += (minOldPrice + this.shippingCost) * 0.1;
+        }
         minOldPrice = Math.ceil(minOldPrice / 100) * 100;
         var maxOldPrice =
           this.parsedScript.priceModule.maxAmount.value * this.rate;
+        //price equals (price + shipping) * 0.1 + price
+        if (maxOldPrice <= 2000) {
+          maxOldPrice += this.shippingCost * 0.1 + 200;
+        } else {
+          maxOldPrice += (maxOldPrice + this.shippingCost) * 0.1;
+        }
         maxOldPrice = Math.ceil(maxOldPrice / 100) * 100;
 
         this.oldPrice = `${minOldPrice}DA - ${maxOldPrice}DA`;
@@ -1393,166 +1147,6 @@ export default {
       if (this.minPrice == this.maxPrice) {
         this.equalPrice = this.minPrice;
         this.equalPrice = Math.ceil(this.minPrice / 100) * 100;
-        if (this.equalPrice < 3000) {
-          this.fee = 350;
-          this.equalPrice += this.fee;
-        } else if (this.equalPrice >= 3000 && this.equalPrice < 10000) {
-          this.fee = Math.ceil(this.equalPrice / 1000) * 1000 * 0.1;
-          this.equalPrice += this.fee;
-        } else if (this.equalPrice >= 10000 && this.equalPrice < 12000) {
-          this.fee = 1100;
-          this.equalPrice += this.fee;
-        } else if (this.equalPrice >= 12000 && this.equalPrice < 14000) {
-          this.fee = 1200;
-          this.equalPrice += this.fee;
-        } else if (this.equalPrice >= 14000 && this.equalPrice < 16000) {
-          this.fee = 1300;
-          this.equalPrice += this.fee;
-        } else if (this.equalPrice >= 16000 && this.equalPrice < 18000) {
-          this.fee = 1400;
-          this.equalPrice += this.fee;
-        } else if (this.equalPrice >= 18000 && this.equalPrice < 20000) {
-          this.fee = 1500;
-          this.equalPrice += this.fee;
-        } else if (this.equalPrice >= 20000 && this.equalPrice < 22000) {
-          this.fee = 1600;
-          this.equalPrice += this.fee;
-        } else if (this.equalPrice >= 22000 && this.equalPrice < 24000) {
-          this.fee = 1700;
-          this.equalPrice += this.fee;
-        } else if (this.equalPrice >= 24000 && this.equalPrice < 26000) {
-          this.fee = 1800;
-          this.equalPrice += this.fee;
-        } else if (this.equalPrice >= 26000 && this.equalPrice < 28000) {
-          this.fee = 1900;
-          this.equalPrice += this.fee;
-        } else if (this.equalPrice >= 28000 && this.equalPrice < 30000) {
-          this.fee = 2000;
-          this.equalPrice += this.fee;
-        } else if (this.equalPrice >= 30000 && this.equalPrice < 32000) {
-          this.fee = 2100;
-          this.equalPrice += this.fee;
-        } else if (this.equalPrice >= 32000 && this.equalPrice < 34000) {
-          this.fee = 2200;
-          this.equalPrice += this.fee;
-        } else if (this.equalPrice >= 34000 && this.equalPrice < 36000) {
-          this.fee = 2300;
-          this.equalPrice += this.fee;
-        } else if (this.equalPrice >= 36000 && this.equalPrice < 38000) {
-          this.fee = 2400;
-          this.equalPrice += this.fee;
-        } else if (this.equalPrice >= 38000) {
-          this.fee = 2500;
-          this.equalPrice += this.fee;
-        }
-      }
-
-      if (this.minPrice < 3000) {
-        this.minPrice = Math.ceil(this.minPrice / 100) * 100;
-        this.minPrice = this.minPrice + 350;
-      } else if (this.minPrice >= 3000 && this.minPrice < 10000) {
-        this.minPrice =
-          Math.ceil(this.minPrice / 1000) * 1000 * 0.1 + this.minPrice;
-        this.minPrice = Math.ceil(this.minPrice / 100) * 100;
-      } else if (this.minPrice >= 10000 && this.minPrice < 12000) {
-        this.minPrice += 1100;
-        this.minPrice = Math.ceil(this.minPrice / 100) * 100;
-      } else if (this.minPrice >= 12000 && this.minPrice < 14000) {
-        this.minPrice += 1200;
-        this.minPrice = Math.ceil(this.minPrice / 100) * 100;
-      } else if (this.minPrice >= 14000 && this.minPrice < 16000) {
-        this.minPrice += 1300;
-        this.minPrice = Math.ceil(this.minPrice / 100) * 100;
-      } else if (this.minPrice >= 16000 && this.minPrice < 18000) {
-        this.minPrice += 1400;
-        this.minPrice = Math.ceil(this.minPrice / 100) * 100;
-      } else if (this.minPrice >= 18000 && this.minPrice < 20000) {
-        this.minPrice += 1500;
-        this.minPrice = Math.ceil(this.minPrice / 100) * 100;
-      } else if (this.minPrice >= 20000 && this.minPrice < 22000) {
-        this.minPrice += 1600;
-        this.minPrice = Math.ceil(this.minPrice / 100) * 100;
-      } else if (this.minPrice >= 22000 && this.minPrice < 24000) {
-        this.minPrice += 1700;
-        this.minPrice = Math.ceil(this.minPrice / 100) * 100;
-      } else if (this.minPrice >= 24000 && this.minPrice < 26000) {
-        this.minPrice += 1800;
-        this.minPrice = Math.ceil(this.minPrice / 100) * 100;
-      } else if (this.minPrice >= 26000 && this.minPrice < 28000) {
-        this.minPrice += 1900;
-        this.minPrice = Math.ceil(this.minPrice / 100) * 100;
-      } else if (this.minPrice >= 28000 && this.minPrice < 30000) {
-        this.minPrice += 2000;
-        this.minPrice = Math.ceil(this.minPrice / 100) * 100;
-      } else if (this.minPrice >= 30000 && this.minPrice < 32000) {
-        this.minPrice += 2100;
-        this.minPrice = Math.ceil(this.minPrice / 100) * 100;
-      } else if (this.minPrice >= 32000 && this.minPrice < 34000) {
-        this.minPrice += 2200;
-        this.minPrice = Math.ceil(this.minPrice / 100) * 100;
-      } else if (this.minPrice >= 34000 && this.minPrice < 36000) {
-        this.minPrice += 2300;
-        this.minPrice = Math.ceil(this.minPrice / 100) * 100;
-      } else if (this.minPrice >= 36000 && this.minPrice < 38000) {
-        this.minPrice += 2400;
-        this.minPrice = Math.ceil(this.minPrice / 100) * 100;
-      } else if (this.minPrice >= 38000) {
-        this.minPrice += 2500;
-        this.minPrice = Math.ceil(this.minPrice / 100) * 100;
-      }
-
-      if (this.maxPrice < 3000) {
-        this.maxPrice = Math.ceil(this.maxPrice / 100) * 100;
-        this.maxPrice = this.maxPrice + 350;
-      } else if (this.maxPrice >= 3000 && this.maxPrice < 10000) {
-        this.maxPrice =
-          Math.ceil(this.maxPrice / 1000) * 1000 * 0.1 + this.maxPrice;
-        this.maxPrice = Math.ceil(this.maxPrice / 100) * 100;
-      } else if (this.maxPrice >= 10000 && this.maxPrice < 12000) {
-        this.maxPrice += 1100;
-        this.maxPrice = Math.ceil(this.maxPrice / 100) * 100;
-      } else if (this.maxPrice >= 12000 && this.maxPrice < 14000) {
-        this.maxPrice += 1200;
-        this.maxPrice = Math.ceil(this.maxPrice / 100) * 100;
-      } else if (this.maxPrice >= 14000 && this.maxPrice < 16000) {
-        this.maxPrice += 1300;
-        this.maxPrice = Math.ceil(this.maxPrice / 100) * 100;
-      } else if (this.maxPrice >= 16000 && this.maxPrice < 18000) {
-        this.maxPrice += 1400;
-        this.maxPrice = Math.ceil(this.maxPrice / 100) * 100;
-      } else if (this.maxPrice >= 18000 && this.maxPrice < 20000) {
-        this.maxPrice += 1500;
-        this.maxPrice = Math.ceil(this.maxPrice / 100) * 100;
-      } else if (this.maxPrice >= 20000 && this.maxPrice < 22000) {
-        this.maxPrice += 1600;
-        this.maxPrice = Math.ceil(this.maxPrice / 100) * 100;
-      } else if (this.maxPrice >= 22000 && this.maxPrice < 24000) {
-        this.maxPrice += 1700;
-        this.maxPrice = Math.ceil(this.maxPrice / 100) * 100;
-      } else if (this.maxPrice >= 24000 && this.maxPrice < 26000) {
-        this.maxPrice += 1800;
-        this.maxPrice = Math.ceil(this.maxPrice / 100) * 100;
-      } else if (this.maxPrice >= 26000 && this.maxPrice < 28000) {
-        this.maxPrice += 1900;
-        this.maxPrice = Math.ceil(this.maxPrice / 100) * 100;
-      } else if (this.maxPrice >= 28000 && this.maxPrice < 30000) {
-        this.maxPrice += 2000;
-        this.maxPrice = Math.ceil(this.maxPrice / 100) * 100;
-      } else if (this.maxPrice >= 30000 && this.maxPrice < 32000) {
-        this.maxPrice += 2100;
-        this.maxPrice = Math.ceil(this.maxPrice / 100) * 100;
-      } else if (this.maxPrice >= 32000 && this.maxPrice < 34000) {
-        this.maxPrice += 2200;
-        this.maxPrice = Math.ceil(this.maxPrice / 100) * 100;
-      } else if (this.maxPrice >= 34000 && this.maxPrice < 36000) {
-        this.maxPrice += 2300;
-        this.maxPrice = Math.ceil(this.maxPrice / 100) * 100;
-      } else if (this.maxPrice >= 36000 && this.maxPrice < 38000) {
-        this.maxPrice += 2400;
-        this.maxPrice = Math.ceil(this.maxPrice / 100) * 100;
-      } else if (this.maxPrice >= 38000) {
-        this.maxPrice += 2500;
-        this.maxPrice = Math.ceil(this.maxPrice / 100) * 100;
       }
     },
     addToCart: function () {
