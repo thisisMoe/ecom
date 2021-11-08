@@ -57,7 +57,8 @@ $ar = app()->getLocale() === 'ar';
                                     @enderror
                                 </div>
                             </div>
-                            <div class="form-group mb-4"><label for="phone">{{ __('Téléphone') }}</label>
+                            <div class="form-group mb-4">
+                                <label for="phone">{{ __('Téléphone') }}</label>
                                 <div class="input-group" @if ($ar)
                                     style="flex-direction: row-reverse;"
                                     @endif><span class="input-group-text" id="basic-addon1"><span class="fas fa-mobile-alt"></span>
@@ -71,33 +72,33 @@ $ar = app()->getLocale() === 'ar';
                                     @enderror
                                 </div>
                             </div>
-                            <div class="form-group" @if ($ar)
+                            <div class="form-group mb-4">
+                                <label for="password">{{ __('Mot de passe') }}</label>
+                                <div class="input-group" @if ($ar)
                                     style="flex-direction: row-reverse;"
                                     @endif>
-                                <div class="form-group mb-4"><label for="password">{{ __('Mot de passe') }}</label>
-                                    <div class="input-group" @if ($ar)
-                                    style="flex-direction: row-reverse;"
-                                    @endif><span class="input-group-text" id="basic-addon2"><span class="fas fa-unlock-alt"></span></span>
-                                        <input type="password" name="password" placeholder="Mot de passe" class="form-control" id="password" required=""
-                                            autocomplete="new-password">
-                                        @error('password')
-                                            <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $message }}</strong>
-                                            </span>
-                                        @enderror
-                                    </div>
+                                    <span class="input-group-text" id="basic-addon2">
+                                        <span class="fas fa-unlock-alt"></span>
+                                    </span>
+                                    <input type="password" name="password" placeholder="Mot de passe" class="form-control" id="password" required
+                                        autocomplete="new-password">
+                                    @error('password')
+                                        <span class="invalid-feedback" style="display: inline-block" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <div class="form-group mb-4"><label for="password_confirmation">{{ __('Retapez Mot de passe') }}</label>
-                                    <div class="input-group" @if ($ar)
+
+                            <div class="form-group mb-4"><label for="password-confirm">{{ __('Retapez Mot de passe') }}</label>
+                                <div class="input-group" @if ($ar)
                                     style="flex-direction: row-reverse;"
                                     @endif><span class="input-group-text" id="basic-addon2"><span class="fas fa-unlock-alt"></span></span>
-                                        <input type="password" name="password_confirmation" placeholder="Confirmation du Mot de passe" class="form-control"
-                                            id="password" required autocomplete="new-password">
-                                    </div>
+                                    <input type="password" name="password_confirmation" placeholder="Confirmation du Mot de passe" class="form-control"
+                                        id="password-confirm" required autocomplete="new-password">
                                 </div>
                             </div>
+
                             <div class="d-grid"><button type="submit" class="btn btn-primary">{{ __("S'inscrire") }}</button></div>
                         </form>
                         <div class="d-flex justify-content-center align-items-center mt-4">
@@ -108,8 +109,8 @@ $ar = app()->getLocale() === 'ar';
                         </div>
                         <div class="d-flex justify-content-center align-items-center mt-4">
                             <span class="fw-normal">{{ __('Mot de passe oublié?') }}
-                                <a href="#/" class="mb-3 text-underline fw-bold" data-bs-container="body" data-bs-toggle="popover"
-                                    data-bs-placement="top" title="" data-bs-content="Pour demander un nouveau mot de passe, veuillez nous envoyer un message à ce numéro (0558494325) avec ce texte (mdp)"
+                                <a href="#/" class="mb-3 text-underline fw-bold" data-bs-container="body" data-bs-toggle="popover" data-bs-placement="top" title=""
+                                    data-bs-content="Pour demander un nouveau mot de passe, veuillez nous envoyer un message à ce numéro (0558494325) avec ce texte (mdp)"
                                     data-bs-original-title="{{ __('Nouveau Mot de Passe') }}"
                                     aria-describedby="popover415920">{{ __('Demander un nouveau Mot de passe') }}</a>
                             </span>
@@ -119,7 +120,9 @@ $ar = app()->getLocale() === 'ar';
                             <div class="popover-arrow" style="position: absolute; left: 0px; transform: translate(129px, 0px);">
                             </div>
                             <h3 class="popover-header">{{ __('Nouveau Mot de Passe') }}</h3>
-                            <div class="popover-body">{{ __('Pour demander un nouveau mot de passe, veuillez nous envoyer un message à ce numéro') }} <strong>0558494325</strong> {{ __('avec ce texte') }} <strong>mdp</strong></div>
+                            <div class="popover-body">{{ __('Pour demander un nouveau mot de passe, veuillez nous envoyer un message à ce numéro') }}
+                                <strong>0558494325</strong> {{ __('avec ce texte') }} <strong>mdp</strong>
+                            </div>
                         </div>
 
                     </div>

@@ -31,7 +31,7 @@ return [
         'array' => 'The :attribute must have between :min and :max items.',
     ],
     'boolean' => 'The :attribute field must be true or false.',
-    'confirmed' => 'Le champ de confirmation :attribute ne correspond pas.',
+    'confirmed' => 'الرجاء إعادة إدخال هذه البيانات',
     'current_password' => 'le mot de passe est incorrect.',
     'date' => 'The :attribute is not a valid date.',
     'date_equals' => 'The :attribute must be a date equal to :date.',

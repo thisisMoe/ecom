@@ -58,7 +58,7 @@
 
                 <div class="form-group">
                     <label>Confirmation</label>
-                    <input name="password_comfirmation" placeholder="******" class="form-control @error('password') is-invalid @enderror">
+                    <input name="password_confirmation" placeholder="******" class="form-control @error('password') is-invalid @enderror">
                     @error('password')
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
