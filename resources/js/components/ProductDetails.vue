@@ -866,10 +866,10 @@ export default {
       window.location.reload();
     },
     checkNoOptions() {
-      if (this.minPrice <= 2000) {
-        this.fee = (this.minPrice + this.shippingCost) * 0.1 + 400;
+      if ((this.minPrice + this.shippingCost) <= 2000) {
+        this.fee = 400;
       } else {
-        this.fee = (this.minPrice + this.shippingCost) * 0.1 + 200;
+        this.fee = (this.minPrice + this.shippingCost) * 0.06 + 250;
       }
       this.chosenPrice = this.minPrice;
       this.usdP = 0;
@@ -897,7 +897,7 @@ export default {
             ", csrfToken:"
           );
           this.parsedScript = JSON.parse(cleanedScript);
-          console.log(this.parsedScript);
+          // console.log(this.parsedScript);
 
           this.title = this.parsedScript.titleModule.subject;
           this.productId = this.parsedScript.commonModule.productId;
@@ -1052,55 +1052,57 @@ export default {
           );
         }
       );
-      console.log("selectedPack", selectedPack);
+      // console.log("selectedPack", selectedPack);
       if (selectedPack.length) {
-        if (selectedPack[0].skuVal.isActivity) {
+        if (!this.parsedScript.priceModule.activityMessage) {
           var price =
             selectedPack[0].skuVal.skuActivityAmount.value * this.rate;
-          console.log("price 1", price / this.rate);
+          // console.log("price 1", price / this.rate);
           if (
-            selectedPack[0].skuVal.discount == "99" ||
-            selectedPack[0].skuVal.isActivity
+            // selectedPack[0].skuVal.discount == "99" ||
+            // selectedPack[0].skuVal.isActivity
+            price <= 200
           ) {
             // price = selectedPack[0].skuVal.skuCalPrice * 191;
             // price = selectedPack[0].skuVal.skuActivityAmount.value * this.rate;
             price = selectedPack[0].skuVal.skuAmount.value * this.rate;
-            console.log("price 1.1", price / this.rate);
-          } else if (price < 200) {
-            price = 200 * this.rate;
-            console.log("price 1.2", price / this.rate);
-          }
+            // console.log("price 1.1", price / this.rate);
+          } 
+          // else if (price < 200) {
+          //   price = 200 * this.rate;
+          //   console.log("price 1.2", price / this.rate);
+          // }
           var oldPrice = selectedPack[0].skuVal.skuCalPrice * 191;
-          oldPrice += (oldPrice + this.shippingCost) * 0.1;
+          oldPrice += (oldPrice + this.shippingCost) * 0.06;
           if (oldPrice <= 2000) {
-            oldPrice = (oldPrice + this.shippingCost) * 0.1 + 400;
+            oldPrice = oldPrice + 400;
           } else {
-            oldPrice = (oldPrice + this.shippingCost) * 0.1 + 200;
+            oldPrice = oldPrice + (oldPrice + this.shippingCost) * 0.06 + 250;
           }
           oldPrice = Math.ceil(oldPrice / 100) * 100;
           this.oldPrice = oldPrice;
-          if (price <= 2000) {
-            this.fee = (price + this.shippingCost) * 0.1 + 400;
+          if ((price + this.shippingCost) <= 2000) {
+            this.fee = 400;
           } else {
-            this.fee = (price + this.shippingCost) * 0.1 + 200;
+            this.fee = (price + this.shippingCost) * 0.06 + 250;
           }
-          console.log("fee", this.fee);
-          console.log("price before", price);
+          // console.log("fee", this.fee);
+          // console.log("price before", price);
           price += this.fee;
           price = Math.ceil(price / 100) * 100;
-          console.log("price after", price);
+          // console.log("price after", price);
           this.chosenPrice = price;
 
           this.usdP = Number(selectedPack[0].skuVal.actSkuCalPrice);
         } else {
           var price = selectedPack[0].skuVal.skuAmount.value * this.rate;
-          console.log("price 2", price / this.rate);
-          if (price <= 2000) {
-            this.fee = (price + this.shippingCost) * 0.1 + 400;
-            console.log("price 2.1", price / this.rate);
+          // console.log("price 2", price / this.rate);
+          if ((price + this.shippingCost) <= 2000) {
+            this.fee = 400;
+            // console.log("price 2.1", price / this.rate);
           } else {
-            this.fee = (price + this.shippingCost) * 0.1 + 200;
-            console.log("price 2.2", price / this.rate);
+            this.fee = (price + this.shippingCost) * 0.06 + 250;
+            // console.log("price 2.2", price / this.rate);
           }
           price += this.fee;
           price = Math.ceil(price / 100) * 100;
@@ -1111,46 +1113,48 @@ export default {
       }
     },
     setMinMaxPrice: function () {
-      console.log("activity", this.parsedScript.priceModule.activity);
-      console.log("discountTips", this.parsedScript.priceModule.discountTips);
+      // console.log("activity", this.parsedScript.priceModule.activity);
+      // console.log("discountTips", this.parsedScript.priceModule.discountTips);
       if (
-        this.parsedScript.priceModule.discountPromotion == true ||
-        this.parsedScript.priceModule.discountTips.includes("-99%")
+        // this.parsedScript.priceModule.discountPromotion == true ||
+        // this.parsedScript.priceModule.discountTips.includes("-99%")
+        this.parsedScript.priceModule.activityMessage
       ) {
         this.minPrice =
           this.parsedScript.priceModule.minAmount.value * this.rate;
-        console.log("1", this.minPrice);
-        this.minPrice = Math.ceil(this.minPrice / 100) * 100;
-        console.log("2", this.minPrice);
+        // console.log("1", this.minPrice);
+        // this.minPrice = Math.ceil(this.minPrice / 100) * 100;
+        // console.log("2", this.minPrice);
 
         //price equals (price + shipping) * 0.1 + price
         if (this.minPrice <= 2000) {
-          this.minPrice += (this.minPrice + this.shippingCost) * 0.1 + 400;
+          this.minPrice += 400;
         } else {
-          this.minPrice += (this.minPrice + this.shippingCost) * 0.1 + 200;
-          console.log("3", this.minPrice);
+          this.minPrice += (this.minPrice + this.shippingCost) * 0.06 + 250;
+          // console.log("3", this.minPrice);
         }
 
         this.minPrice = Math.ceil(this.minPrice / 100) * 100;
-        console.log("4", this.minPrice);
+        // console.log("4", this.minPrice);
 
         this.maxPrice =
           this.parsedScript.priceModule.maxAmount.value * this.rate;
-        console.log("1", this.maxPrice);
-        this.maxPrice = Math.ceil(this.maxPrice / 100) * 100;
-        console.log("2", this.maxPrice);
+        // console.log("1", this.maxPrice);
+        // this.maxPrice = Math.ceil(this.maxPrice / 100) * 100;
+        // console.log("2", this.maxPrice);
         //price equals (price + shipping) * 0.1 + price
         if (this.maxPrice <= 2000) {
-          this.maxPrice += (this.maxPrice + this.shippingCost) * 0.1 + 400;
+          this.maxPrice += 400;
         } else {
-          this.maxPrice += (this.maxPrice + this.shippingCost) * 0.1 + 200;
-          console.log("3", this.maxPrice);
+          this.maxPrice += (this.maxPrice + this.shippingCost) * 0.06 + 250;
+          // console.log("3", this.maxPrice);
         }
         this.maxPrice = Math.ceil(this.maxPrice / 100) * 100;
-        console.log("4", this.maxPrice);
+        // console.log("4", this.maxPrice);
       } else if (
-        this.parsedScript.priceModule.activity == true &&
-        !this.parsedScript.priceModule.discountTips.includes("-99%")
+        // this.parsedScript.priceModule.activity == true &&
+        // !this.parsedScript.priceModule.discountTips.includes("-99%")
+        !this.parsedScript.priceModule.activityMessage
       ) {
         if (this.parsedScript.priceModule.minActivityAmount.value <= 200) {
           this.minPrice = 200 * this.rate;
@@ -1158,56 +1162,56 @@ export default {
           this.minPrice =
             this.parsedScript.priceModule.minActivityAmount.value * this.rate;
         }
-        console.log("5", this.minPrice);
+        // console.log("5", this.minPrice);
         //price equals (price + shipping) * 0.1 + price
-        this.minPrice = Math.ceil(this.minPrice / 100) * 100;
-        console.log("6", this.minPrice);
+        // this.minPrice = Math.ceil(this.minPrice / 100) * 100;
+        // console.log("6", this.minPrice);
         if (this.minPrice <= 2000) {
           this.minPrice =
-            this.minPrice + (this.minPrice + this.shippingCost) * 0.1 + 400;
-          console.log("7.1", this.minPrice);
+            this.minPrice + 400;
+          // console.log("7.1", this.minPrice);
         } else {
           this.minPrice =
-            this.minPrice + (this.minPrice + this.shippingCost) * 0.1 + 200;
-          console.log("7.2", this.minPrice);
+            this.minPrice + (this.minPrice + this.shippingCost) * 0.06 + 250;
+          // console.log("7.2", this.minPrice);
         }
         this.minPrice = Math.ceil(this.minPrice / 100) * 100;
-        console.log("8", this.minPrice);
+        // console.log("8", this.minPrice);
 
         this.maxPrice =
           this.parsedScript.priceModule.maxActivityAmount.value * this.rate;
-        console.log("5", this.maxPrice);
-        this.maxPrice = Math.ceil(this.maxPrice / 100) * 100;
-        console.log("6", this.maxPrice);
+        // console.log("5", this.maxPrice);
+        // this.maxPrice = Math.ceil(this.maxPrice / 100) * 100;
+        // console.log("6", this.maxPrice);
 
         //price equals (price + shipping) * 0.1 + price
         if (this.maxPrice <= 2000) {
-          this.maxPrice += (this.maxPrice + this.shippingCost) * 0.1 + 400;
-          console.log("7.1", this.maxPrice);
+          this.maxPrice += 400;
+          // console.log("7.1", this.maxPrice);
         } else {
-          this.maxPrice += (this.maxPrice + this.shippingCost) * 0.1 + 200;
-          console.log("shippingcost", this.shippingCost);
-          console.log("7.2", this.maxPrice);
+          this.maxPrice += (this.maxPrice + this.shippingCost) * 0.06 + 250;
+          // console.log("shippingcost", this.shippingCost);
+          // console.log("7.2", this.maxPrice);
         }
         this.maxPrice = Math.ceil(this.maxPrice / 100) * 100;
-        console.log("8", this.maxPrice);
+        // console.log("8", this.maxPrice);
 
         var minOldPrice =
           this.parsedScript.priceModule.minAmount.value * this.rate;
         //price equals (price + shipping) * 0.1 + price
         if (minOldPrice <= 2000) {
-          minOldPrice += (minOldPrice + this.shippingCost) * 0.1 + 400;
+          minOldPrice +=  400;
         } else {
-          minOldPrice += (minOldPrice + this.shippingCost) * 0.1 + 200;
+          minOldPrice += (minOldPrice + this.shippingCost) * 0.06 + 250;
         }
         minOldPrice = Math.ceil(minOldPrice / 100) * 100;
         var maxOldPrice =
           this.parsedScript.priceModule.maxAmount.value * this.rate;
         //price equals (price + shipping) * 0.1 + price
         if (maxOldPrice <= 2000) {
-          maxOldPrice += (maxOldPrice + this.shippingCost) * 0.1 + 400;
+          maxOldPrice += 400;
         } else {
-          maxOldPrice += (maxOldPrice + this.shippingCost) * 0.1 + 200;
+          maxOldPrice += (maxOldPrice + this.shippingCost) * 0.06 + 250;
         }
         maxOldPrice = Math.ceil(maxOldPrice / 100) * 100;
 
