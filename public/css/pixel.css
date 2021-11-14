@@ -18,6 +18,79 @@
 
 /* Custom */
 
+body.active .wrapper .sidebar{
+    left: -225px;
+}
+
+body.active .wrapper #content{
+    margin-left: 0;
+    width: 100%;
+}
+
+.wrapper .sidebar ul li a:hover,
+.wrapper .sidebar ul li a.active{
+    color: #0c7db1;
+
+    background:white;
+    border-right: 2px solid rgb(5, 68, 104);
+}
+
+.wrapper .sidebar ul li a:hover .icon,
+.wrapper .sidebar ul li a.active .icon{
+    color: #0c7db1;
+}
+
+.wrapper .sidebar ul li a:hover:before,
+.wrapper .sidebar ul li a.active:before{
+    display: block;
+}
+
+.wrapper .sidebar ul li a{
+    display: block;
+    padding: 13px 30px;
+    border-bottom: 1px solid #10558d;
+    color: rgb(241, 237, 237);
+    font-size: 16px;
+    position: relative;
+}
+
+.wrapper .sidebar ul li a .icon{
+    color: #dee4ec;
+    width: 30px;
+    display: inline-block;
+}
+
+.wrapper .sidebar{
+    background: rgb(5, 68, 104);
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 225px;
+    height: 100%;
+    padding: 20px 0;
+    transition: all 0.5s ease;
+    z-index: 9999;
+}
+.overlay {
+    display: none;
+    position: fixed;
+    /* full screen */
+    width: 100vw;
+    height: 100vh;
+    /* transparent black */
+    background: rgba(0, 0, 0, 0.7);
+    /* middle layer, i.e. appears below the sidebar */
+    z-index: 998;
+    opacity: 0;
+    /* animate the transition */
+    transition: all 0.5s ease-in-out;
+}
+/* display .overlay when it has the .active class */
+.overlay.active {
+    display: block;
+    opacity: 1;
+}
+
 .no-options {
     border: 2px solid red !important;
 }
@@ -39,16 +112,16 @@
 }
 /*aNIMATION */
 .imgbgchk:checked + label>img{
-    transform: scale(1.25);
-    opacity: 0.8;
-    border: 2px solid rgb(42, 53, 79, 0.4);
+    transform: scale(1.2);
+    opacity: 1;
+    border: 2px solid rgb(62, 73, 99, 0.4);
 }
 .tick_container {
     transition: .5s ease;
     opacity: 0;
     position: absolute;
-    top: 14%;
-    left: 73%;
+    top: 6%;
+    left: 90%;
     transform: translate(-50%, -50%);
     -ms-transform: translate(-50%, -50%);
     cursor: pointer;

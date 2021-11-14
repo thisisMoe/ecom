@@ -95,14 +95,14 @@
                     <div class="icon icon-shape icon-lg bg-white shadow-lg border-light rounded-circle mb-4">
                         <span class="fas fa-user text-tertiary"></span>
                     </div>
-                    <h3 class="fw-bolder">80</h3>
+                    <h3 class="fw-bolder">{{ $userCount }}</h3>
                     <p class="text-gray">{{ __('Clients Satisfaits') }}</p>
                 </div>
                 <div class="col-6 col-md-3 text-center mb-4">
                     <div class="icon icon-shape icon-lg bg-white shadow-lg border-light rounded-circle mb-4">
                         <span class="fas fa-box-open text-tertiary"></span>
                     </div>
-                    <h3 class="fw-bolder">97</h3>
+                    <h3 class="fw-bolder">{{ $confirmedOrders }}</h3>
                     <p class="text-gray">{{ __('Commandes Livrées') }}</p>
                 </div>
             </div>

@@ -322,12 +322,15 @@
                   v-for="option in options"
                   :key="option.skuPropertyId"
                 >
-                  <fieldset class="mb-4">
-                    <legend class="h5" v-html="option.skuPropertyName"></legend>
-
-                    <div
-                      class="d-flex flex-wrap gap-2 flex-md-row flex-sm-fill"
-                    >
+                  <legend
+                    class="h5 mb-3"
+                    v-html="option.skuPropertyName"
+                  ></legend>
+                  <fieldset
+                    class="mb-4 pt-3"
+                    style="overflow-x: auto; height: 183px; padding-left: 15px"
+                  >
+                    <div class="d-flex gap-2 flex-md-row flex-sm-fill">
                       <div
                         v-for="(item, index) in option.skuPropertyValues"
                         :key="index"
@@ -363,9 +366,9 @@
                             "
                           >
                             <img
-                              :src="item.skuPropertyImageSummPath"
+                              :src="item.skuPropertyImagePath"
                               alt="Image 4"
-                              style="border-radius: 6px"
+                              style="border-radius: 6px; max-width: 150px"
                               v-bind:class="{ 'no-options': noOptions }"
                             />
                             <div class="tick_container">
@@ -755,10 +758,10 @@
           </div>
         </div>
         <div v-else>
-          <div class="" style="font-size:1rem;" v-show="this.$locale == 'fr'">
+          <div class="" style="font-size: 1rem" v-show="this.$locale == 'fr'">
             {{ chosenPrice }} DA
           </div>
-          <div class="" style="font-size:1rem;" v-show="this.$locale == 'ar'">
+          <div class="" style="font-size: 1rem" v-show="this.$locale == 'ar'">
             <span>{{ chosenPrice }} دج</span>
           </div>
         </div>
@@ -782,7 +785,11 @@
             type="submit"
             :disabled="addingToCart"
           >
-            <div v-if="!addingToCart" class="d-flex gap-2 align-items-center" style="font-size:14px;">
+            <div
+              v-if="!addingToCart"
+              class="d-flex gap-2 align-items-center"
+              style="font-size: 14px"
+            >
               <span v-if="this.$locale == 'ar'">أضف إلى السلة</span>
               <span v-if="this.$locale == 'fr'">Ajouter</span>
               <span class="fas fa-cart-arrow-down d-inlineblock"></span>
@@ -866,7 +873,7 @@ export default {
       window.location.reload();
     },
     checkNoOptions() {
-      if ((this.minPrice + this.shippingCost) <= 2000) {
+      if (this.minPrice + this.shippingCost <= 2000) {
         this.fee = 400;
       } else {
         this.fee = (this.minPrice + this.shippingCost) * 0.06 + 250;
@@ -1013,13 +1020,16 @@ export default {
       }
 
       var result = this.selectedProps.find((prop) => prop.name == propName);
+      // console.log("result", result);
 
       if (result) {
         result.value = propValue;
+        result.selected = selectedPropertyName;
       } else {
         this.addProp(propName, propValue, selectedPropertyName);
       }
       this.setPropsIdString();
+      // console.log("props id string", this.propsIdString);
       this.setChosenPrice();
       if (isImage) {
         this.chosenColor = selectedPropertyName;
@@ -1032,6 +1042,7 @@ export default {
         selected: selectedPropertyName,
       };
       this.selectedProps = [...this.selectedProps, this.obj];
+      // console.log("selected props", this.selectedProps);
       this.obj = null;
     },
     setPropsIdString: function () {
@@ -1041,6 +1052,7 @@ export default {
         } else {
           this.propsIdString += "," + prop.value;
         }
+        // console.log(this.propsIdString);
       });
     },
     setChosenPrice: function () {
@@ -1067,7 +1079,7 @@ export default {
             // price = selectedPack[0].skuVal.skuActivityAmount.value * this.rate;
             price = selectedPack[0].skuVal.skuAmount.value * this.rate;
             // console.log("price 1.1", price / this.rate);
-          } 
+          }
           // else if (price < 200) {
           //   price = 200 * this.rate;
           //   console.log("price 1.2", price / this.rate);
@@ -1081,7 +1093,7 @@ export default {
           }
           oldPrice = Math.ceil(oldPrice / 100) * 100;
           this.oldPrice = oldPrice;
-          if ((price + this.shippingCost) <= 2000) {
+          if (price + this.shippingCost <= 2000) {
             this.fee = 400;
           } else {
             this.fee = (price + this.shippingCost) * 0.06 + 250;
@@ -1097,7 +1109,7 @@ export default {
         } else {
           var price = selectedPack[0].skuVal.skuAmount.value * this.rate;
           // console.log("price 2", price / this.rate);
-          if ((price + this.shippingCost) <= 2000) {
+          if (price + this.shippingCost <= 2000) {
             this.fee = 400;
             // console.log("price 2.1", price / this.rate);
           } else {
@@ -1167,8 +1179,7 @@ export default {
         // this.minPrice = Math.ceil(this.minPrice / 100) * 100;
         // console.log("6", this.minPrice);
         if (this.minPrice <= 2000) {
-          this.minPrice =
-            this.minPrice + 400;
+          this.minPrice = this.minPrice + 400;
           // console.log("7.1", this.minPrice);
         } else {
           this.minPrice =
@@ -1200,7 +1211,7 @@ export default {
           this.parsedScript.priceModule.minAmount.value * this.rate;
         //price equals (price + shipping) * 0.1 + price
         if (minOldPrice <= 2000) {
-          minOldPrice +=  400;
+          minOldPrice += 400;
         } else {
           minOldPrice += (minOldPrice + this.shippingCost) * 0.06 + 250;
         }

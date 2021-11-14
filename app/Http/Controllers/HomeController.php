@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\MainCategory;
 use App\Models\User;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
@@ -18,6 +19,22 @@ class HomeController extends Controller
     // {
     //     $this->middleware('auth');
     // }
+
+    /**
+     * Test endpoint.
+     *
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
+    public function test()
+    {
+        $mainCategories = MainCategory::all();
+        return view('test', compact('mainCategories'));
+    }
+
+    public function products(Request $request)
+    {
+        $catId = $request->query('cat');
+    }
 
     /**
      * Show the application dashboard.
