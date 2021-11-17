@@ -31,6 +31,8 @@ Route::get('language/{locale}', function ($locale) {
     return redirect()->back();
 })->name('change_lang');
 
+// Route::get('/test', [HomeController::class, 'test'])->name('test');
+// Route::get('/products', [HomeController::class, 'products'])->name('products');
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/faq', [HomeController::class, 'faq'])->name('faq');
 Route::get('/contact', [HomeController::class, 'contact'])->name('contact');

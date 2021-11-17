@@ -35,27 +35,6 @@ $ar = app()->getLocale() === 'ar';
             </div>
         </form>
     </div>
-    <div class="section py-0">
-            <div class="row flex-row flex-nowrap mt-4 pb-4 pt-2 px-4" class="hor-scroll-bar" style="overflow-x: auto;">
-                @foreach ($hotProducts as $product)
-                    <div class="" style="max-width: 200px">
-                        <a href="{{ route('searchProduct', ['q' => $product->link]) }}" target="blank" style="cursor: pointer;">
-                            <div class="card shadow" style="border: none"><img src="{{ $product->image }}" class="card-img-top rounded-top"
-                                    alt="Image du Produit">
-                                <div class="card-body " style="padding: 8px 12px">
-                                    @if ($product->equalPrice > 0)
-                                        <h3 class="fw-bold card-title mt-3" style="font-size: 17px">{{ $product->equalPrice }} {{ __('DA') }}</h3>
-                                    @else
-                                        <h3 class="fw-bold card-title mt-3" style="font-size: 17px">{{ $product->minPrice }}~{{ $product->maxPrice }}
-                                            {{ __('DA') }}</h3>
-                                    @endif
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                @endforeach
-            </div>
-    </div>
     <div id="app">
         <product-details uri="{{ $uri }}"></product-details>
     </div>
