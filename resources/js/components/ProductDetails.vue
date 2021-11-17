@@ -328,7 +328,7 @@
                   ></legend>
                   <fieldset
                     class="mb-4 pt-3"
-                    style="overflow-x: auto; height: 183px; padding-left: 15px"
+                    style="overflow-x: auto; height: 200px; padding-left: 15px"
                   >
                     <div class="d-flex gap-2 flex-md-row flex-sm-fill">
                       <div
@@ -524,23 +524,68 @@
               </div>
             </div>
           </div>
-          <div class="card shadow mx-1">
-            <div class="card-body px-3 py-3 text-center">
-              <p v-if="this.$locale == 'ar'">
-                الرجاء الاتصال بنا إذا كنت بحاجة إلى مساعدة مع خدماتنا
-              </p>
-              <p v-else>
-                Veuillez nous appeler Si vous avez besoin d’aide concernant nos
-                services
-              </p>
-              <p v-if="this.$locale == 'ar'" class="fw-bold">
-                الهاتف:
-                <a href="tel:+213558494325">213558494325+</a>
-              </p>
-              <p v-else class="fw-bold">
-                Téléphone: <a href="tel:+213558494325">+213558494325</a>
-              </p>
+        </div>
+        <div class="section py-0">
+          <div
+            class="row flex-row flex-nowrap mt-4 pb-4 pt-2 px-4"
+            style="overflow-x: auto"
+          >
+            <!-- //foreach -->
+            <div
+              class=""
+              v-for="product in similarProducts"
+              :key="product.link"
+              style="max-width: 200px"
+            >
+              <a
+                :href="'/searchProduct?q=' + product.link"
+                target="blank"
+                style="cursor: pointer"
+              >
+                <div class="card shadow" style="border: none">
+                  <img
+                    :src="product.image"
+                    class="card-img-top rounded-top"
+                    alt="Image du Produit"
+                  />
+                  <div class="card-body" style="padding: 8px 12px">
+                    <h3
+                      v-if="product.equalPrice"
+                      class="fw-bold card-title mt-3"
+                      style="font-size: 17px"
+                    >
+                      <span>{{ product.equalPrice }} دج</span>
+                    </h3>
+                    <h3
+                      v-else
+                      class="fw-bold card-title mt-3"
+                      style="font-size: 17px"
+                    >
+                      <span>{{ product.minPrice }}~{{product.maxPrice}} دج</span>
+                    </h3>
+                  </div>
+                </div>
+              </a>
             </div>
+            <!-- @endforeach -->
+          </div>
+        </div>
+        <div class="card shadow mx-1">
+          <div class="card-body px-3 py-3 text-center">
+            <p v-if="this.$locale == 'ar'">
+              الرجاء الاتصال بنا إذا كنت بحاجة إلى مساعدة مع خدماتنا
+            </p>
+            <p v-else>
+              Veuillez nous appeler Si vous avez besoin d’aide concernant nos
+              services
+            </p>
+            <p v-if="this.$locale == 'ar'" class="fw-bold">
+              الهاتف:
+              <a href="tel:+213776451985">0776451985</a>
+            </p>
+            <p v-else class="fw-bold">
+              Téléphone: <a href="tel:+213776451985">0776451985</a>
+            </p>
           </div>
         </div>
       </section>
@@ -726,7 +771,7 @@
       </div>
     </div>
     <div
-    style="z-index: 9;"
+      style="z-index: 9"
       class="
         fixed-bottom-bar
         fw-bold
@@ -856,6 +901,8 @@ export default {
       mainCatName: "",
       catName: "",
       subCatName: "",
+      similarProducts: [],
+      
     };
   },
   mounted() {
@@ -870,6 +917,24 @@ export default {
     };
   },
   methods: {
+    fetchSimilarProducts() {
+      var catId = null;
+      if (this.mainCatId) {
+        catId = this.mainCatId;
+      }
+      if (catId) {
+        axios
+          .get(`/api/p/${catId}`)
+          .then((response) => {
+            this.similarProducts = response.data;
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      } else {
+        console.log("no similar products found");
+      }
+    },
     reloadPage() {
       window.location.reload();
     },
@@ -969,6 +1034,8 @@ export default {
         .then(() => {
           this.setMinMaxPrice();
           this.searchInput();
+        }).then(()=> {
+          this.fetchSimilarProducts();
         })
         .catch((err) => {
           console.log(err);
