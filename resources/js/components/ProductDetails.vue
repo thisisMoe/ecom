@@ -918,13 +918,9 @@ export default {
   },
   methods: {
     fetchSimilarProducts() {
-      var catId = null;
       if (this.mainCatId) {
-        catId = this.mainCatId;
-      }
-      if (catId) {
         axios
-          .get(`/api/p/${catId}`)
+          .get(`/api/p/${this.mainCatId}`)
           .then((response) => {
             this.similarProducts = response.data;
           })
