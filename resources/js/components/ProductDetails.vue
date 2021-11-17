@@ -726,6 +726,7 @@
       </div>
     </div>
     <div
+    style="z-index: 9;"
       class="
         fixed-bottom-bar
         fw-bold

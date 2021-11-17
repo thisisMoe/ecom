@@ -234,7 +234,9 @@ lang="fr"
             </header>
             <main>
                 <div class="preloader bg-dark flex-column justify-content-center align-items-center">
-                    <svg id="loader-logo" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" style="margin: auto;background: none;display: block;shape-rendering: auto;" width="200px" height="200px" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid">
+                    <svg id="loader-logo" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                        style="margin: auto;background: none;display: block;shape-rendering: auto;" width="200px" height="200px" viewBox="0 0 100 100"
+                        preserveAspectRatio="xMidYMid">
                         <path fill="none" stroke="#ffffff" stroke-width="8" stroke-dasharray="42.76482137044271 42.76482137044271"
                             d="M24.3 30C11.4 30 5 43.3 5 50s6.4 20 19.3 20c19.3 0 32.1-40 51.4-40 C88.6 30 95 43.3 95 50s-6.4 20-19.3 20C56.4 70 43.6 30 24.3 30z"
                             stroke-linecap="round" style="transform: scale(0.7100000000000001);transform-origin: 50px 50px;">
@@ -353,6 +355,7 @@ lang="fr"
             </footer>
         </div>
     </div>
+    <div class="overlay"></div>
 
     <!-- Core -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"

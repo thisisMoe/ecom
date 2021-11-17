@@ -72,23 +72,17 @@ body.active .wrapper #content{
     z-index: 9999;
 }
 .overlay {
-    display: none;
-    position: fixed;
-    /* full screen */
-    width: 100vw;
-    height: 100vh;
-    /* transparent black */
-    background: rgba(0, 0, 0, 0.7);
-    /* middle layer, i.e. appears below the sidebar */
-    z-index: 998;
-    opacity: 0;
-    /* animate the transition */
-    transition: all 0.5s ease-in-out;
-}
-/* display .overlay when it has the .active class */
-.overlay.active {
-    display: block;
-    opacity: 1;
+    position: fixed; /* Sit on top of the page content */
+  display: none; /* Hidden by default */
+  width: 100%; /* Full width (cover the whole page) */
+  height: 100%; /* Full height (cover the whole page) */
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0,0,0,0.5); /* Black background with opacity */
+  z-index: 2; /* Specify a stack order in case you're using a different order for other elements */
+  cursor: pointer; /* Add a pointer on hover */
 }
 
 .no-options {
@@ -114,7 +108,7 @@ body.active .wrapper #content{
 .imgbgchk:checked + label>img{
     transform: scale(1.2);
     opacity: 1;
-    border: 2px solid rgb(62, 73, 99, 0.4);
+    border: 2px solid rgb(6 2, 73, 99, 0.4);
 }
 .tick_container {
     transition: .5s ease;
