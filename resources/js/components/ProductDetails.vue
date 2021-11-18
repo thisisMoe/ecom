@@ -550,7 +550,7 @@
                   />
                   <div class="card-body" style="padding: 8px 12px">
                     <h3
-                      v-if="product.equalPrice"
+                      v-if="product.equalPrice != 0"
                       class="fw-bold card-title mt-3"
                       style="font-size: 17px"
                     >
@@ -918,7 +918,9 @@ export default {
   },
   methods: {
     fetchSimilarProducts() {
-      if (this.productId) {
+      if (!this.productId) {
+        console.log("no similar products found");
+      } else {
         axios
           .get(`/api/p/${this.productId}`)
           .then((response) => {
@@ -927,8 +929,6 @@ export default {
           .catch((err) => {
             console.log(err);
           });
-      } else {
-        console.log("no similar products found");
       }
     },
     reloadPage() {
