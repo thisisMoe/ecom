@@ -181,6 +181,13 @@
                                         </div>
                                     </div>
                                     <p class="mt-4 fw-bold fst-italic">{{ __('Confirmez votre commande en envoyant votre reçu de paiement.') }}</p>
+                                    <div class="mb-3">
+                                        <h4 class="fw-bol">CCP</h4>
+                                        <p class="mb-1">Kadem Azzeddine</p>
+                                        <p>0019258375 clé 27</p>
+                                        <h4 class="fw-bol">BaridiMob</h4>
+                                        <p class="mb-1">00799999001925837527</p>
+                                    </div>
                                 @endif
                                 @if ($order->confirmations->count() != 0)
                                     <div class="my-3 pb-3" style="">

@@ -32,7 +32,7 @@ Route::get('language/{locale}', function ($locale) {
 })->name('change_lang');
 
 // Route::get('/test', [HomeController::class, 'test'])->name('test');
-// Route::get('/products', [HomeController::class, 'products'])->name('products');
+Route::get('/products', [HomeController::class, 'products'])->name('products');
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/faq', [HomeController::class, 'faq'])->name('faq');
 Route::get('/contact', [HomeController::class, 'contact'])->name('contact');
@@ -76,6 +76,14 @@ Route::prefix('admin')->middleware(['checkAdmin', 'auth'])->group(function () {
 
     Route::get('/searches', [AdminController::class, 'searches'])->name('admin.searches');
     Route::delete('/searches/{id}/delete', [AdminController::class, 'searches_delete'])->name('admin.searches.delete');
+
+    Route::get('/mainCategories', [AdminController::class, 'mainCategories'])->name('admin.mainCategories');
+    Route::get('/mainCategories/{id}', [AdminController::class, 'mainCategory'])->name('admin.mainCategory');
+    Route::get('/category/{mainCat}/{id}', [AdminController::class, 'category'])->name('admin.category');
+    //routes for posting arabicNames 3
+    Route::post('/mainCategory/arabicName/{id}', [AdminController::class, 'mainCatArabicNaming'])->name('admin.mainCatArabicNaming');
+    Route::post('/category/arabicName/{id}', [AdminController::class, 'catArabicNaming'])->name('admin.catArabicNaming');
+    Route::post('/subCategory/arabicName/{id}', [AdminController::class, 'subCatArabicNaming'])->name('admin.subCatArabicNaming');
 
     //Scraping tests for admin only
     Route::get('scraper', [ScraperController::class, 'scraper'])->name('scraper');

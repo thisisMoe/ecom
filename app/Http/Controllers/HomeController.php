@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\MainCategory;
+use App\Models\Products;
+use App\Models\SubCategory;
 use App\Models\User;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
@@ -28,12 +31,42 @@ class HomeController extends Controller
     public function test()
     {
         $mainCategories = MainCategory::all();
+
         return view('test', compact('mainCategories'));
     }
 
+    //query cat and sub cat
+    //if no mainCat get all products
+    //if mainCat get all cat and products
+    //if mainCat and and cat get all subCats and products
+    //if mainCat, cat and subcat, get all
+
     public function products(Request $request)
     {
-        $catId = $request->query('cat');
+        if (!$request->mainCat) {
+            $products = Products::orderBy('hits', 'desc')->paginate(50);
+
+            return view('products')->with('products', $products)->with('mainCat', '')->with('categories', '')->with('subCategories', '');
+        }
+        if ($request->mainCat) {
+            $mainCat = MainCategory::where('id', $request->mainCat)->first();
+            $categories = Category::where('main_category_id', $request->mainCat)->get();
+            if ($request->cat) {
+                $subCategories = SubCategory::where('category_id', $request->cat)->get();
+                if ($request->subCat) {
+                    $products = Products::where('sub_category_id', $request->subCat)->paginate(50);
+
+                    return view('products')->with('categories', $categories)->with('products', $products)->with('mainCat', $mainCat)->with('subCategories', $subCategories);
+                }
+
+                $products = Products::where('category_id', $request->cat)->paginate(50);
+
+                return view('products')->with('categories', $categories)->with('products', $products)->with('mainCat', $mainCat)->with('subCategories', $subCategories);
+            }
+            $products = Products::where('main_category_id', $request->mainCat)->paginate(50);
+
+            return view('products')->with('categories', $categories)->with('products', $products)->with('mainCat', $mainCat)->with('subCategories', '');
+        }
     }
 
     /**
