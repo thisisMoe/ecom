@@ -50,12 +50,7 @@ $ar = app()->getLocale() === 'ar';
                     @foreach ($categories as $cat)
                         <div style="background:#fff" class="text-capitalize badge py-2 px-2 @if ($cat->id == app('request')->input('cat')) bg-primary text-white @else bg-light text-primary @endif">
                             <a href="{{ route('products', ['mainCat' => $mainCat->id, 'cat' => $cat]) }}" class="font-small fw-bold">
-                                @if ($ar)
-                                    @if ($cat->arabicName != '')
-                                        {!! $cat->arabicName !!}
-                                    @else
-                                        {!! $cat->name !!}
-                                    @endif
+                                @if ($ar && $cat->arabicName != '')
                                     {!! $cat->arabicName !!}
                                 @else
                                     {!! $cat->name !!}
@@ -72,12 +67,7 @@ $ar = app()->getLocale() === 'ar';
                         <div style="background:#fff" class="text-capitalize badge py-2 px-2 @if ($cat->id == app('request')->input('subCat')) bg-primary text-white @else bg-light text-primary @endif">
                             <a href="{{ route('products', ['mainCat' => $mainCat->id, 'cat' => app('request')->input('cat'), 'subCat' => $cat->id]) }}"
                                 class="font-small fw-bold">
-                                @if ($ar)
-                                    @if ($cat->arabicName != '')
-                                        {!! $cat->arabicName !!}
-                                    @else
-                                        {!! $cat->name !!}
-                                    @endif
+                                @if ($ar && $cat->arabicName != '')
                                     {!! $cat->arabicName !!}
                                 @else
                                     {!! $cat->name !!}
