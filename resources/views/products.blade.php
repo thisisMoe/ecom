@@ -51,6 +51,11 @@ $ar = app()->getLocale() === 'ar';
                         <div style="background:#fff" class="text-capitalize badge py-2 px-2 @if ($cat->id == app('request')->input('cat')) bg-primary text-white @else bg-light text-primary @endif">
                             <a href="{{ route('products', ['mainCat' => $mainCat->id, 'cat' => $cat]) }}" class="font-small fw-bold">
                                 @if ($ar)
+                                    @if ($cat->arabicName != '')
+                                        {!! $cat->arabicName !!}
+                                    @else
+                                        {!! $cat->name !!}
+                                    @endif
                                     {!! $cat->arabicName !!}
                                 @else
                                     {!! $cat->name !!}
@@ -68,6 +73,11 @@ $ar = app()->getLocale() === 'ar';
                             <a href="{{ route('products', ['mainCat' => $mainCat->id, 'cat' => app('request')->input('cat'), 'subCat' => $cat->id]) }}"
                                 class="font-small fw-bold">
                                 @if ($ar)
+                                    @if ($cat->arabicName != '')
+                                        {!! $cat->arabicName !!}
+                                    @else
+                                        {!! $cat->name !!}
+                                    @endif
                                     {!! $cat->arabicName !!}
                                 @else
                                     {!! $cat->name !!}
@@ -114,40 +124,40 @@ $ar = app()->getLocale() === 'ar';
 
     </div>
 
-        <div class="section py-0 mb-4">
-            <h2 class="text-center">{{ __('Produits en vedette') }}</h2>
-            <div class="row flex-row flex-nowrap mt-4 pb-4 pt-2 px-4 hor-scroll-bar" style="overflow-x: auto;">
-                @foreach ($featuredProducts as $product)
-                    <div class="" style="max-width: 200px">
-                        <a href="{{ route('searchProduct', ['q' => $product->link]) }}" target="blank" style="cursor: pointer;">
-                            <div class="card shadow" style="border: none"><img src="{{ $product->image }}" class="card-img-top rounded-top"
-                                    alt="Image du Produit">
-                                <div class="card-body " style="padding: 8px 12px">
-                                    @if ($ar)
-                                        <span class="h6 icon-tertiary small">
-                                            {!! Str::limit($product->title, 50, $end = '') !!}
-                                        </span>
-                                    @else
-                                        <span class="h6 icon-tertiary small">
-                                            {!! Str::limit($product->title, 50, $end = '...') !!}
-                                        </span>
-                                    @endif
-                                    @if ($product->equalPrice > 0)
-                                        <h3 class="fw-bold card-title mt-3 text-center" style="font-size: 16px">{{ $product->equalPrice }} {{ __('DA') }}</h3>
-                                    @else
-                                        <h3 class="fw-bold card-title mt-3 text-center" style="font-size: 16px">{{ $product->minPrice }}~{{ $product->maxPrice }}
-                                            {{ __('DA') }}</h3>
-                                    @endif
-                                </div>
+    <div class="section py-0 mb-4">
+        <h2 class="text-center">{{ __('Produits en vedette') }}</h2>
+        <div class="row flex-row flex-nowrap mt-4 pb-4 pt-2 px-4 hor-scroll-bar" style="overflow-x: auto;">
+            @foreach ($featuredProducts as $product)
+                <div class="" style="max-width: 200px">
+                    <a href="{{ route('searchProduct', ['q' => $product->link]) }}" target="blank" style="cursor: pointer;">
+                        <div class="card shadow" style="border: none"><img src="{{ $product->image }}" class="card-img-top rounded-top"
+                                alt="Image du Produit">
+                            <div class="card-body " style="padding: 8px 12px">
+                                @if ($ar)
+                                    <span class="h6 icon-tertiary small">
+                                        {!! Str::limit($product->title, 50, $end = '') !!}
+                                    </span>
+                                @else
+                                    <span class="h6 icon-tertiary small">
+                                        {!! Str::limit($product->title, 50, $end = '...') !!}
+                                    </span>
+                                @endif
+                                @if ($product->equalPrice > 0)
+                                    <h3 class="fw-bold card-title mt-3 text-center" style="font-size: 16px">{{ $product->equalPrice }} {{ __('DA') }}</h3>
+                                @else
+                                    <h3 class="fw-bold card-title mt-3 text-center" style="font-size: 16px">{{ $product->minPrice }}~{{ $product->maxPrice }}
+                                        {{ __('DA') }}</h3>
+                                @endif
                             </div>
-                        </a>
-                    </div>
-                @endforeach
-            </div>
-            <div class="text-center">
-                <a href="/products" class="btn btn-outline-primary font-small fw-bold">plus de produits</a>
-            </div>
+                        </div>
+                    </a>
+                </div>
+            @endforeach
         </div>
+        <div class="text-center">
+            <a href="/products" class="btn btn-outline-primary font-small fw-bold">plus de produits</a>
+        </div>
+    </div>
 @endsection
 
 @section('scripts')
