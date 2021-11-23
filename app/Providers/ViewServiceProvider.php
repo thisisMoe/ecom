@@ -39,7 +39,7 @@ class ViewServiceProvider extends ServiceProvider
 
         View::composer('products', function ($view) {
             $mainCategories = MainCategory::all();
-            $featuredProducts = Products::orderBy('hits', 'desc')->get();
+            $featuredProducts = Products::orderBy('hits', 'desc')->take(33)->get();
             $view->with('mainCategories', $mainCategories)->with('featuredProducts', $featuredProducts);
         });
     }
