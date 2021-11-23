@@ -92,6 +92,22 @@ lang="fr"
 
     <link type="text/css" href="{{ asset('css/pixel.mini.css') }}" rel="stylesheet">
 
+    <style>
+        /* Hide scrollbar for Chrome, Safari and Opera */
+        .hor-scroll-bar::-webkit-scrollbar {
+            display: none;
+        }
+
+        /* Hide scrollbar for IE, Edge and Firefox */
+        .hor-scroll-bar {
+            -ms-overflow-style: none;
+            /* IE and Edge */
+            scrollbar-width: none;
+            /* Firefox */
+        }
+
+    </style>
+
     @yield('head')
 
     @include('partials.analytics')
@@ -132,8 +148,13 @@ lang="fr"
                             </div>
                             <ul class="navbar-nav navbar-nav-hover align-items-lg-center">
                                 <li class="nav-item">
-                                    <a href="/searchProduct" class="nav-link" aria-expanded="false">
+                                    <a href="/products" class="nav-link" aria-expanded="false">
                                         {{ __('Recherche') }} <i class="fas fa-search"></i>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="/searchProduct" class="nav-link" aria-expanded="false">
+                                        {{ __('Recherche AliExpress') }} <img src="{{ asset('assets/img/aliexpess-icon.png') }}" style="opacity:1" alt="">
                                     </a>
                                 </li>
                                 <li class="nav-item">
@@ -304,6 +325,7 @@ lang="fr"
                             </p>
                             <div class="form-row mb-2">
                                 <div class="col-12 mb-3">
+                                    <a href="tel:+213776451985" class="mb-2 d-block"><span class="fas fa-phone-square-alt"></span> +213776451985</a>
                                     <a href="tel:+213558494325" class="mb-2 d-block"><span class="fas fa-phone-square-alt"></span> +213558494325</a>
                                     <a href="tel:+213555959606" class="mb-2 d-block"><span class="fas fa-phone-square-alt"></span> +213555959606</a>
 

@@ -169,6 +169,11 @@
                     <i class="far fa-comments"></i> <span>Messages</span></a>
             </li>
 
+            <li class="nav-item">
+                <a class="nav-link" href="{{ route('admin.mainCategories') }}">
+                    <i class="far fa-comments"></i> <span>Categories</span></a>
+            </li>
+
             <!-- Nav Item - Tables -->
             {{-- <li class="nav-item">
                 <a class="nav-link" href="tables.html">

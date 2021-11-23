@@ -32,7 +32,7 @@
                     <h2 class="lead fw-normal text-muted mb-4 px-lg-10">
                         {{ __('Maintenant, vous pouvez acheter n’importe quoi d’AliExpress en seulement 30 secondes et payer en dinar algérien') }}</h2>
                     <!-- Button Modal -->
-                    <div class="d-flex justify-content-center align-items-center mb-5">
+                    <div class="d-flex justify-content-center flex-column align-items-center mb-5">
                         <form action="{{ route('searchProduct') }}" class="w-100" method="GET">
                             <div class="input-group" @if ($ar)
                                 style=" flex-direction: row-reverse;" @endif>
@@ -54,10 +54,11 @@
                 viewBox="0 0 3000 185.4">
                 <path d="M3000,0v185.4H0V0c496.4,115.6,996.4,173.4,1500,173.4S2503.6,115.6,3000,0z"></path>
             </svg></figure>
+        <div class="text-center featured-title">{{ __('Produits en vedette') }}</div>
     </section>
     <div class="section py-0">
         <div class="mt-n10 mt-lg-n12 z-2">
-            <div class="row flex-row flex-nowrap mt-4 pb-4 pt-2 px-4" class="hor-scroll-bar" style="overflow-x: auto;">
+            <div class="row flex-row flex-nowrap mt-4 pb-4 pt-2 px-4 hor-scroll-bar" style="overflow-x: auto;">
                 @foreach ($hotProducts as $product)
                     <div class="" style="max-width: 200px">
                         <a href="{{ route('searchProduct', ['q' => $product->link]) }}" target="blank" style="cursor: pointer;">
@@ -65,13 +66,13 @@
                                     alt="Image du Produit">
                                 <div class="card-body " style="padding: 8px 12px">
                                     @if ($ar)
-                                    <span class="h6 icon-tertiary small">
-                                        {!! Str::limit($product->title, 50, $end = '') !!}
-                                    </span>
+                                        <span class="h6 icon-tertiary small">
+                                            {!! Str::limit($product->title, 50, $end = '') !!}
+                                        </span>
                                     @else
-                                    <span class="h6 icon-tertiary small">
-                                        {!! Str::limit($product->title, 50, $end = '...') !!}
-                                    </span>
+                                        <span class="h6 icon-tertiary small">
+                                            {!! Str::limit($product->title, 50, $end = '...') !!}
+                                        </span>
                                     @endif
                                     @if ($product->equalPrice > 0)
                                         <h3 class="fw-bold card-title mt-3" style="font-size: 17px">{{ $product->equalPrice }} {{ __('DA') }}</h3>
@@ -106,6 +107,78 @@
                     <p class="text-gray">{{ __('Commandes Livrées') }}</p>
                 </div>
             </div>
+        </div>
+        <div class="section py-0 mb-5">
+            <h2 class="text-center">{{ __('Produits en vedette moins de 1000 DA') }}</h2>
+            <div class="row flex-row flex-nowrap mt-4 pb-4 pt-2 px-4 hor-scroll-bar" style="overflow-x: auto;">
+                @foreach ($fpu1000 as $product)
+                    <div class="" style="max-width: 200px">
+                        <a href="{{ route('searchProduct', ['q' => $product->link]) }}" target="blank" style="cursor: pointer;">
+                            <div class="card shadow" style="border: none"><img src="{{ $product->image }}" class="card-img-top rounded-top"
+                                    alt="Image du Produit">
+                                <div class="card-body " style="padding: 8px 12px">
+                                    @if ($ar)
+                                        <span class="h6 icon-tertiary small">
+                                            {!! Str::limit($product->title, 50, $end = '') !!}
+                                        </span>
+                                    @else
+                                        <span class="h6 icon-tertiary small">
+                                            {!! Str::limit($product->title, 50, $end = '...') !!}
+                                        </span>
+                                    @endif
+                                    @if ($product->equalPrice > 0)
+                                        <h3 class="fw-bold card-title mt-3 text-center" style="font-size: 16px">{{ $product->equalPrice }} {{ __('DA') }}</h3>
+                                    @else
+                                        <h3 class="fw-bold card-title mt-3 text-center" style="font-size: 16px">{{ $product->minPrice }}~{{ $product->maxPrice }}
+                                            {{ __('DA') }}</h3>
+                                    @endif
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                @endforeach
+            </div>
+            <div class="text-center">
+                <a href="/products" class="btn btn-outline-primary font-small fw-bold">plus de produits</a>
+            </div>
+        </div>
+
+         <div class="section py-0 mb-4">
+            <h2 class="text-center">{{ __('Produits en vedette moins de 5000 DA') }}</h2>
+            <div class="row flex-row flex-nowrap mt-4 pb-4 pt-2 px-4 hor-scroll-bar" style="overflow-x: auto;">
+                @foreach ($fpu5000 as $product)
+                    <div class="" style="max-width: 200px">
+                        <a href="{{ route('searchProduct', ['q' => $product->link]) }}" target="blank" style="cursor: pointer;">
+                            <div class="card shadow" style="border: none"><img src="{{ $product->image }}" class="card-img-top rounded-top"
+                                    alt="Image du Produit">
+                                <div class="card-body " style="padding: 8px 12px">
+                                    @if ($ar)
+                                        <span class="h6 icon-tertiary small">
+                                            {!! Str::limit($product->title, 50, $end = '') !!}
+                                        </span>
+                                    @else
+                                        <span class="h6 icon-tertiary small">
+                                            {!! Str::limit($product->title, 50, $end = '...') !!}
+                                        </span>
+                                    @endif
+                                    @if ($product->equalPrice > 0)
+                                        <h3 class="fw-bold card-title mt-3 text-center" style="font-size: 16px">{{ $product->equalPrice }} {{ __('DA') }}</h3>
+                                    @else
+                                        <h3 class="fw-bold card-title mt-3 text-center" style="font-size: 16px">{{ $product->minPrice }}~{{ $product->maxPrice }}
+                                            {{ __('DA') }}</h3>
+                                    @endif
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                @endforeach
+            </div>
+            <div class="text-center">
+                <a href="/products" class="btn btn-outline-primary font-small fw-bold">plus de produits</a>
+            </div>
+        </div>
+
+        <div class="container">
             <div id="howTo" class="row justify-content-between align-items-center mb-5 mb-lg-7">
                 <div class="col-12 col-lg-5 mb-5 mb-lg-0 order-lg-2">
                     <h2 class="h1 text-capitalize">{{ __('étape 1') }}</h2>

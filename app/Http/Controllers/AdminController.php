@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
+use App\Models\MainCategory;
 use App\Models\OrderItem;
 use App\Models\Products;
 use App\Models\ShoppingSession;
+use App\Models\SubCategory;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -201,5 +204,56 @@ class AdminController extends Controller
         $order->save();
 
         return redirect()->back()->with('success', 'Tracking number updated!');
+    }
+
+    public function mainCategories()
+    {
+        $mainCategories = MainCategory::all();
+
+        return view('admin.mainCategories', compact('mainCategories'));
+    }
+
+    public function mainCategory(Request $request, $id)
+    {
+        $mainCategory = MainCategory::find($id);
+        $categories = $mainCategory->categories()->get();
+
+        return view('admin.mainCategory')->with('mainCategory', $mainCategory)->with('categories', $categories);
+    }
+
+    public function category(Request $request, $mainCat, $id)
+    {
+        $mainCategory = MainCategory::find($mainCat);
+        $category = Category::find($id);
+        $subCategories = $category->subCategories()->get();
+
+        return view('admin.category')->with('mainCategory', $mainCategory)->with('category', $category)->with('subCategories', $subCategories);
+    }
+
+    public function mainCatArabicNaming(Request $request, $id)
+    {
+        $mainCategory = MainCategory::find($id);
+        $mainCategory->arabicName = $request->input('arabicName');
+        $mainCategory->save();
+
+        return redirect()->back()->with('success', 'Arabic Name updated');
+    }
+
+    public function catArabicNaming(Request $request, $id)
+    {
+        $category = Category::find($id);
+        $category->arabicName = $request->input('arabicName');
+        $category->save();
+
+        return redirect()->back()->with('success', 'Arabic Name updated');
+    }
+
+    public function subCatArabicNaming(Request $request, $id)
+    {
+        $subCategory = SubCategory::find($id);
+        $subCategory->arabicName = $request->input('arabicName');
+        $subCategory->save();
+
+        return redirect()->back()->with('success', 'Arabic Name updated');
     }
 }
