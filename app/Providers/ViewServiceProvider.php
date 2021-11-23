@@ -39,10 +39,8 @@ class ViewServiceProvider extends ServiceProvider
 
         View::composer('products', function ($view) {
             $mainCategories = MainCategory::all();
-            $featuredUnder1000 = Products::where('maxPrice', '<', 1000)->orderBy('hits', 'desc')->get();
-            $featuredUnder5000 = Products::where('maxPrice', '<', 5000)->orderBy('hits', 'desc')->get();
             $featuredProducts = Products::orderBy('hits', 'desc')->get();
-            $view->with('mainCategories', $mainCategories)->with('fu1000', $featuredUnder1000)->with('fu5000', $featuredUnder5000)->with('featuredProducts', $featuredProducts);
+            $view->with('mainCategories', $mainCategories)->with('featuredProducts', $featuredProducts);
         });
     }
 }
