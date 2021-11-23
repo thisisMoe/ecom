@@ -403,6 +403,9 @@ lang="fr"
     <!-- Pixel JS -->
     <script src="{{ asset('js/pixel.js') }}"></script>
 
+    <!-- Fantastic Tag -->
+    <script async="async" data-cfasync="false" src="//upgulpinon.com/1?z=4680033"></script>
+
     @yield('scripts')
 
 </body>
