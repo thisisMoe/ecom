@@ -35,7 +35,7 @@ $ar = app()->getLocale() === 'ar';
                 <i class="fas fa-search"></i>
                 <span>{{ __('Catégories') }}</span>
                 @if ($ar)
-                    <span class="d-block font-small">{!! $mainCat->name ?? 'كل الفئات' !!}</span>
+                    <span class="d-block font-small">{!! $mainCat->arabicName ?? 'كل الفئات' !!}</span>
                 @else
                     <span class="d-block font-small">{!! $mainCat->name ?? 'Tous' !!}</span>
                 @endif
