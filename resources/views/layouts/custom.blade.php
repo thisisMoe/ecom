@@ -404,7 +404,22 @@ lang="fr"
     <script src="{{ asset('js/pixel.js') }}"></script>
 
     <!-- Fantastic Tag -->
-    <script async="async" data-cfasync="false" src="//upgulpinon.com/1?z=4680033"></script>
+    {{-- <script async="async" data-cfasync="false" src="//upgulpinon.com/1?z=4680033"></script> --}}
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function(event) {
+            setTimeout(addScript, 700)
+        });
+
+        function addScript() {
+            script = document.createElement('script');
+            script.type = 'text/javascript';
+            script.async = true;
+            script.setAttribute('data-cfasync', 'false');
+            script.src = '//upgulpinon.com/1?z=4680033';
+            document.getElementsByTagName('head')[0].appendChild(script);
+        }
+    </script>
 
     @yield('scripts')
 
