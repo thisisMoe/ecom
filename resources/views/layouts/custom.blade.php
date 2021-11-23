@@ -64,6 +64,8 @@ lang="fr"
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="locale" content="{{ app()->getLocale() }}">
 
+    <meta name="propeller" content="caf5815fc94b8040fd6f80f7c8b3013d">
+
     @if (Auth::check())
         <meta name="user_id" content="{{ Auth::user()->id }}" />
     @endif
