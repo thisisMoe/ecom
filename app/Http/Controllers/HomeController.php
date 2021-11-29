@@ -44,7 +44,7 @@ class HomeController extends Controller
     public function products(Request $request)
     {
         if (!$request->mainCat) {
-            $products = Products::orderBy('hits', 'desc')->paginate(50);
+            $products = Products::orderBy('hits', 'desc')->paginate(50)->withQueryString();
 
             return view('products')->with('products', $products)->with('mainCat', '')->with('categories', '')->with('subCategories', '');
         }
@@ -54,16 +54,16 @@ class HomeController extends Controller
             if ($request->cat) {
                 $subCategories = SubCategory::where('category_id', $request->cat)->get();
                 if ($request->subCat) {
-                    $products = Products::where('sub_category_id', $request->subCat)->paginate(50);
+                    $products = Products::where('sub_category_id', $request->subCat)->paginate(50)->withQueryString();
 
                     return view('products')->with('categories', $categories)->with('products', $products)->with('mainCat', $mainCat)->with('subCategories', $subCategories);
                 }
 
-                $products = Products::where('category_id', $request->cat)->paginate(50);
+                $products = Products::where('category_id', $request->cat)->paginate(50)->withQueryString();
 
                 return view('products')->with('categories', $categories)->with('products', $products)->with('mainCat', $mainCat)->with('subCategories', $subCategories);
             }
-            $products = Products::where('main_category_id', $request->mainCat)->paginate(50);
+            $products = Products::where('main_category_id', $request->mainCat)->paginate(50)->withQueryString();
 
             return view('products')->with('categories', $categories)->with('products', $products)->with('mainCat', $mainCat)->with('subCategories', '');
         }
@@ -122,7 +122,7 @@ class HomeController extends Controller
 
     public function account(Request $request)
     {
-        $user = User::find(Auth::user())->first();
+        $user = Auth::user();
 
         // if (!$request->exists('status')) {
         //     $orders = $user->inactiveShoppingSessions;
