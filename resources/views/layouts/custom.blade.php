@@ -66,6 +66,10 @@ lang="fr"
 
     {{-- <meta name="propeller" content="caf5815fc94b8040fd6f80f7c8b3013d"> --}}
 
+    {{-- Google Ads --}}
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4237293915952967"
+     crossorigin="anonymous"></script>
+
     @if (Auth::check())
         <meta name="user_id" content="{{ Auth::user()->id }}" />
     @endif

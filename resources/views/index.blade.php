@@ -30,7 +30,7 @@
                     </div>
                     <h1 class="fw-bolder display-2">DZ AliExpress</h1>
                     <h2 class="lead fw-normal text-muted mb-4 px-lg-10">
-                        {{ __('Maintenant, vous pouvez acheter n’importe quoi d’AliExpress en seulement 30 secondes et payer en dinar algérien') }}</h2>
+                        {{ __('Maintenant, vous pouvez acheter n’importe quoi dans les magasins chinois directement en seulement 30 secondes et payer en dinar algérien (CCP, BaridiMob).') }}</h2>
                     <!-- Button Modal -->
                     <div class="d-flex justify-content-center flex-column align-items-center mb-5">
                         <form action="{{ route('searchProduct') }}" class="w-100" method="GET">

@@ -78,6 +78,11 @@
                     <a href="{{ $orderItem->uri }}" class="font-weight-bold text-primary text-uppercase mb-1">
                         {!! html_entity_decode(Str::limit($orderItem->title, 100, '...')) !!}
                     </a>
+                    <div class="text-xs text-tertiary text-uppercase">
+                        @foreach (json_decode($orderItem->selectedProps, true) as $prop)
+                            <p class="mb-1 font-small">{!! $prop['name'] !!}: <span class="font-weight-bold">{!! $prop['selected'] !!}</span></p>
+                        @endforeach
+                    </div>
                     <div class="text-xs font-weight-bold text-tertiary text-uppercase">
                         total:
                     </div>

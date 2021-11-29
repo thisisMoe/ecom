@@ -185,9 +185,10 @@ class AdminController extends Controller
 
     public function searches()
     {
+        $productsCount = Products::count();
         $products = Products::orderBy('hits', 'desc')->paginate(12);
 
-        return view('admin.searches', compact('products'));
+        return view('admin.searches')->with('products', $products)->with('productsCount', $productsCount);
     }
 
     public function searches_delete(Request $request, $id)
